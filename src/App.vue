@@ -1,10 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import AppButton from './lib/components/button/index.vue';
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-  </p>
+  <h1>Aplicación Sandbox dentro de librería</h1>
+<AppButton />
 </template>
 
 <style scoped></style>
