@@ -5,8 +5,16 @@ import { AdaptoPlugin } from './lib/index'
 const AdaptoOptions = {
   prefix: 'cacao',
   tokens: {
-    'primary-color': '#9f5eaf',
-    'secondary-color': '#00ff00',
+    primitive: {
+      green: {
+        100: '#50cb2ab1',
+        500: 'rgb(119, 234, 171)'
+      },
+      blue: {
+        500: 'rgb(23, 70, 146)',
+        700: 'rgb(61, 85, 164)'
+      },
+    }
   },
 }
 
