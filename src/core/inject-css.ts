@@ -1,5 +1,8 @@
 const injected = new Set<string>();
 
+/**
+ * Inyecta un bloque de estilos CSS en el documento y evita duplicarlo.
+ */
 export function injectCSS(rawCSS: string, prefix: string, moduleId: string): void {
   if (typeof document === 'undefined') return;
   if (injected.has(moduleId)) return;
@@ -27,8 +30,8 @@ function parseTokens(css: string, prefix: string): Record<string, string> {
 }
 
 /**
- * Inyecta los tokens mergeando defaults con los overrides del consumidor.
- * Genera un único :root { } con todos los valores resueltos.
+ * Inyecta los tokens mergeando los valores por defecto con los overrides del consumidor.
+ * Genera un único bloque :root con todas las variables resueltas.
  */
 export function injectTokens(
   rawCSS: string,
@@ -40,7 +43,7 @@ export function injectTokens(
   // El CSS raw aún tiene __FW__, lo reemplazamos antes de parsear
   const resolvedCSS = rawCSS.replaceAll('__FW__', prefix);
   const defaults = parseTokens(resolvedCSS, prefix);
-
+  
   const merged = { ...defaults, ...overrides };
 
   const vars = Object.entries(merged)
