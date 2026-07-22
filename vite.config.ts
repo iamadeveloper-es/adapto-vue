@@ -3,7 +3,8 @@ import { dirname, resolve } from 'node:path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
-import { prefixPlugin } from './vite-plugin-prefix'
+// import { prefixPlugin } from './vite-plugin-prefix'
+import { prefixPlugin } from './vite-plugin-prefix-scss'
 
 // https://vite.dev/config/
 export default defineConfig({

@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "main": "./dist/adapto-ui.umd.cjs",
   "module": "./dist/adapto-ui.js",
   "exports": {
@@ -26,6 +28,7 @@
     "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
+    "lucide-vue-next": "^1.0.0",
     "vue": "^3.5.38"
   },
   "devDependencies": {

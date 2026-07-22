@@ -1,0 +1,26 @@
+.rounded {
+
+  &--xs{
+    border-radius: var(--fw-radius-xs);
+  }
+
+  &--sm{
+    border-radius: var(--fw-radius-sm);
+  }
+
+  &--md{
+    border-radius: var(--fw-radius-md);
+  }
+
+  &--lg{
+    border-radius: var(--fw-radius-lg);
+  }
+
+  &--xl{
+    border-radius: var(--fw-radius-xl);
+  }
+
+  &--full{
+    border-radius: var(--fw-radius-full);
+  }
+}

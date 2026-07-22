@@ -1,0 +1,100 @@
+@use "../../styles/sass/abstract/mixins/hoverCurrentColor.scss" as *;
+
+.fw-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--fw-btn-gap);
+  padding-block: var(--fw-btn-padding-block);
+  padding-inline: var(--fw-btn-padding-inline);
+  line-height: var(--fw-btn-line-height);
+  font-size: var(--fw-btn-font-size);
+  overflow: hidden;
+  border: none;
+  // color: #08cb08;
+  cursor: pointer;
+
+  // Estados
+  &:not([disabled]) &:is(:not(.fw-btn--link)){
+    @include hoverCurrentColor('hover');
+    @include hoverCurrentColor('focus')
+  }
+
+  &:disabled{
+    background-color: var(--fw-btn-disabled);
+    color: var(--fw-btn-on-disabled);
+    cursor: initial;
+  }
+
+  &--icon-prepend{
+    flex-direction: row-reverse;
+  }
+
+  // Variantes
+  &--outlined{
+    background: transparent;
+    border: thin solid currentColor;
+  }
+
+  &--soft{
+    background-color: color-mix(in srgb, currentColor 20%, transparent);
+  }
+
+  &--fussy{
+    border: thin solid currentColor;
+    background-color: color-mix(in srgb, currentColor 20%, transparent);
+  }
+
+  &--soul{
+    background-color: transparent;
+  }
+
+  &--link{
+    background-color: transparent;
+
+    &:hover, &:focus{
+      opacity: .8;
+    }
+
+    &:hover::after, &:focus::after{
+      background-color: transparent;
+    }
+  }
+
+  // Sizes
+  &--xs{
+    --fw-btn-padding-block: var(--fw-spacing-base);
+    --fw-btn-padding-inline: calc(var(--fw-spacing-base) * 2);
+    --fw-btn-font-size: var(--fw-text-xs);
+  }
+
+  &--sm{
+    --fw-btn-padding-block: calc(var(--fw-spacing-base) * 1.5);
+    --fw-btn-padding-inline: calc(var(--fw-spacing-base) * 2.5);
+    --fw-btn-font-size: var(--fw-text-xs);
+  }
+
+  &--md{
+    --fw-btn-padding-block: calc(var(--fw-spacing-base) * 1.75);
+    --fw-btn-padding-inline: calc(var(--fw-spacing-base) * 3);
+    --fw-btn-font-size: var(--fw-text-sm);
+  }
+
+  &--lg{
+    --fw-btn-padding-block: calc(var(--fw-spacing-base) * 2);
+    --fw-btn-padding-inline: calc(var(--fw-spacing-base) * 3);
+    --fw-btn-font-size: var(--fw-text-sm);
+  }
+
+  &--xl{
+    --fw-btn-padding-block: calc(var(--fw-spacing-base) * 2.5);
+    --fw-btn-padding-inline: calc(var(--fw-spacing-base) * 3.5);
+    --fw-btn-font-size: var(--fw-text-sm);
+  }
+
+  &--full-width{
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}

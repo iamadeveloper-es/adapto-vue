@@ -1,10 +1,15 @@
 <script setup lang="ts">
-import AppButton from './lib/components/button/index.vue';
+import AppButton from './lib/components/adpt-button/index.vue';
+import AdaptoIcon from './lib/components/adpt-icon/index.vue';
 </script>
 
 <template>
   <h1>Aplicación Sandbox dentro de librería</h1>
-<AppButton />
+<AppButton variant="soft" size="xs" @clicked="() => console.log('Botón clicado!')"/>
+<AppButton variant="soft" size="sm" @clicked="() => console.log('Botón clicado!')"/>
+<AppButton variant="soft" size="md" @clicked="() => console.log('Botón clicado!')"/>
+<AppButton variant="soft" size="lg" @clicked="() => console.log('Botón clicado!')"/>
+<AppButton variant="soft" size="xl" :icon="{name: 'alarm-clock'}" @clicked="() => console.log('Botón clicado!')"/>
 </template>
 
 <style scoped></style>
