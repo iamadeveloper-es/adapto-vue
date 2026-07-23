@@ -27,7 +27,7 @@ const props = defineProps({
   // El color debe ser o un token primitivo o un token semántico
   color: {
     type: String,
-    default: 'surface',
+    default: '',
   },
   size: {
     type: String as PropType<Size>,
@@ -70,6 +70,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  disableRipple: {
+    type: Boolean,
+    default: false
+  }
 })
 
 const buttonRef = ref<HTMLElement | null>(null)
@@ -94,9 +98,11 @@ const computedClasses = computed(() => [
 const hasIcon = computed(() => props.icon && Object.keys(props.icon).length );
 
 const handleIcon = computed(() => {
+
   const {name, size} = props.icon
 
   const iconSize = size ? size : remToPx(fontSize.value) + 4
+
   const icon = {
     name: name,
     size: iconSize
@@ -105,6 +111,8 @@ const handleIcon = computed(() => {
   return icon
 
 })
+
+const getColor = computed(() => props.color ? fw.cv(props.color) : 'red')
 
 onMounted(() => {
   if (buttonRef.value) {
@@ -119,7 +127,9 @@ onMounted(() => {
 <template>
   <button
   ref="buttonRef"
+  v-ripple="disableRipple"
   :class="computedClasses"
+  :style="{color: getColor}"
   :type="type"
   :disabled="disabled || loading"
   :aria-busy="loading || undefined"

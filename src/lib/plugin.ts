@@ -1,6 +1,8 @@
 import type { App } from 'vue'
 import { initFramework } from '../core/init'
 import type { FrameworkOptions } from '../core/types'
+import rippleDirective from './directives/ripple-effect';
+import { vClickOutside } from './directives/v-click-outside';
 
 // Estilos globales
 import tokensCSS from './styles/sass/tokens.scss?raw'
@@ -22,5 +24,9 @@ export const AdaptoPlugin = {
     })
 
     app.provide('fw', fw)
-  },
+    
+    app.directive('ripple', rippleDirective);
+    app.directive('click-outside', vClickOutside);
+  }
+
 }
