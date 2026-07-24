@@ -9,9 +9,9 @@ import tokensCSS from './styles/sass/tokens.scss?raw'
 import main from './styles/sass/main.scss?raw'
 
 //Estilos de Componentes
-import button from './components/adpt-button/style.scss?raw'
-import dialog from './components/adpt-dialog/style.scss?raw'
-import tooltip from './components/adpt-tooltip/style.scss?raw'
+import button from './components/element/adpt-button/style.scss?raw'
+import dialog from './components/overlay/adpt-dialog/style.scss?raw'
+import tooltip from './components/overlay/adpt-tooltip/style.scss?raw'
 
 export const AdaptoPlugin = {
   install(app: App, options: FrameworkOptions = {}) {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import * as icons from "lucide-vue-next";
-import { useFramework } from '../../composables/useFramework'
+import { useFramework } from '../../../composables/useFramework'
 
 const fw = useFramework()
 

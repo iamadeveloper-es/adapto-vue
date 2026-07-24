@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, onMounted, onUnmounted, ref, useId, useSlots } from 'vue';
-import AdptButton from '../adpt-button/index.vue';
+import AdptButton from '../../element/adpt-button/index.vue';
 import { useFramework } from '@/lib/composables/useFramework.ts';
 
 const fw = useFramework();

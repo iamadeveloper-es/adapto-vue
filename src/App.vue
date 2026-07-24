@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import AppButton from './lib/components/adpt-button/index.vue';
-import AdaptoDialog from './lib/components/adpt-dialog/index.vue';
-import AdaptoTooltip from './lib/components/adpt-tooltip/index.vue';
+import AppButton from './lib/components/element/adpt-button/index.vue';
+import AdaptoDialog from './lib/components/overlay/adpt-dialog/index.vue';
+import AdaptoTooltip from './lib/components/overlay/adpt-tooltip/index.vue';
 
 const modal = ref<HTMLDialogElement | null>(null);
 

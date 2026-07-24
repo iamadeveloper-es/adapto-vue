@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, type PropType } from 'vue'
-import { useFramework } from '../../composables/useFramework'
-import type { Icon } from '../../types/globals.ts'
+import { useFramework } from '../../../composables/useFramework'
+import type { Icon } from '../../../types/globals.ts'
 import AdaptoIcon from '../adpt-icon/index.vue'
 import { remToPx } from '@/lib/utils/units.ts'
 
