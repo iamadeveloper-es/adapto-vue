@@ -1,0 +1,138 @@
+.fw-tooltip{
+    $distance: 6px;
+    $borderWidht: 5px;
+    $block: '.fw-tooltip';
+    position: relative;
+    display: inline-block;
+
+    &.active{
+        #{$block}__content{
+            opacity: 1;
+            pointer-events: all;
+        }
+    }
+
+    &__content{
+      pointer-events: none;
+      position: absolute;
+      width: max-content;
+      max-width: 180px;
+      padding: .35rem;
+      background-color: var(--fw-tooltip-bg);
+      color: var(--fw-tooltip-color);
+      border-radius: 0.25rem;
+      font-size: 12px;
+      text-align: center;
+      opacity: 0;
+      z-index: 200;
+      transition: opacity .3s ease-out;
+
+      &::before{
+        content: '';
+        position: absolute;
+        background-color: transparent;
+
+      }
+
+      &::after{
+          content: '';
+          position: absolute;
+          width: 0px;
+          height: 0px;
+          border-style: solid;
+
+      }
+    }
+
+    &--top{
+        #{$block}__content{
+          bottom: calc(100% + $distance);
+          left: 50%;
+          transform: translate(-50%, 0);
+
+          &::before{
+            width: 100%;
+            height: $distance;
+            top: 100%;
+            left: 0;
+          }
+
+          &::after{
+            top: 100%;
+            left: 50%;
+            border-width: $borderWidht $borderWidht 0 $borderWidht;
+            border-color: var(--fw-tooltip-bg) transparent transparent transparent;
+            transform: translate(-50%, 0);
+          }
+        }
+    }
+
+    &--bottom{
+        #{$block}__content{
+            top: calc(100% + $distance);
+            left: 50%;
+            transform: translate(-50%, 0);
+
+            &::before{
+              width: 100%;
+              height: $distance;
+              bottom: 100%;
+              left: 0;
+            }
+
+            &::after{
+                bottom: 100%;
+                left: 50%;
+                border-width: 0 $borderWidht $borderWidht $borderWidht;
+                border-color: transparent transparent var(--fw-tooltip-bg) transparent;
+                transform: translate(-50%, 0);
+            }
+        }
+    }
+
+    &--left{
+        #{$block}__content{
+            top: 50%;
+            right: 100%;
+            transform: translate(-$distance, -50%);
+
+            &::before{
+              width: $distance;
+              height: 100%;
+              top: 0;
+              left: 100%;
+            }
+
+            &::after{
+                top: 50%;
+                left: 100%;
+                border-width: $borderWidht 0 $borderWidht $borderWidht;
+                border-color: transparent transparent transparent var(--fw-tooltip-bg);
+                transform: translate(0, -50%);
+            }
+        }
+    }
+
+    &--right{
+        #{$block}__content{
+            top: 50%;
+            left: 100%;
+            transform: translate($distance, -50%);
+
+            &::before{
+              width: $distance;
+              height: 100%;
+              top: 0;
+              right: 100%;
+            }
+
+            &::after{
+                top: 50%;
+                right: 100%;
+                border-width: $borderWidht $borderWidht $borderWidht 0;
+                border-color: transparent var(--fw-tooltip-bg) transparent transparent;
+                transform: translate(0, -50%);
+            }
+        }
+    }
+}

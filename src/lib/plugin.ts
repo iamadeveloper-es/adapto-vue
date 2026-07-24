@@ -11,6 +11,7 @@ import main from './styles/sass/main.scss?raw'
 //Estilos de Componentes
 import button from './components/adpt-button/style.scss?raw'
 import dialog from './components/adpt-dialog/style.scss?raw'
+import tooltip from './components/adpt-tooltip/style.scss?raw'
 
 export const AdaptoPlugin = {
   install(app: App, options: FrameworkOptions = {}) {
@@ -21,6 +22,7 @@ export const AdaptoPlugin = {
         { id: 'main', css: main },
         { id: 'button', css: button },
         { id: 'dialog', css: dialog },
+        { id: 'tooltip', css: tooltip },
         ...(options.styles ?? []),
       ],
     })
