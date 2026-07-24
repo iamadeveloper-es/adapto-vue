@@ -43,3 +43,6 @@ playwright-report/
 
 sandbox/*
 .github
+.claude
+
+TODO.md
