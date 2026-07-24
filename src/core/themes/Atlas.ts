@@ -45,6 +45,9 @@ export const Atlas: ThemeOptions = {
         sm: '.875rem',
         base: '1rem',
       },
+      overlay: {
+        scrim: 'rgba(0, 0, 0, 0.35)',
+      },
     },
     semantic: {
       primary: {
@@ -68,6 +71,9 @@ export const Atlas: ThemeOptions = {
         surface: 'pr.white.500',
         'font-size': 'pr.text.base',
         gap: 'cs.0.5rem',
+      },
+      dialog: {
+        backdrop: 'pr.overlay.scrim',
       },
     },
   },
