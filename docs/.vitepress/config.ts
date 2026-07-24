@@ -12,7 +12,10 @@ export default defineConfig({
     sidebar: [
       {
         text: 'Components',
-        items: [{ text: 'Button', link: '/components/adpt-button' }],
+        items: [
+          { text: 'Button', link: '/components/adpt-button' },
+          { text: 'Icon', link: '/components/adpt-icon' },
+        ],
       },
     ],
   },
