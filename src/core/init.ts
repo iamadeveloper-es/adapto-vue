@@ -1,6 +1,6 @@
 import { injectCSS, injectTokens } from './inject-css.ts'
 import { createUtils } from './create-utils.ts'
-import type { FrameworkOptions, Tokens } from './types'
+import type { FrameworkOptions, ThemeOptions, Tokens } from './types'
 import { Atlas } from '@/core/themes/Atlas'
 
 /**
@@ -37,9 +37,14 @@ export function normalizeTokens(
   tokens?: Partial<Tokens>,
   prefix = Atlas.prefix,
 ): Record<string, string> {
-  const primitiveTokens = { ...Atlas.tokens.primitive, ...(tokens?.primitive ?? {}) }
-  const semanticTokens = { ...Atlas.tokens.semantic, ...(tokens?.semantic ?? {}) }
-  const componentTokens = { ...Atlas.tokens.component, ...(tokens?.component ?? {}) }
+  // const primitiveTokens = { ...Atlas.tokens.primitive, ...(tokens?.primitive ?? {}) }
+  const primitiveTokens = mergeTokens(Atlas, tokens, 'primitive')
+  // const semanticTokens = { ...Atlas.tokens.semantic, ...(tokens?.semantic ?? {}) }
+  const semanticTokens = mergeTokens(Atlas, tokens, 'semantic')
+
+  // const componentTokens = { ...Atlas.tokens.component, ...(tokens?.component ?? {}) }
+  const componentTokens = mergeTokens(Atlas, tokens, 'component')
+
 
   // Convierte los tres grupos de tokens a un formato utilizable por CSS.
   return {
@@ -47,6 +52,22 @@ export function normalizeTokens(
     ...normalizeSemanticTokens(semanticTokens, prefix),
     ...normalizeComponentTokens(componentTokens, prefix),
   }
+}
+
+// Mergea los tokens del Tema con los seleccionados por el usuario cuando inicial el plugin
+function mergeTokens(theme: ThemeOptions, tokens: Partial<Tokens | undefined>, tokenType: 'primitive' | 'semantic' | 'component'){
+  return Object.fromEntries(
+    Object.entries({
+      ...theme.tokens[tokenType],
+      ...(tokens?.[tokenType] ?? {}),
+    }).map(([key, value]) => [
+      key,
+      {
+        ...(theme.tokens[tokenType] as any)[key],
+        ...(tokens?.[tokenType] as any)?.[key],
+      },
+    ])
+  )
 }
 
 /**
