@@ -135,9 +135,13 @@ onMounted(() => {
   :aria-busy="loading || undefined"
   :aria-label="label"
   @click="emitValue">
-    <span v-if="loading" :class="`${cmpClass}__spinner`" aria-hidden="true" />
-    <AdaptoIcon v-if="hasIcon" v-bind="handleIcon" />
-    <span v-if="!hideLabel" :class="`${cmpClass}__content`">
+    <span
+    v-if="loading" :class="`${cmpClass}__spinner`" aria-hidden="true" />
+    <AdaptoIcon
+    v-if="hasIcon" v-bind="handleIcon"
+    :aria-hidden="hasIcon && hideLabel ? true : null" />
+    <span
+    v-if="!hideLabel" :class="`${cmpClass}__content`">
       <slot>{{ label }}</slot>
     </span>
   </button>

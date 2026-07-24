@@ -1,0 +1,57 @@
+.fw-dialog {
+  width: 90%;
+  max-width: 500px;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem 1rem;
+  font-family: Arial, sans-serif;
+  opacity: 0;
+  scale: 0.96;
+  transform-origin: center;
+  transition:
+    scale var(--duration) ease-out,
+    opacity var(--duration) ease-out;
+
+  --duration: 0.24s;
+
+  &.is-visible {
+    opacity: 1;
+    scale: 1;
+  }
+
+  &.is-closing {
+    opacity: 0;
+    scale: 0.96;
+  }
+
+  &::backdrop {
+    background: var(--fw-dialog-backdrop);
+    opacity: 0;
+    transition: opacity var(--duration) ease-out;
+  }
+
+  &[open]::backdrop {
+    opacity: 1;
+  }
+
+  &.is-closing::backdrop {
+    opacity: 0;
+  }
+
+  &__close {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  &__body {
+    max-height: 340px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}

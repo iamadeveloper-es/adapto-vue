@@ -10,6 +10,7 @@ import main from './styles/sass/main.scss?raw'
 
 //Estilos de Componentes
 import button from './components/adpt-button/style.scss?raw'
+import dialog from './components/adpt-dialog/style.scss?raw'
 
 export const AdaptoPlugin = {
   install(app: App, options: FrameworkOptions = {}) {
@@ -19,12 +20,13 @@ export const AdaptoPlugin = {
         { id: 'tokens', css: tokensCSS },
         { id: 'main', css: main },
         { id: 'button', css: button },
+        { id: 'dialog', css: dialog },
         ...(options.styles ?? []),
       ],
     })
 
     app.provide('fw', fw)
-    
+
     app.directive('ripple', rippleDirective);
     app.directive('click-outside', vClickOutside);
   }

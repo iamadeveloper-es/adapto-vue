@@ -6,6 +6,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--fw-btn-gap);
+  vertical-align: middle;
   padding-block: var(--fw-btn-padding-block);
   padding-inline: var(--fw-btn-padding-inline);
   line-height: var(--fw-btn-line-height);
@@ -60,6 +61,11 @@
     &:hover::after, &:focus::after{
       background-color: transparent;
     }
+
+  }
+
+  &.rounded--full{
+    padding: var(--fw-btn-padding-block);
   }
 
   // Sizes
