@@ -11,7 +11,6 @@ export function prefixPlugin({ namespace = '__FW__' } = {}): Plugin {
       if (!id.includes('?raw')) return;
 
       const cleanId = id.split('?')[0];
-      console.log('[prefix-plugin] cleanId:', cleanId);
       const isCSS  = /\.css$/.test(cleanId);
       const isSCSS = /\.scss$/.test(cleanId);
 

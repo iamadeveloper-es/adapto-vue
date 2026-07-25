@@ -1,0 +1,37 @@
+.fw-label {
+    margin-bottom: 0.3rem;
+    display: inline-block;
+
+    &--float {
+        font-size: 14px;
+        opacity: 0.9;
+        margin-bottom: 0;
+        pointer-events: none;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        transform: translate3d(0, 0, 0) scale(1);
+        transform-origin: left top;
+        z-index: 5;
+        transition: transform ease 0.2s;
+    }
+
+    &--outlined {
+        font-size: 14px;
+        opacity: 0.9;
+        margin-bottom: 0;
+        pointer-events: none;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: var(--fw-input-bg);
+        transform: translate3d(0, 0, 0) scale(1);
+        transform-origin: left top;
+        z-index: 10;
+        transition: transform ease-out 0.2s;
+    }
+
+    &--disabled {
+        color: var(--fw-input-color-disabled);
+    }
+}

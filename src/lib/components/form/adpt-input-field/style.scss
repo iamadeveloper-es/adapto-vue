@@ -1,0 +1,45 @@
+.fw-input-field {
+  position: relative;
+  display: block;
+  padding-inline-start: 10px;
+  border-radius: 3px;
+  min-height: var(--fw-input-min-height);
+
+  // Variantes
+  &--outlined{
+    background: transparent;
+    border: thin solid currentColor;
+  }
+
+  &--soft{
+    border: none;
+    background-color: color-mix(in srgb, currentColor 20%, transparent);
+  }
+
+  &--fussy{
+    border: thin solid currentColor;
+    background-color: color-mix(in srgb, currentColor 20%, transparent);
+  }
+
+  &--underlined{
+    border-radius: 3px 3px 0 0;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: thin solid currentColor;
+    background-color: color-mix(in srgb, currentColor 5%, transparent);
+  }
+
+  // Estados
+  &--on-floating-label{
+    padding-top: 10px;
+  }
+
+  &__trailing-icon{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: .3rem;
+    z-index: 10
+  }
+}

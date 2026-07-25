@@ -1,0 +1,9 @@
+.form-error-message{
+    display: none;
+    color: var(--fw-danger-500);
+    font-size: 12px;
+    
+    &.show{
+        display: block;
+    }
+}

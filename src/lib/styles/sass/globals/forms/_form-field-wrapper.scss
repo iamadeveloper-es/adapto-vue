@@ -1,0 +1,24 @@
+.form-field-wrapper {
+    position: relative;
+
+  .form-field-inner{
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  &.is-focused .fw-label--float {
+    opacity: 0.8;
+    transform: scale(.85) translateY(-.35rem) translateX(0);
+  }
+
+  &.is-focused .fw-label--outlined {
+    padding: 0 5px;
+    opacity: 1;
+    transform: translateY(-16px) scale(0.85);
+  }
+
+  &.label-top .form-field-inner{
+    flex-direction: column;
+  }
+}

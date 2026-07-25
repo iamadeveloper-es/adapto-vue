@@ -18,6 +18,10 @@ import avatar from './components/element/adpt-avatar/style.scss?raw'
 import dialog from './components/overlay/adpt-dialog/style.scss?raw'
 import tooltip from './components/overlay/adpt-tooltip/style.scss?raw'
 
+//- Form
+import inputField from './components/form/adpt-input-field/style.scss?raw'
+import textarea from './components/form/adpt-textarea/style.scss?raw'
+
 export const AdaptoPlugin = {
   install(app: App, options: FrameworkOptions = {}) {
     const fw = initFramework({
@@ -29,6 +33,8 @@ export const AdaptoPlugin = {
         { id: 'avatar', css: avatar },
         { id: 'dialog', css: dialog },
         { id: 'tooltip', css: tooltip },
+        { id: 'input-field', css: inputField },
+        { id: 'textarea', css: textarea },
         ...(options.styles ?? []),
       ],
     })

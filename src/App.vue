@@ -1,71 +1,21 @@
 <script setup lang="ts">
-import AppButton from './lib/components/element/adpt-button/index.vue';
-import AdptAvatar from './lib/components/element/adpt-avatar/index.vue';
-// const avatarData = {
-//   group: [
-//     {
-//       name: 'Babco gonzalez gonzález',
-//       image: './avatar.jpg',
-//       display: 'name',
-//       size: 'lg'
-//     },
-//     {
-//       name: 'Daniel verdú',
-//       image: './avatar.jpg',
-//       display: 'name',
-//       size: 'lg'
-//     },
-//     {
-//       name: 'John',
-//       image: './avatar.jpg',
-//       display: 'name',
-//       alt: 'John',
-//       bgColor: 'secondary',
-//       size: 'lg'
-//     },
-//     {
-//       name: 'John Doe',
-//       image: './avatar.jpg',
-//       alt: 'Jhon',
-//       size: 'lg'
-//     },
-//     {
-//       name: 'John Doe',
-//       image: './avatar.jpg',
-//       alt: 'John',
-//       size: 'lg'
-//     },
-//     {
-//       name: 'John Doe',
-//       image: './avatar.jpg',
-//       alt: 'John',
-//       size: 'lg'
-//     }
-//   ]
-// };
+import { ref } from 'vue';
+import AdptInputField from './lib/components/form/adpt-input-field/index.vue'
+import AdptTextarea from './lib/components/form/adpt-textarea/index.vue'
+const inputVal = ref('')
+const textareaVal = ref('')
 </script>
 
 <template>
-  <AdptAvatar
-    :image="'./avatar.jpg'"
-    display="name"
-    name="Daniel Verdu"
-    size="xs"
+  <AdptInputField
+  v-model="inputVal"
+  name="user"
+  label="user Name"
   />
-    <!-- <AdptAvatarGroup>
-      <AdptAvatar
-        v-for="(avatar, index) in avatarData.group"
-        :key="index"
-        v-bind="avatar"
-      />
-    </AdptAvatarGroup>
-    <AdptAvatarGroup :max-count="4">
-      <AdptAvatar
-        v-for="(avatar, index) in avatarData.group"
-        :key="index"
-        v-bind="avatar"
-      />
-    </AdptAvatarGroup> -->
+  <br>
+  <AdptTextarea
+  name="user"
+  label="user Name"
+  v-model="textareaVal"
+  />
 </template>
-
-<style scoped></style>

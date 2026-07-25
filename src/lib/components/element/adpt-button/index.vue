@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, type PropType } from 'vue'
 import { useFramework } from '../../../composables/useFramework'
-import type { Icon } from '../../../types/globals.ts'
+import type { Icon, Radius, Size, Variant } from '../../../types/globals.ts'
 import AdaptoIcon from '../adpt-icon/index.vue'
 import { remToPx } from '@/lib/utils/units.ts'
 
@@ -12,11 +12,6 @@ const cmpClass = fw.cx('btn')
 defineOptions({
   name: 'AdaptoButton',
 })
-
-
-export type Variant = 'outlined' | 'fussy' | 'soft' | 'soul' | 'link'
-export type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-export type Radius = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full'
 
 const props = defineProps({
   variant: {

@@ -280,6 +280,13 @@ export const Atlas: ThemeOptions = {
         'font-size': 'pr.text.base',
         gap: 'cs.0.5rem',
       },
+      input: {
+        bg: 'pr.white.500',
+        border: 'pr.gray.300',
+        'color-disabled': 'pr.gray.500',
+        'border-disabled': 'pr.gray.500',
+        'min-height': 'cs.2.75rem',
+      },
       dialog: {
         backdrop: 'pr.overlay.scrim',
       },
