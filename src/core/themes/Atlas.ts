@@ -286,6 +286,9 @@ export const Atlas: ThemeOptions = {
       tooltip: {
         bg: 'sm.primary.800',
         color: 'sm.on-primary.800',
+      },
+      avatar: {
+        size: 'pr.spacing.base'
       }
     },
   },

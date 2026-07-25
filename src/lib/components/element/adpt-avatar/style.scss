@@ -1,0 +1,45 @@
+.fw-avatar {
+  --fw-avatar-size-xs: calc(var(--fw-avatar-size) * 6);
+  --fw-avatar-size-sm: calc(var(--fw-avatar-size) * 7);
+  --fw-avatar-size-md: calc(var(--fw-avatar-size) * 8);
+  --fw-avatar-size-lg: calc(var(--fw-avatar-size) * 9);
+  --fw-avatar-size-xl: calc(var(--fw-avatar-size) * 10);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+
+  &--bordered {
+    border: 1.5px solid;
+    padding: 0.05rem;
+  }
+
+  &__img {
+    width: 100%;
+
+    &.circle {
+      border-radius: 100%;
+    }
+  }
+
+  &__truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__initials {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    span {
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+    }
+  }
+}
