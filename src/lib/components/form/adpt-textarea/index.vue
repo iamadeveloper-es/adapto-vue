@@ -20,7 +20,7 @@ const availableLabelVariants = ['float', 'outlined']
 
 const props = defineProps({
   modelValue: {
-    default: '',
+    type: String,
     required: true
   },
   name: {
@@ -34,10 +34,6 @@ const props = defineProps({
   placeholder: {
     type: String
   },
-  ariaLabelledby: {
-    type: String,
-    default: 'Input'
-  },
   disabled: {
     type: Boolean,
     default: false
@@ -49,12 +45,6 @@ const props = defineProps({
   readonly: {
     type: Boolean,
     default: false
-  },
-  min: {
-    type: Number
-  },
-  max: {
-    type: Number
   },
   maxlength: {
     type: Number
@@ -181,7 +171,7 @@ onMounted(() => {
     v-if="label"
     :for="id"
     :style="{color: getColor}"
-    :class="labelClasses">hola</label>
+    :class="labelClasses">{{ label }}</label>
     <div class="form-field-inner">
       <textarea
         :style="{color: getColor}"
@@ -191,13 +181,9 @@ onMounted(() => {
         :rows="rows"
         :name="name"
         :placeholder="placeholder"
-        :aria-label="placeholder || label"
-        :aria-labelledby="ariaLabelledby"
         :disabled="disabled"
         :required="required"
         :readonly="readonly"
-        :min="min"
-        :max="max"
         :maxlength="maxlength"
         @input="emitValue"
         @focus="emitFocus"
@@ -205,6 +191,7 @@ onMounted(() => {
         <AdptButton
         v-if="modelValue.length && clearable && !disabled"
         :icon="trailingIcon"
+        label="Limpiar campo"
         type="button"
         hide-label
         radius="full"

@@ -63,27 +63,29 @@ const radioColors2 = ref([
 
 <template>
   <AdptCheckbox
-    v-for="(item, index) in checkboxesConfig"
-    :key="index"
-    v-model="checkInputVal"
-    :active-color="item.color"
-    :label="item.label"
-    :value="item.value"
-    :name="'check-'+index"
+  v-for="(item, index) in checkboxesConfig"
+  :key="index"
+  v-model="checkInputVal"
+  :active-color="item.color"
+  :label="item.label"
+  :value="item.value"
+  :name="'check-'+index"
   />
-  <AdptRadio
-    v-for="item in radioColors2"
-    :key="item.val"
-    v-model="selectedRadioValue"
-    :active-color="item.color"
-    :disabled="item.disabled"
-    :label="item.label"
-    :value="item.val"
-    name="test2"
-    />
   <div>
     Valores seleccionados: {{ checkInputVal.join(', ') }}
   </div>
+  <br>
+  <AdptRadio
+  v-for="item in radioColors2"
+  :key="item.val"
+  v-model="selectedRadioValue"
+  :active-color="item.color"
+  :disabled="item.disabled"
+  :label="item.label"
+  :value="item.val"
+  name="test2"
+  />
+  <br>
   <AdptInputField
   v-model="inputVal"
   name="user"

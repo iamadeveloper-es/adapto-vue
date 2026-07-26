@@ -14,8 +14,14 @@
         opacity: 0.3;
     }
 
-    &.focused:hover .fw-check-radio__icon::after {
+    &.focused .fw-check-radio__icon::after {
         opacity: 0.3;
+    }
+
+    &.focused .fw-check-radio__wrapper {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+        border-radius: 4px;
     }
 
     &__wrapper {

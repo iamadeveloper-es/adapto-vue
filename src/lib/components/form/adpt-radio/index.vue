@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, useSlots, onMounted, useId } from 'vue';
+import { computed, ref, useSlots, useId, type PropType } from 'vue';
 import { useFramework } from '@/lib/composables/useFramework';
 
 const fw = useFramework()
@@ -10,19 +10,19 @@ defineOptions({
   name: 'AdaptoRadio',
 })
 
+type RadioValue = string | number | boolean | Record<string, unknown>
+
 const props = defineProps({
-  // eslint-disable-next-line vue/require-default-prop
   modelValue: {
-    default: '',
-    required: true
+    type: [String, Number, Boolean, Object] as PropType<RadioValue>
   },
   disabled: {
     type: Boolean,
     default: false
   },
   value: {
-    type: [String, Number, Boolean, Object],
-    default: false
+    type: [String, Number, Boolean, Object] as PropType<RadioValue>,
+    required: true
   },
   name: {
     type: String,
@@ -43,25 +43,27 @@ const props = defineProps({
   validations: String
 });
 
-const emit = defineEmits(['update:modelValue', 'onChange', 'onFocus', 'onBlur']);
+const emit = defineEmits<{
+  'update:modelValue': [value: RadioValue]
+  onFocus: [event: FocusEvent]
+  onBlur: [event: FocusEvent]
+}>();
 
-const id = ref('');
-const checkboxRef = ref<HTMLInputElement | null>(null);
+const id = useId();
 const slots = useSlots()
 const isFocused = ref(false)
 
-// const setActiveColor = computed(() => `${props.activeColor}`);
 const hasSlot = computed(() => !!slots['label']);
 const hasLink = computed(() => !!slots['link']);
 
 // computed para manejar el v-model
-const model = computed({
+const model = computed<RadioValue | undefined>({
   get() {
     return props.modelValue;
   },
-  set(value) {
-    emit('update:modelValue', value);
-    emit('onChange', value);
+  set(value: RadioValue | undefined) {
+    // native radio input always yields a value, never undefined
+    emit('update:modelValue', value as RadioValue);
   }
 });
 
@@ -77,19 +79,10 @@ const emitBlur = (ev: FocusEvent) => {
 
 // estado seleccionado según el modelValue
 const isChecked = computed(() => {
-  if (Array.isArray(model.value)) {
-    return model.value.includes(props.value);
-  }
-  return !!model.value;
+  return props.modelValue === props.value ||
+      JSON.stringify(props.modelValue) === JSON.stringify(props.value);
 });
 
-const configComponent = () => {
-  id.value = useId();
-};
-
-onMounted(() => {
-  configComponent();
-});
 </script>
 
 <template>
@@ -123,14 +116,14 @@ onMounted(() => {
 
         <input
           :id="id"
-          ref="checkboxRef"
           v-model="model"
           :class="`${fw.prefix}-check-radio__input`"
           type="radio"
           :name="name"
           :value="value"
           :disabled="disabled"
-          role="radio"
+          :aria-label="label"
+          :aria-describedby="validations ? `${id}-error` : undefined"
           @focus="emitFocus"
           @blur="emitBlur"
         >
@@ -154,8 +147,10 @@ onMounted(() => {
     </div>
 
     <span
-      class="form-error-message"
-      :data-validation-error="`error-message-${id}`"
-    />
+      v-if="validations"
+      :id="`${id}-error`"
+      class="form-error-message show"
+      role="alert"
+    >{{ validations }}</span>
   </div>
 </template>

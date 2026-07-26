@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, useSlots, onMounted, useId } from 'vue';
+import { computed, ref, useSlots, useId, type PropType } from 'vue';
 import { useFramework } from '@/lib/composables/useFramework';
 
 const fw = useFramework()
@@ -10,17 +10,20 @@ defineOptions({
   name: 'AdaptoCheckbox',
 })
 
+type CheckboxItemValue = string | number | boolean | Record<string, unknown>
+type CheckboxModelValue = boolean | CheckboxItemValue[]
+
 const props = defineProps({
   // eslint-disable-next-line vue/require-default-prop
   modelValue: {
-    type: [Array, Boolean]
+    type: [Array, Boolean] as PropType<CheckboxModelValue>
   },
   disabled: {
     type: Boolean,
     default: false
   },
   value: {
-    type: [String, Number, Boolean, Object],
+    type: [String, Number, Boolean, Object] as PropType<CheckboxItemValue>,
     default: false
   },
   name: {
@@ -42,25 +45,27 @@ const props = defineProps({
   validations: String
 });
 
-const emit = defineEmits(['update:modelValue', 'onChange', 'onFocus', 'onBlur']);
+const emit = defineEmits<{
+  'update:modelValue': [value: CheckboxModelValue]
+  onFocus: [event: FocusEvent]
+  onBlur: [event: FocusEvent]
+}>();
 
-const id = ref('');
-const checkboxRef = ref<HTMLInputElement | null>(null);
+const id = useId();
 const slots = useSlots()
 const isFocused = ref(false)
 
-// const setActiveColor = computed(() => `${props.activeColor}`);
 const hasSlot = computed(() => !!slots['label']);
 const hasLink = computed(() => !!slots['link']);
 
 // computed para manejar el v-model
-const model = computed({
+const model = computed<CheckboxModelValue | undefined>({
   get() {
     return props.modelValue;
   },
-  set(value) {
-    emit('update:modelValue', value);
-    emit('onChange', value);
+  set(value: CheckboxModelValue | undefined) {
+    // native checkbox input always yields boolean|array, never undefined
+    emit('update:modelValue', value as CheckboxModelValue);
   }
 });
 
@@ -80,14 +85,6 @@ const isChecked = computed(() => {
     return model.value.includes(props.value);
   }
   return !!model.value;
-});
-
-const configComponent = () => {
-  id.value = useId();
-};
-
-onMounted(() => {
-  configComponent();
 });
 </script>
 
@@ -122,14 +119,14 @@ onMounted(() => {
 
         <input
           :id="id"
-          ref="checkboxRef"
           v-model="model"
           :class="`${fw.prefix}-check-radio__input`"
           type="checkbox"
           :name="name"
           :value="value"
           :disabled="disabled"
-          role="checkbox"
+          :aria-label="label"
+          :aria-describedby="validations ? `${id}-error` : undefined"
           @focus="emitFocus"
           @blur="emitBlur"
         >
@@ -153,8 +150,10 @@ onMounted(() => {
     </div>
 
     <span
-      class="form-error-message"
-      :data-validation-error="`error-message-${id}`"
-    />
+      v-if="validations"
+      :id="`${id}-error`"
+      class="form-error-message show"
+      role="alert"
+    >{{ validations }}</span>
   </div>
 </template>

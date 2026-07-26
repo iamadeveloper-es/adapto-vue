@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, type PropType, ref, useId } from 'vue'
+import { computed, onMounted, type PropType, ref, useId, watch } from 'vue'
 import AdptButton from '../../element/adpt-button/index.vue'
 import { useFramework } from '@/lib/composables/useFramework.ts'
 import type { Icon, Variant } from '@/lib/types/globals.ts'
@@ -20,7 +20,7 @@ const availableLabelVariants = ['float', 'outlined']
 
 const props = defineProps({
   modelValue: {
-    default: '',
+    type: String,
     required: true
   },
   type: {
@@ -37,10 +37,6 @@ const props = defineProps({
   },
   placeholder: {
     type: String
-  },
-  ariaLabelledby: {
-    type: String,
-    default: 'Input'
   },
   disabled: {
     type: Boolean,
@@ -101,6 +97,10 @@ const isFocused = ref(false)
 const inputType = ref(props.type)
 const showSecondaryIcon = ref(false)
 const id = useId()
+
+watch(() => props.type, (type) => {
+  inputType.value = type;
+})
 
 const emit = defineEmits(['update:modelValue', 'onFocus', 'onBlur']);
 
@@ -168,6 +168,13 @@ const getTrailingIcon = computed((): Icon => {
     props.trailingIcon;
 })
 
+const trailingIconLabel = computed((): string => {
+  if (props.type === 'password') {
+    return inputType.value === 'password' ? 'Mostrar contraseña' : 'Ocultar contraseña';
+  }
+  return 'Limpiar campo';
+})
+
 const getColor = computed(() => fw.cv(props.color))
 
 const clearField = () => {
@@ -178,9 +185,7 @@ const clearField = () => {
 const showHidePassword = () => {
   const isTypePassword = inputType.value === 'password';
   showSecondaryIcon.value = isTypePassword;
-  isTypePassword
-    ? (inputType.value = 'text')
-    : (inputType.value = 'password');
+  inputType.value = isTypePassword ? 'text' : 'password';
 }
 
 const trailingIconAction = () => {
@@ -209,7 +214,7 @@ onMounted(() => {
     v-if="label"
     :for="id"
     :style="{color: getColor}"
-    :class="labelClasses">hola</label>
+    :class="labelClasses">{{ label }}</label>
     <div class="form-field-inner">
       <input
         :style="{color: getColor}"
@@ -219,8 +224,6 @@ onMounted(() => {
         :type="inputType"
         :name="name"
         :placeholder="placeholder"
-        :aria-label="placeholder || label"
-        :aria-labelledby="ariaLabelledby"
         :disabled="disabled"
         :required="required"
         :readonly="readonly"
@@ -233,6 +236,7 @@ onMounted(() => {
         <AdptButton
         v-if="modelValue.length && clearable && !disabled"
         :icon="getTrailingIcon"
+        :label="trailingIconLabel"
         type="button"
         hide-label
         radius="full"
