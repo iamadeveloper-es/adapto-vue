@@ -22,6 +22,8 @@ import tooltip from './components/overlay/adpt-tooltip/style.scss?raw'
 //- Form
 import inputField from './components/form/adpt-input-field/style.scss?raw'
 import textarea from './components/form/adpt-textarea/style.scss?raw'
+import checkbox from './components/form/adpt-checkbox/style.scss?raw'
+import radio from './components/form/adpt-radio/style.scss?raw'
 
 export const AdaptoPlugin = {
   install(app: App, options: FrameworkOptions = {}) {
@@ -37,6 +39,8 @@ export const AdaptoPlugin = {
         { id: 'tooltip', css: tooltip },
         { id: 'input-field', css: inputField },
         { id: 'textarea', css: textarea },
+        { id: 'checkbox', css: checkbox },
+        { id: 'radio', css: radio },
         ...(options.styles ?? []),
       ],
     })

@@ -314,6 +314,9 @@ export const Atlas: ThemeOptions = {
         'border-disabled': 'pr.gray.500',
         'min-height': 'cs.2.75rem',
       },
+      'checkbox': {
+        disabled: 'sm.surface.800'
+      },
       //- Overlay
       dialog: {
         backdrop: 'pr.overlay.scrim',

@@ -1,0 +1,17 @@
+.fw-checkbox{
+  display: inline-block;
+
+  &__inner{
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  &--no-label{
+    margin-left: 0;
+    margin-bottom: 0;
+  }
+  &--no-label &__inner{
+    margin-bottom: 0;
+  }
+}

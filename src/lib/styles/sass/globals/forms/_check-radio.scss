@@ -4,13 +4,17 @@
     margin-bottom: 0.5rem;
 
     &.disabled .fw-check-radio__label {
-        color: var(--fw-neutral-800);
+        color: var(--cacao-surface-300);
     }
     &.disabled .fw-check-radio__icon {
-        color: var(--fw-neutral-800);
+        color: var(--cacao-surface-300);
     }
 
     &:hover .fw-check-radio__icon::after {
+        opacity: 0.3;
+    }
+
+    &.focused:hover .fw-check-radio__icon::after {
         opacity: 0.3;
     }
 
@@ -53,8 +57,8 @@
         justify-content: center;
         line-height: 1;
         user-select: none;
-        color: var(--fw-darken-400);
-        caret-color: var(--fw-darken-400);
+        color: currentColor;
+        caret-color: currentColor;
 
         &::after {
             content: '';
@@ -80,19 +84,6 @@
             path {
                 fill: currentColor;
             }
-        }
-
-        &--primary {
-            color: var(--fw-accent);
-        }
-        &--success {
-            color: var(--fw-success);
-        }
-        &--danger {
-            color: var(--fw-danger);
-        }
-        &--info {
-            color: var(--fw-warning);
         }
     }
 }

@@ -4,12 +4,86 @@ import AdptInputField from './lib/components/form/adpt-input-field/index.vue'
 import AdptTextarea from './lib/components/form/adpt-textarea/index.vue'
 import AdptCard from './lib/components/element/adpt-card/index.vue'
 import AdptButton from './lib/components/element/adpt-button/index.vue'
+import AdptCheckbox from './lib/components/form/adpt-checkbox/index.vue'
+import AdptRadio from './lib/components/form/adpt-radio/index.vue'
 
 const inputVal = ref('')
 const textareaVal = ref('')
+const checkInputVal = ref(['Jhon'])
+const selectedRadioValue = ref({
+  name: 'red',
+  age: 4
+});
+
+const checkboxesConfig = ref([
+  {
+    color: 'primary-600',
+    label: 'User Jhon',
+    value: 'Jhon'
+  },
+  {
+    color: 'warning-500',
+    label: 'User pepe',
+    value: 'Pepe',
+  },
+  {
+    color: 'danger-500',
+    label: 'User Juan',
+    value: 'Juan',
+  }
+]);
+
+const radioColors2 = ref([
+  {
+    color: 'danger-500',
+    val: {
+      name: 'red',
+      age: 4
+    },
+    label: 'Color Red'
+  },
+  {
+    color: 'blue-400',
+    val: {
+      name: 'blue',
+      age: 44
+    },
+    label: 'Color Blue'
+  },
+  {
+    color: 'primary-300',
+    val: {
+      name: 'primary',
+      age: 14
+    },
+    label: 'Color Primary'
+  }
+]);
 </script>
 
 <template>
+  <AdptCheckbox
+    v-for="(item, index) in checkboxesConfig"
+    :key="index"
+    v-model="checkInputVal"
+    :active-color="item.color"
+    :label="item.label"
+    :value="item.value"
+    :name="'check-'+index"
+  />
+  <AdptRadio
+    v-for="item in radioColors2"
+    :key="item.val"
+    v-model="selectedRadioValue"
+    :active-color="item.color"
+    :disabled="item.disabled"
+    :label="item.label"
+    :value="item.val"
+    name="test2"
+    />
+  <div>
+    Valores seleccionados: {{ checkInputVal.join(', ') }}
+  </div>
   <AdptInputField
   v-model="inputVal"
   name="user"
