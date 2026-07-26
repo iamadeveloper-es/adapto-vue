@@ -101,10 +101,19 @@ export const Atlas: ThemeOptions = {
         xs: '.75rem',
         sm: '.875rem',
         base: '1rem',
+        lg: '1.5rem',
+        xl: '2rem',
       },
       overlay: {
         scrim: 'rgba(0, 0, 0, 0.35)',
       },
+      shadow: {
+        1: '0px 1px 2px rgba(0, 0, 0, 0.08), 0px 1px 3px rgba(0, 0, 0, 0.12)',
+        2: '0px 2px 4px rgba(0, 0, 0, 0.08), 0px 4px 8px rgba(0, 0, 0, 0.10);',
+        3: '0px 4px 8px rgba(0, 0, 0, 0.10), 0px 8px 16px rgba(0, 0, 0, 0.12)',
+        4: '0px 8px 16px rgba(0, 0, 0, 0.12), 0px 12px 24px rgba(0, 0, 0, 0.14)',
+        5: '0px 12px 24px rgba(0, 0, 0, 0.14), 0px 20px 40px rgba(0, 0, 0, 0.18)',
+      }
     },
     semantic: {
       primary: {
@@ -268,6 +277,7 @@ export const Atlas: ThemeOptions = {
       },
     },
     component: {
+      //- Element
       btn: {
         bg: 'sm.primary.100',
         color: 'sm.on-primary.100',
@@ -280,6 +290,23 @@ export const Atlas: ThemeOptions = {
         'font-size': 'pr.text.base',
         gap: 'cs.0.5rem',
       },
+      avatar: {
+        size: 'pr.spacing.base'
+      },
+      card: {
+        bg: 'pr.white.500',
+        'border-width': 'cs.1px',
+        'border-style': 'cs.solid',
+        'border-color': 'sm.surface.500',
+        'padding-block': 'pr.spacing.base',
+        'padding-inline': 'pr.spacing.base',
+        'title-font-size': 'pr.text.lg',
+        'title-font-weight': 'cs.500',
+        'subtitle-font-size': 'pr.text.base',
+        'subtitle-font-weight': 'cs.500',
+        'media-image-max-height': 'cs.250px',
+      },
+      //- Form
       input: {
         bg: 'pr.white.500',
         border: 'pr.gray.300',
@@ -287,15 +314,13 @@ export const Atlas: ThemeOptions = {
         'border-disabled': 'pr.gray.500',
         'min-height': 'cs.2.75rem',
       },
+      //- Overlay
       dialog: {
         backdrop: 'pr.overlay.scrim',
       },
       tooltip: {
         bg: 'sm.primary.800',
         color: 'sm.on-primary.800',
-      },
-      avatar: {
-        size: 'pr.spacing.base'
       }
     },
   },

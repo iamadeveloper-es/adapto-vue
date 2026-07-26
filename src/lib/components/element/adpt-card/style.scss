@@ -1,0 +1,137 @@
+.fw-card{
+  display: block;
+  overflow: hidden;
+
+  // Variantes
+  &--default{
+    background-color: var(--fw-card-bg);
+    // border: var(--fw-card-border-width) var(--fw-card-border-style) var(--fw-card-border-color);
+  }
+
+  &--outlined{
+    background: transparent;
+    border: thin solid currentColor;
+  }
+
+  &--fussy{
+    border: thin solid currentColor;
+    background-color: color-mix(in srgb, currentColor 20%, transparent);
+  }
+
+  &--soft{
+    background-color: color-mix(in srgb, currentColor 20%, transparent);
+    border: none;
+  }
+
+  &__title{
+    font-size: var(--fw-card-title-font-size);
+    font-weight: var(--fw-card-title-font-weight);
+  }
+
+  &__subtitle{
+    font-size: var(--fw-card-subtitle-font-size);
+    font-weight: var(--fw-card-subtitle-font-weight);
+  }
+
+  &__header, &__body, &__footer{
+    padding-block: calc(var(--fw-card-padding-block) * 2);
+    padding-inline: calc(var(--fw-card-padding-inline) * 2);
+    position: relative;
+  }
+
+  .fw-card__header.overlap{
+    display: flex;
+    padding: 0;
+    width: 100%;
+    max-height: var(--fw-card-media-image-max-height);
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+
+    .fw-card__media{
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+
+      img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .fw-card__title-wrapper{
+      position: relative;
+      z-index: 10;
+      padding-block: calc(var(--fw-card-padding-block) * 2);
+      padding-inline: calc(var(--fw-card-padding-inline) * 2);
+    }
+
+    &.top-start{
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+
+    &.top-end{
+      justify-content: flex-end;
+      align-items: flex-start;
+    }
+
+    &.bottom-start{
+      justify-content: flex-start;
+      align-items: flex-end;
+    }
+
+    &.bottom-end{
+      justify-content: flex-end;
+      align-items: flex-end;
+    }
+
+    &.center{
+      justify-content: center;
+      align-items: center;
+    }
+
+    &.text-start{
+      text-align: start;
+    }
+
+    &.text-end{
+      text-align: end;
+    }
+
+    &.text-center{
+      text-align: center;
+    }
+  }
+
+  .fw-card__header.media{
+    padding-block-start: 0;
+    padding-inline-start: 0;
+    padding-inline-end: 0;
+    display: flex;
+    flex-direction: column;
+
+    &.title-reverse{
+      flex-direction: column-reverse;
+    }
+
+    .fw-card__media{
+      width: 100%;
+      max-height: var(--fw-card-media-image-max-height);
+      overflow: hidden;
+
+      img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        aspect-ratio: 4 / 3;
+      }
+    }
+
+    .fw-card__title-wrapper{
+      padding-block: calc(var(--fw-card-padding-block) * 2);
+      padding-inline: calc(var(--fw-card-padding-inline) * 2);
+    }
+  }
+}
