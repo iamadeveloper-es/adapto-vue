@@ -59,7 +59,7 @@ function mergeTokens(theme: ThemeOptions, tokens: Partial<Tokens | undefined>, t
   return Object.fromEntries(
     Object.entries({
       ...theme.tokens[tokenType],
-      ...(tokens?.[tokenType] ?? {}),
+      ...tokens?.[tokenType],
     }).map(([key, value]) => [
       key,
       {

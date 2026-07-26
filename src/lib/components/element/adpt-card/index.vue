@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useFramework } from '@/lib/composables/useFramework';
 import type { Elevation, ItemAlignment, Radius, TextAlignment, Variant } from '@/lib/types/globals';
-import { computed, useSlots, type PropType } from 'vue';
+import { computed, useId, useSlots, type PropType } from 'vue';
 
 const fw = useFramework()
 
@@ -49,7 +49,7 @@ const props = defineProps({
   },
   titleOverlapPosition: {
     type: String as PropType<ItemAlignment>,
-    default: 'bottom-start'
+    default: ''
   },
   titleOverlapTextAlign:{
     type: String as PropType<TextAlignment>,
@@ -63,6 +63,9 @@ const props = defineProps({
 
 const slots = useSlots()
 
+const titleId = useId()
+const subtitleId = useId()
+
 const hasTitle = computed(() => !!slots['title'])
 const hasSubtitle = computed(() => !!slots['subtitle'])
 const hasMedia = computed(() => !!slots['media'])
@@ -71,7 +74,7 @@ const hasFooter = computed(() => !!slots['footer'])
 
 const normalizedVariant = computed((): string => {
   return availableVariants.includes(String(props.variant)) ?
-    `${cmpClass}--${props.variant}` : 'default'
+    `${cmpClass}--${props.variant}` : `${cmpClass}--default`
 })
 
 const cardClasses = computed(() => [
@@ -106,7 +109,9 @@ const getSubtitleColor = computed(() => props.subtitleColor ? `var(--${fw.prefix
 <template>
   <article
   :style="{color: getColor}"
-  :class="cardClasses">
+  :class="cardClasses"
+  :aria-labelledby="hasTitle ? titleId : undefined"
+  :aria-describedby="hasSubtitle ? subtitleId : undefined">
     <div
     v-if="hasTitle || hasSubtitle"
     :class="headerClasses">
@@ -118,12 +123,14 @@ const getSubtitleColor = computed(() => props.subtitleColor ? `var(--${fw.prefix
       <div :class="`${cmpClass}__title-wrapper`">
         <div
         v-if="hasTitle"
+        :id="titleId"
         :style="{color: getTitleColor}"
         :class="`${cmpClass}__title`">
           <slot name="title"></slot>
         </div>
         <div
         v-if="hasSubtitle"
+        :id="subtitleId"
         :style="{color: getSubtitleColor}"
         :class="`${cmpClass}__subtitle`">
           <slot name="subtitle"></slot>

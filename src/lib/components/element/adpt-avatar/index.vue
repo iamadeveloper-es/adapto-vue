@@ -72,7 +72,7 @@ const getBG = computed(() => {
   return props.bgColor ? props.bgColor : colors[randomIndex];
 });
 
-const initials = computed((): String => {
+const initials = computed((): string => {
   const { name } = props;
   const firstChar = name.charAt(0).toUpperCase();
   const secondChar = name.split(' ')[1]?.charAt(0).toUpperCase();
