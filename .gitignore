@@ -43,6 +43,7 @@ playwright-report/
 
 sandbox/*
 .github
-.claude
+# .claude se versiona; los ajustes locales de cada persona no
+.claude/settings.local.json
 
 TODO.md
