@@ -14,6 +14,7 @@ import main from './styles/sass/main.scss?raw'
 import button from './components/element/adpt-button/style.scss?raw'
 import avatar from './components/element/adpt-avatar/style.scss?raw'
 import card from './components/element/adpt-card/style.scss?raw'
+import accordion from './components/element/adpt-accordion/style.scss?raw'
 
 //- Overlay
 import dialog from './components/overlay/adpt-dialog/style.scss?raw'
@@ -35,6 +36,7 @@ export const AdaptoPlugin = {
         { id: 'button', css: button },
         { id: 'avatar', css: avatar },
         { id: 'card', css: card },
+        { id: 'accordion', css: accordion },
         { id: 'dialog', css: dialog },
         { id: 'tooltip', css: tooltip },
         { id: 'input-field', css: inputField },

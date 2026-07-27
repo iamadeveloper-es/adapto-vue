@@ -1,0 +1,95 @@
+.fw-accordion{
+
+  &__item{
+    position: relative;
+  }
+
+  &__title{
+    position: relative;
+    width: 100%;
+    border: none;
+    color: currentColor;
+    background-color: transparent;
+    appearance: none;
+    padding-inline: var(--fw-accordion-padding-inline);
+    padding-block: var(--fw-accordion-padding-block);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--fw-accordion-title-font-size, 1rem);
+    transition: background-color .2s ease-in;
+    cursor: pointer;
+
+    &:hover, &:focus-within{
+      background-color: color-mix(in srgb, currentColor 7%, transparent);;
+    }
+  }
+
+  &__icon{
+    transition: transform .3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &__content{
+    overflow: hidden;
+    padding-inline: 12px;
+  }
+
+  &__item.is-open &__icon {
+    transform: rotate(180deg);
+  }
+
+  &.is-list:not(&:last-child){
+    border-bottom: none;
+  }
+
+  // Variantes
+  &--default{
+    border: var(--fw-accordion-border-width) var(--fw-accordion-border-style) var(--fw-accordion-border-color);
+    background-color: var(--fw-accordion-bg);
+  }
+  &--outlined{
+    background: transparent;
+    border: thin solid currentColor;
+  }
+
+  &--soft{
+    border: none;
+    background-color: color-mix(in srgb, currentColor 5%, transparent);
+  }
+
+  &--fussy{
+    border: thin solid currentColor;
+    background-color: color-mix(in srgb, currentColor 5%, transparent);
+  }
+
+  // Sizes
+  &--xs{
+    --fw-accordion-padding-block: var(--fw-spacing-base);
+    --fw-accordion-padding-inline: calc(var(--fw-spacing-base) * 2);
+    --fw-accordion-font-size: var(--fw-text-xs);
+  }
+
+  &--sm{
+    --fw-accordion-padding-block: calc(var(--fw-spacing-base) * 1.5);
+    --fw-accordion-padding-inline: calc(var(--fw-spacing-base) * 2.5);
+    --fw-accordion-font-size: var(--fw-text-xs);
+  }
+
+  &--md{
+    --fw-accordion-padding-block: calc(var(--fw-spacing-base) * 1.75);
+    --fw-accordion-padding-inline: calc(var(--fw-spacing-base) * 3);
+    --fw-accordion-font-size: var(--fw-text-sm);
+  }
+
+  &--lg{
+    --fw-accordion-padding-block: calc(var(--fw-spacing-base) * 2);
+    --fw-accordion-padding-inline: calc(var(--fw-spacing-base) * 3);
+    --fw-accordion-font-size: var(--fw-text-sm);
+  }
+
+  &--xl{
+    --fw-accordion-padding-block: calc(var(--fw-spacing-base) * 2.5);
+    --fw-accordion-padding-inline: calc(var(--fw-spacing-base) * 3.5);
+    --fw-accordion-font-size: var(--fw-text-sm);
+  }
+}

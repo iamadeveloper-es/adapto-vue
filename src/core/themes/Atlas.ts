@@ -306,6 +306,15 @@ export const Atlas: ThemeOptions = {
         'subtitle-font-weight': 'cs.500',
         'media-image-max-height': 'cs.250px',
       },
+      accordion: {
+        bg: 'pr.white.500',
+        'border-width': 'cs.1px',
+        'border-style': 'cs.solid',
+        'border-color': 'sm.surface.500',
+        'padding-block': 'pr.spacing.md',
+        'padding-inline': 'pr.spacing.lg',
+        'title-font-size': 'pr.text.sm'
+      },
       //- Form
       input: {
         bg: 'pr.white.500',
