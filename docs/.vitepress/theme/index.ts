@@ -6,6 +6,7 @@ import AdaptoIcon from '../../../src/lib/components/element/adpt-icon/index.vue'
 import AdaptoCard from '../../../src/lib/components/element/adpt-card/index.vue'
 import AdaptoInputField from '../../../src/lib/components/form/adpt-input-field/index.vue'
 import AdaptoTextarea from '../../../src/lib/components/form/adpt-textarea/index.vue'
+import AdaptoDialog from '../../../src/lib/components/overlay/adpt-dialog/index.vue'
 import './demo.css'
 
 export default {
@@ -17,5 +18,6 @@ export default {
     app.component('AdaptoCard', AdaptoCard)
     app.component('AdaptoInputField', AdaptoInputField)
     app.component('AdaptoTextarea', AdaptoTextarea)
+    app.component('AdaptoDialog', AdaptoDialog)
   },
 } satisfies Theme

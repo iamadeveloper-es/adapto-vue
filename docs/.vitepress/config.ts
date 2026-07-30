@@ -18,6 +18,7 @@ export default defineConfig({
           { text: 'Card', link: '/components/adpt-card' },
           { text: 'Input Field', link: '/components/adpt-input-field' },
           { text: 'Textarea', link: '/components/adpt-textarea' },
+          { text: 'Dialog', link: '/components/adpt-dialog' },
         ],
       },
     ],
