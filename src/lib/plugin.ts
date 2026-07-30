@@ -15,6 +15,9 @@ import button from './components/element/adpt-button/style.scss?raw'
 import avatar from './components/element/adpt-avatar/style.scss?raw'
 import card from './components/element/adpt-card/style.scss?raw'
 import accordion from './components/element/adpt-accordion/style.scss?raw'
+import calendar from './components/element/adpt-calendar/style.scss?raw'
+import calendarNavigation from './components/element/adpt-calendar/calendar-navigation/style.scss?raw'
+import dateDisplay from './components/element/adpt-calendar/date-display/style.scss?raw'
 
 //- Overlay
 import dialog from './components/overlay/adpt-dialog/style.scss?raw'
@@ -37,6 +40,9 @@ export const AdaptoPlugin = {
         { id: 'avatar', css: avatar },
         { id: 'card', css: card },
         { id: 'accordion', css: accordion },
+        { id: 'calendar', css: calendar },
+        { id: 'calendar-navigation', css: calendarNavigation },
+        { id: 'date-display', css: dateDisplay },
         { id: 'dialog', css: dialog },
         { id: 'tooltip', css: tooltip },
         { id: 'input-field', css: inputField },

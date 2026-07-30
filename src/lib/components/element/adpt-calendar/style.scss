@@ -1,0 +1,53 @@
+.fw-calendar{
+  width: 100%;
+  max-width: 250px;
+  padding: 10px;
+
+  table{
+    width: 100%;
+  }
+
+}
+
+.fw-calendar-week-days, .fw-calendar-month-days{
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  display: grid;
+  tr{
+    place-items: center;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    display: grid;
+
+    th, td{
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px;
+      margin: 5px;
+      width: 28px;
+      height: 28px;
+      border-radius: 100%;
+      color: grey;
+      cursor: pointer;
+
+      &.is-day-current-month{
+        color: black;
+      }
+
+      &.is-today{
+        color: var(--fw-primary-500);
+      }
+
+      &:hover{
+        background-color: color-mix(in srgb, var(--fw-primary-500) 30%, transparent);
+      }
+
+      &.is-active{
+        background-color: var(--fw-primary-500);
+        color: white;
+      }
+    }
+  }
+
+}
