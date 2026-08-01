@@ -1,62 +1,86 @@
-# Instrucciones para Claude en adapto-ui
+# Instructions for Claude in adapto-ui
 
-adapto-ui es una librería de componentes Vue 3 + TypeScript instalable como plugin (`AdaptoPlugin`), con un sistema de theming basado en tokens (tema base `Atlas`) y estilos SCSS inyectados en runtime (no build de CSS estático).
+adapto-ui is a Vue 3 + TypeScript component library installed as a plugin (`AdaptoPlugin`), with a token-based theming system (`Atlas` base theme) and SCSS styles injected at runtime (no static CSS build).
 
-## Arquitectura
+## Architecture
 
-- `src/core/`: motor interno, independiente de Vue.
-  - `init.ts`: `initFramework()` — combina el tema `Atlas` con overrides, normaliza tokens e inyecta estilos.
-  - `create-utils.ts`: helpers expuestos a los componentes — `cx(...names)`, `cv(name)`, `getVar(name)`.
-  - `inject-css.ts`: inserta `<style>` en el `<head>` en tiempo de ejecución y evita duplicados.
-  - `themes/Atlas.ts`: tema/tokens por defecto. `types/`: tipos de tokens y tema.
-- `src/lib/`: API pública del plugin.
-  - `components/<categoría>/adpt-<nombre>/`: un componente por carpeta, en kebab-case con prefijo `adpt-`, agrupado por categoría (`element/`, `form/`, `overlay/`). Contiene `index.vue` y, si necesita estilos propios, `style.scss`.
-  - `composables/useFramework.ts`: da acceso a los helpers del framework (`fw.cx`, `fw.cv`, `fw.getVar`) vía `provide/inject`.
-  - `directives/`: directivas globales (`v-ripple`, `v-click-outside`).
-  - `styles/`: tokens y estilos base en Sass/CSS.
-  - `plugin.ts`: `AdaptoPlugin.install()` — registra en la app los estilos (tokens + globales + por componente), las directivas, y expone `fw` con `app.provide`.
-- `sandbox/app/`: aplicación Vue de desarrollo con su propio `package.json` (workspace aparte, ver `pnpm-workspace.yaml`), usada para probar la librería.
+- `src/core/`: internal engine, independent of Vue.
+  - `init.ts`: `initFramework()` — merges the `Atlas` theme with overrides, normalizes tokens and injects styles.
+  - `create-utils.ts`: helpers exposed to components — `cx(...names)`, `cv(name)`, `getVar(name)`.
+  - `inject-css.ts`: inserts `<style>` into the `<head>` at runtime and avoids duplicates (the dedup key is `${prefix}:${moduleId}`).
+  - `themes/Atlas.ts`: default theme/tokens. `types/`: token and theme types.
+- `src/lib/`: public plugin API.
+  - `components/<category>/adpt-<name>/`: one component per folder, kebab-case with the `adpt-` prefix, grouped by category (`element/`, `form/`, `overlay/`). Contains `index.vue` and, if it needs its own styles, `style.scss`.
+  - `composables/useFramework.ts`: access to the framework helpers (`fw.cx`, `fw.cv`, `fw.getVar`) via `provide/inject`.
+  - `composables/useStyle.ts`: injects the component's `style.scss` on its first render. This is what lets an unused component's CSS drop out of the bundle.
+  - `directives/`: global directives (`v-ripple`, `v-click-outside`).
+  - `styles/`: tokens and base styles in Sass/CSS.
+  - `index.ts`: build entry point. Exports `AdaptoPlugin` **and every component** as a named export (`AdaptoButton`, `AdaptoSelect`, …). A component not exported here does not exist for consumers.
+  - `plugin.ts`: `AdaptoPlugin.install()` — registers only the global styles (`tokens` and `main`), the directives, and exposes `fw` through `app.provide`. It does **not** register per-component styles.
+- `sandbox/app/`: Vue development app, a workspace package (declared under `packages:` in `pnpm-workspace.yaml`), linked via `adapto-ui: workspace:*`. It is gitignored.
 
-## Convenciones al crear o editar componentes
+## Conventions when creating or editing components
 
-- Ruta: `src/lib/components/<categoría>/adpt-<nombre>/index.vue`, carpeta en kebab-case con prefijo `adpt-` bajo una carpeta de categoría. Usa `src/lib/components/element/adpt-button/index.vue` como referencia de patrón.
-- Orden del archivo: `<script setup lang="ts">` y `<template>`. Los estilos **no** van en un bloque `<style>` del componente: viven en `style.scss` junto al `index.vue` y se registran en el array `styles` de `src/lib/plugin.ts` (ver `adpt-button` y `adpt-dialog`).
-- `defineOptions({ name: 'Adapto<Nombre>' })` — sigue este patrón de nombre (nota: `adpt-dialog` actualmente usa `VkDialog`, es una inconsistencia heredada, no un patrón a copiar).
-- Tipa props y emits explícitamente con `PropType`/tipos concretos; evita `any`.
-- Si el componente necesita los helpers del framework, usa `useFramework()` importándolo con el alias `@/lib/composables/useFramework`.
-- Markup semántico y accesible por defecto: roles, `aria-*`, manejo de foco y teclado.
+- Path: `src/lib/components/<category>/adpt-<name>/index.vue`, kebab-case folder with the `adpt-` prefix under a category folder. Use `src/lib/components/element/adpt-button/index.vue` as the reference pattern.
+- File order: `<script setup lang="ts">` then `<template>`. Styles do **not** go in a component `<style>` block: they live in `style.scss` next to `index.vue`.
+- The component injects its own CSS. Inside `<script setup>`, next to `useFramework()`:
 
-## Reglas generales
+  ```ts
+  import { useStyle } from '@/lib/composables/useStyle'
+  import css from './style.scss?raw'
 
-- No modifiques `src/App.vue` ni `src/main.ts` a menos que se pida explícitamente (son el playground de desarrollo, no la librería).
-- Cambios enfocados y consistentes con la arquitectura existente; prioriza soluciones simples y componibles sobre las sobre-diseñadas.
-- Gestor de paquetes: `pnpm`. Comandos relevantes: `pnpm lint` (oxlint + eslint), `pnpm format` (prettier), `pnpm test:unit` (vitest), `pnpm test:e2e` (playwright), `pnpm type-check` (vue-tsc).
-- Tests en carpetas `__tests__/` junto al código que cubren, con `vitest` + `@vue/test-utils`.
+  const fw = useFramework()
+  useStyle('<id>', css)
+  ```
 
-## Infraestructura agéntica
+  `<id>` is the style module identifier (`'button'`, `'select'`, …) and ends up in the `data-fw` attribute of the injected `<style>`. Do **not** register it in `src/lib/plugin.ts`: that array is for global styles only, and putting a component there pushes it back into every consumer's bundle.
+- Export the component from `src/lib/index.ts` (`export { default as Adapto<Name> } from './components/<category>/adpt-<name>/index.vue'`). Without that line the component is not part of the public API and never reaches `dist`.
+- `defineOptions({ name: 'Adapto<Name>' })` — follow this naming pattern (note: `adpt-dialog` currently uses `VkDialog`, an inherited inconsistency, not a pattern to copy).
+- Type props and emits explicitly with `PropType`/concrete types; avoid `any`.
+- If the component needs the framework helpers, use `useFramework()` imported through the `@/lib/composables/useFramework` alias.
+- Semantic, accessible markup by default: roles, `aria-*`, focus and keyboard handling.
 
-Los subagentes viven en `.claude/agents/` y las orquestaciones en `.claude/skills/public/`.
+## Packaging and build
 
-- **Revisión** (`component-review`): `component-review-types`, `component-review-props` y
-  `component-review-a11y` en paralelo → `component-review-report` consolida y puntúa 0-10 por área.
-- **Documentación** (`component-docs`): `component-api-extractor` extrae la API factual (1 llamada)
-  → un `component-docs-writer` por componente en paralelo → la orquestación aplica los registros
-  compartidos de `config.ts`/`theme/index.ts` y verifica con `pnpm docs:build`.
-- **Release** (`release-readiness`): reutiliza las anteriores en modo auditoría →
+- `pnpm build-only` chains `build:js` (vite) and `build:types` (`vue-tsc -p tsconfig.lib.json` → `dist/types`). Both must stay green: type errors in the library scope break the published declarations.
+- `vue`, `lucide-vue-next` and `dayjs` are `peerDependencies` and are marked `external` in `vite.config.ts`. Never move them back into `dependencies`: bundling Vue duplicates the instance and breaks `provide/inject`, which is exactly what `useFramework()` relies on.
+- The `external` predicate also covers subpaths (`dayjs/locale/*`). CJS/UMD subpaths that get bundled emit a `require()` call that throws in the browser.
+- `package.json` declares `"sideEffects": false`. Keep library modules free of top-level side effects, otherwise consumers' bundlers may drop code that was actually needed.
+- Adding a third-party runtime dependency is a packaging decision: it must be externalized and declared as a peer, or it lands whole in every consumer's bundle.
+
+## General rules
+
+- Do not modify `src/App.vue` or `src/main.ts` unless explicitly asked (they are the development playground, not the library).
+- Focused changes consistent with the existing architecture; prefer simple, composable solutions over over-engineered ones.
+- Package manager: `pnpm`. Relevant commands: `pnpm lint` (oxlint + eslint), `pnpm format` (prettier), `pnpm test:unit` (vitest), `pnpm test:e2e` (playwright), `pnpm type-check` (vue-tsc), `pnpm build-only` (bundle + declarations).
+- Tests live in `__tests__/` folders next to the code they cover, using `vitest` + `@vue/test-utils`.
+- Known limitation: under vitest, `import css from './style.scss?raw'` resolves to an empty string, so style injection cannot be asserted in unit tests. Verify styling through a build or the sandbox instead.
+- The sandbox consumes `dist`, not the sources — including its types. After changing the library, run `pnpm build-only` or the sandbox will keep showing the previous state.
+
+## Agentic infrastructure
+
+Subagents live in `.claude/agents/` and orchestrations in `.claude/skills/public/`.
+
+- **Review** (`component-review`): `component-review-types`, `component-review-props` and
+  `component-review-a11y` in parallel → `component-review-report` consolidates and scores 0-10 per area.
+- **Documentation** (`component-docs`): `component-api-extractor` extracts the factual API (1 call)
+  → one `component-docs-writer` per component in parallel → the orchestration applies the shared
+  registries in `config.ts`/`theme/index.ts` and verifies with `pnpm docs:build`.
+- **Release** (`release-readiness`): reuses the above in audit mode →
   `release-readiness-report`.
 
-Política de modelos, al añadir o modificar un agente:
+Model policy, when adding or modifying an agent:
 
-- `haiku` para trabajo mecánico o de puro formato: extracción de datos y agregadores que solo
-  reformatean texto que ya reciben.
-- `sonnet` para juicio o generación: los tres revisores, los writers de docs/tests/e2e y
+- `haiku` for mechanical or purely formatting work: data extraction and aggregators that only
+  reformat text they already receive.
+- `sonnet` for judgment or generation: the three reviewers, the docs/tests/e2e writers and
   `core-tokens-review`.
-- Ninguno usa `opus`. Declara siempre `model:` — omitirlo hereda el modelo de sesión y dispara el
-  coste.
-- Declara siempre `tools:` con el mínimo necesario. Los agregadores llevan `tools: Glob` a
-  propósito: no pueden leer código, ejecutar comandos ni escribir, que es justo su contrato.
+- None uses `opus`. Always declare `model:` — omitting it inherits the session model and blows up
+  the cost.
+- Always declare `tools:` with the minimum needed. The aggregators carry `tools: Glob` on purpose:
+  they cannot read code, run commands or write, which is precisely their contract.
 
-## Estilo de respuesta
+## Response style
 
-- Responde en español en el chat.
-- Mantén documentación, comentarios de código nuevo, nombres/descripciones de tests y archivos de prompts en inglés cuando sea razonable, salvo que el usuario pida lo contrario explícitamente.
+- Reply in Spanish in the chat.
+- Keep documentation, comments in new code, test names/descriptions and prompt files in English where reasonable, unless the user explicitly asks otherwise.

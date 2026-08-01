@@ -1,42 +1,50 @@
 ---
 name: create-vue-component
-description: Genera un componente Vue dentro de src/lib/components/<categoría>/ con la estructura esperada por el repositorio.
+description: Creates a Vue component under src/lib/components/<category>/ with the structure this repository expects.
 ---
 
-# Crear un componente Vue
+# Creating a Vue component
 
-Cuando se te pida crear un componente Vue en este repositorio, sigue estas reglas:
+When asked to create a Vue component in this repository, follow these rules:
 
-1. Crea el componente en `src/lib/components/<categoría>/adpt-<component-name>/index.vue`. Los
-   componentes viven bajo una carpeta de categoría — hoy existen `element/`, `form/` y `overlay/`.
-   Elige la que corresponda; si ninguna encaja, propón una nueva al usuario antes de crearla.
-2. Usa un nombre de carpeta en kebab-case con el prefijo `adpt-`.
-3. El archivo `index.vue` solo contiene bloque de script y bloque de template, en ese orden. Los
-   estilos no van en un bloque `<style>` del componente.
-4. Prefiere `<script setup lang="ts">` para la sección de script.
-5. Usa `defineOptions({ name: 'Adapto<Nombre>' })` siguiendo el patrón de nombre de los
-   componentes existentes.
-6. Mantén el componente simple, tipado (evita `any`) y alineado con el estilo de la librería.
-7. Si el componente necesita utilidades del framework, importa `useFramework` con el alias
-   `@/lib/composables/useFramework` — es lo que usan los componentes más recientes
+1. Create the component at `src/lib/components/<category>/adpt-<component-name>/index.vue`.
+   Components live under a category folder — today `element/`, `form/` and `overlay/` exist.
+   Pick the one that fits; if none does, propose a new one to the user before creating it.
+2. Use a kebab-case folder name with the `adpt-` prefix.
+3. The `index.vue` file contains only a script block and a template block, in that order. Styles do
+   not go in a component `<style>` block.
+4. Prefer `<script setup lang="ts">` for the script section.
+5. Use `defineOptions({ name: 'Adapto<Name>' })`, following the naming pattern of the existing
+   components.
+6. Keep the component simple, typed (avoid `any`) and aligned with the library's style.
+7. If the component needs framework utilities, import `useFramework` through the
+   `@/lib/composables/useFramework` alias — that is what the most recent components use
    (`adpt-checkbox`, `adpt-radio`, `adpt-card`, `adpt-avatar`).
-8. Si el componente necesita estilos propios, créalos en un `style.scss` junto a `index.vue` y
-   regístralo en el array `styles` de `src/lib/plugin.ts` (ver cómo lo hacen `adpt-button` y
-   `adpt-dialog`).
-9. No modifiques App.vue ni main.ts a menos que el usuario lo pida explícitamente.
-10. Responde siempre en español.
+8. If the component needs its own styles, create a `style.scss` next to `index.vue` and have the
+   component inject it itself with `useStyle` (see below). Do **not** register it in
+   `src/lib/plugin.ts`: that array is for global styles only, and adding a component there puts its
+   CSS back into every consumer's bundle.
+9. Export the component from `src/lib/index.ts`. Without that line it is not part of the public API
+   and never reaches `dist`.
+10. Do not modify App.vue or main.ts unless the user explicitly asks.
+11. Always reply in Spanish.
 
-## Esqueleto esperado del archivo
+## Expected file skeleton
 
 ```vue
 <script setup lang="ts">
 import { useFramework } from '@/lib/composables/useFramework'
+import { useStyle } from '@/lib/composables/useStyle'
+import css from './style.scss?raw'
 
 const fw = useFramework()
+
+useStyle('component-name', css)
+
 const cmpClass = fw.cx('component-name')
 
 defineOptions({
-  name: 'Adapto<Nombre>',
+  name: 'Adapto<Name>',
 })
 </script>
 
@@ -47,7 +55,9 @@ defineOptions({
 </template>
 ```
 
-Si el componente tiene estilos propios, añade junto a `index.vue` un `style.scss`:
+Drop the `useStyle` call and the `css` import if the component has no styles of its own.
+
+The `style.scss` sits next to `index.vue`:
 
 ```scss
 .fw-component-name {
@@ -55,31 +65,35 @@ Si el componente tiene estilos propios, añade junto a `index.vue` un `style.scs
 }
 ```
 
-y regístralo en `src/lib/plugin.ts` — fíjate en que la ruta del import incluye la categoría:
+The first argument to `useStyle` is the style module id (`'button'`, `'select'`, …). It ends up in
+the `data-fw` attribute of the injected `<style>` and is the deduplication key, so it must be
+unique across components.
+
+Finally, register the export in `src/lib/index.ts` under its category:
 
 ```ts
-import componentName from './components/<categoría>/adpt-component-name/style.scss?raw'
-// ...
-styles: [
-  // ...
-  { id: 'component-name', css: componentName },
-]
+export { default as AdaptoComponentName } from './components/<category>/adpt-component-name/index.vue'
 ```
 
-## Guía adicional
+## Additional guidance
 
-- Mantén la API pequeña y fácil de componer.
-- Prefiere un markup accesible y HTML semántico.
-- Sigue las convenciones del ejemplo del botón en
+- Keep the API small and easy to compose.
+- Prefer accessible markup and semantic HTML.
+- Follow the conventions of the button example at
   `src/lib/components/element/adpt-button/index.vue`.
-- Si el usuario necesita un comportamiento concreto, implementa una versión por defecto sensata y
-  fácil de extender.
+- If the user needs specific behavior, implement a sensible default that is easy to extend.
+- Do not add third-party runtime dependencies on your own: they have to be externalized in
+  `vite.config.ts` and declared as `peerDependencies`, otherwise they land whole in every
+  consumer's bundle. Raise it with the user first.
 
-## Después de crear el componente
+## After creating the component
 
-El componente nuevo no tiene tests ni documentación. Ofrécelos como paso siguiente explícito, sin
-ejecutarlos por tu cuenta:
+The new component has no tests or documentation. Offer them as an explicit next step, without
+running them on your own:
 
-- `component-test-writer` para la cobertura unitaria.
-- La skill `component-docs` para su página de VitePress.
-- La skill `component-review` para la revisión de calidad puntuada.
+- `component-test-writer` for unit coverage.
+- The `component-docs` skill for its VitePress page.
+- The `component-review` skill for the scored quality review.
+
+Note: under vitest, `import css from './style.scss?raw'` resolves to an empty string, so unit tests
+cannot assert style injection. Do not write tests that depend on it.
