@@ -19,8 +19,9 @@ size="sm"
 name="Jhonny Bravo"/>
 
 <AdptAvatar
-size="xl"
-
+size="lg"
+name="Jhonny Bravo"
+showInitials
 />
 </template>
 

@@ -16,6 +16,7 @@ export default defineConfig({
           { text: 'Element',
             items: [
               { text: 'Button', link: '/components/adpt-button' },
+              { text: 'Avatar', link: '/components/adpt-avatar' },
               { text: 'Icon', link: '/components/adpt-icon' },
               { text: 'Card', link: '/components/adpt-card' },
               { text: 'Accordion', link: '/components/adpt-accordion' },
