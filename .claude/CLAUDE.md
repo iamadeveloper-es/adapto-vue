@@ -80,7 +80,7 @@ not before. The subfolder is organizational only — it does not become part of 
   current context instead of running it in isolation, so nesting would serialize the fan-out.
 
 Both directions between skills and subagents are supported by Claude Code and both are used here
-on purpose — see `docs/agentic-architecture.md` for the reasoning and the doc citations:
+on purpose — see `.claude/agentic-architecture.md` for the reasoning and the doc citations:
 
 - *skill → subagent*: the three orchestrations above are procedures whose steps dispatch agents
   via the Agent tool. A `SKILL.md` never executes anything itself; it is text injected into the

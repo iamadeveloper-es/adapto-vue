@@ -29,7 +29,7 @@ stale docs) is a separate, explicit follow-up request.
 
 ## 2. Run the checks in parallel
 
-Invoke these six agents as **foreground** Agent calls in a single message (so they run
+Invoke these five agents as **foreground** Agent calls in a single message (so they run
 concurrently and you block until all return), all against the resolved scope, each explicitly
 instructed this is a **verification/audit pass only — do not create or edit any files**:
 
@@ -39,20 +39,31 @@ instructed this is a **verification/audit pass only — do not create or edit an
   a double pass loses detail.
 - `component-test-writer`, in audit mode: report which components lack `__tests__/index.spec.ts`
   coverage or whose tests look stale versus current props/emits — don't write any.
-- `component-api-extractor`, then compare against `docs/components/adpt-*.md`: report which
-  components lack a page or whose page is out of date versus the real API — don't write any.
-  One call for the whole scope; it's read-only and its output is a compact data sheet.
+- `component-api-extractor` — one call for the whole scope. Ask it only for the factual API
+  spec, which is its entire contract; it is descriptive and never evaluative, so do **not** ask
+  it to judge whether a doc page is stale.
 - `core-tokens-review` — always whole-theme scoped (it audits `Atlas.ts` as a unit, not
   per-component), so run it once regardless of how many components are in scope.
 
 For a multi-component scope, tell each agent "enumerate `src/lib/components/**/adpt-*/index.vue`
 yourself" rather than hardcoding a file list, so adding a component needs no change here.
 
+## 2b. Derive the documentation gap yourself
+
+The extractor gives you the real API; the docs check is a comparison, and you own it. Glob
+`docs/components/adpt-*.md`, and for each component in scope report: **missing page** (no file),
+**out of date** (the page's props/emits/slots tables disagree with the spec — name the specific
+ones), or **up to date**.
+
+This stays here rather than going to an agent because it's a diff between two things you already
+have in context. Note it makes the docs signal cheaper but shallower than a `/component-docs`
+audit run, which reads each page in full — that's the right trade for a go/no-go gate.
+
 ## 3. Compile the report
 
-Invoke `release-readiness-report` (foreground, single call) with the scope and the six raw
-outputs from step 2, labeled by source. Pass them through verbatim — it has no file-reading
-tools and cannot recover anything you leave out.
+Invoke `release-readiness-report` (foreground, single call) with the scope, the five raw agent
+outputs from step 2 and your docs-gap summary from 2b, labeled by source. Pass them through
+verbatim — it has no file-reading tools and cannot recover anything you leave out.
 
 ## 4. Present the result
 
@@ -62,8 +73,8 @@ as a separate, explicit next step — don't do it automatically.
 
 ## Scaling notes
 
-- Fixed number of calls per run (6 checks + 1 report) regardless of how many components are in
-  scope: every check agent is read-only and enumerates its own file list internally, so nothing
-  here shards per component. Same O(1) shape as `component-review`.
+- Fixed number of calls per run (5 agents + 1 report; the docs comparison costs none) regardless
+  of how many components are in scope: every check agent is read-only and enumerates its own file
+  list internally, so nothing here shards per component. Same O(1) shape as `component-review`.
 - To run outside a slash-command context: "Run the release-readiness orchestration (see
   `.claude/skills/adapto/release-readiness/SKILL.md`) for `<component-name-or-'all components'>`."
