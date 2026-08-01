@@ -1,9 +1,13 @@
 <script lang="ts" setup>
 import { useFramework } from '@/lib/composables/useFramework';
+import { useStyle } from '@/lib/composables/useStyle'
+import css from './style.scss?raw'
 import { computed, onBeforeUnmount, onMounted, ref, watch, type PropType } from 'vue';
 
 
 const fw = useFramework()
+
+useStyle('tooltip', css)
 
 const cmpClass = fw.cx('tooltip')
 

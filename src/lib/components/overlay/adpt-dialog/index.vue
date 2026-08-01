@@ -2,8 +2,12 @@
 import { computed, onMounted, onUnmounted, ref, useId, useSlots } from 'vue';
 import AdptButton from '../../element/adpt-button/index.vue';
 import { useFramework } from '@/lib/composables/useFramework.ts';
+import { useStyle } from '@/lib/composables/useStyle'
+import css from './style.scss?raw'
 
 const fw = useFramework();
+
+useStyle('dialog', css)
 
 const cmpClass = fw.cx('dialog');
 

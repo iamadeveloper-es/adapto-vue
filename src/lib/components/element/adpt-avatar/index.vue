@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { computed, type PropType } from 'vue';
 import { useFramework } from '@/lib/composables/useFramework';
+import { useStyle } from '@/lib/composables/useStyle'
+import css from './style.scss?raw'
 import type { Size } from '@/lib/types/globals';
 
 
 const fw = useFramework()
+
+useStyle('avatar', css)
 
 const cmpClass = fw.cx('avatar')
 

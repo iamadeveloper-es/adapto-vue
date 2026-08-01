@@ -1,9 +1,13 @@
 <script lang="ts" setup>
 import { useFramework } from '@/lib/composables/useFramework';
+import { useStyle } from '@/lib/composables/useStyle'
+import css from './style.scss?raw'
 import type { Elevation, ItemAlignment, Radius, TextAlignment, Variant } from '@/lib/types/globals';
 import { computed, useId, useSlots, type PropType } from 'vue';
 
 const fw = useFramework()
+
+useStyle('card', css)
 
 const cmpClass = fw.cx('card')
 

@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { useFramework } from '@/lib/composables/useFramework.ts';
+import { useStyle } from '@/lib/composables/useStyle'
+import css from './style.scss?raw'
 import { computed } from 'vue';
 
 const fw = useFramework()
+
+useStyle('date-display', css)
 
 const cmpClass = fw.cx('date-display')
 

@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { computed, inject, onMounted, ref, useId, type PropType } from 'vue';
 import { useFramework } from '@/lib/composables/useFramework';
+import { useStyle } from '@/lib/composables/useStyle'
+import css from './style.scss?raw'
 import AdaptoIcon from '../adpt-icon/index.vue'
 import { AccordionKey } from '../adpt-accordion-list/index.vue';
 import { remToPx } from '@/lib/utils/units.ts';
@@ -8,6 +10,8 @@ import type { Icon, Radius, Size, Variant } from '@/lib/types/globals.ts';
 
 
 const fw = useFramework()
+
+useStyle('accordion', css)
 
 const cmpClass = fw.cx('accordion')
 

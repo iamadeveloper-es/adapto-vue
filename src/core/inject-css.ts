@@ -5,14 +5,18 @@ const injected = new Set<string>();
  */
 export function injectCSS(rawCSS: string, prefix: string, moduleId: string): void {
   if (typeof document === 'undefined') return;
-  if (injected.has(moduleId)) return;
+
+  // El prefijo forma parte de la clave: dos apps con prefijos distintos en la
+  // misma página necesitan cada una su propio bloque de estilos.
+  const key = `${prefix}:${moduleId}`;
+  if (injected.has(key)) return;
 
   const style = document.createElement('style');
   style.setAttribute('data-fw', moduleId);
   style.textContent = rawCSS.replaceAll('__FW__', prefix);
   document.head.appendChild(style);
 
-  injected.add(moduleId);
+  injected.add(key);
 }
 
 /**

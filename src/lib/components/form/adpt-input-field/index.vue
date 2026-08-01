@@ -2,10 +2,14 @@
 import { computed, onMounted, type PropType, ref, useId, watch } from 'vue'
 import AdptButton from '../../element/adpt-button/index.vue'
 import { useFramework } from '@/lib/composables/useFramework.ts'
+import { useStyle } from '@/lib/composables/useStyle'
+import css from './style.scss?raw'
 import type { Icon, Variant } from '@/lib/types/globals.ts'
 
 
 const fw = useFramework()
+
+useStyle('input-field', css)
 
 const cmpClass = fw.cx('input-field')
 

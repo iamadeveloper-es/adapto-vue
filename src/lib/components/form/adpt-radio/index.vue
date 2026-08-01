@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { computed, ref, useSlots, useId, type PropType } from 'vue';
 import { useFramework } from '@/lib/composables/useFramework';
+import { useStyle } from '@/lib/composables/useStyle'
+import css from './style.scss?raw'
 
 const fw = useFramework()
+
+useStyle('radio', css)
 
 const cmpClass = fw.cx('radio')
 

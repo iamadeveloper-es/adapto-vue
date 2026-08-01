@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { useFramework } from '@/lib/composables/useFramework.ts';
+import { useStyle } from '@/lib/composables/useStyle'
+import css from './style.scss?raw'
 import AdaptoIcon from '../../adpt-icon/index.vue'
 
 const fw = useFramework()
+
+useStyle('calendar-navigation', css)
 
 const cmpClass = fw.cx('calendar-navigation')
 

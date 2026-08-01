@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import { useFramework } from '@/lib/composables/useFramework';
+import { useStyle } from '@/lib/composables/useStyle'
+import css from './style.scss?raw'
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, useId, type PropType } from 'vue';
 import AdaptoIcon from '../../element/adpt-icon/index.vue'
 import type { ComboboxOptions, Icon, Size, Variant } from '@/lib/types/globals';
@@ -7,6 +9,8 @@ import { remToPx } from '@/lib/utils/units.ts';
 
 
 const fw = useFramework()
+
+useStyle('select', css)
 
 const cmpClass = fw.cx('select')
 

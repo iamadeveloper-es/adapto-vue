@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import { useFramework } from '@/lib/composables/useFramework'
+import { useStyle } from '@/lib/composables/useStyle'
+import css from './style.scss?raw'
 
 import { useCalendar, type CalendarDay } from '@/lib/composables/useCalendar.ts'
 import AdptCalendarNavigation from './calendar-navigation/index.vue'
@@ -24,6 +26,8 @@ const {
 } = useCalendar()
 
 const fw = useFramework()
+
+useStyle('calendar', css)
 
 const cmpClass = fw.cx('calendar')
 

@@ -8,27 +8,11 @@ import { vClickOutside } from './directives/v-click-outside'
 import tokensCSS from './styles/sass/tokens.scss?raw'
 import main from './styles/sass/main.scss?raw'
 
-/* Estilos de Componentes */
-
-//- Element
-import button from './components/element/adpt-button/style.scss?raw'
-import avatar from './components/element/adpt-avatar/style.scss?raw'
-import card from './components/element/adpt-card/style.scss?raw'
-import accordion from './components/element/adpt-accordion/style.scss?raw'
-import calendar from './components/element/adpt-calendar/style.scss?raw'
-import calendarNavigation from './components/element/adpt-calendar/calendar-navigation/style.scss?raw'
-import dateDisplay from './components/element/adpt-calendar/date-display/style.scss?raw'
-
-//- Overlay
-import dialog from './components/overlay/adpt-dialog/style.scss?raw'
-import tooltip from './components/overlay/adpt-tooltip/style.scss?raw'
-
-//- Form
-import inputField from './components/form/adpt-input-field/style.scss?raw'
-import textarea from './components/form/adpt-textarea/style.scss?raw'
-import checkbox from './components/form/adpt-checkbox/style.scss?raw'
-import radio from './components/form/adpt-radio/style.scss?raw'
-import select from './components/form/adpt-select/style.scss?raw'
+/*
+ * Los estilos de cada componente ya no se registran aquí: cada componente
+ * importa su propio `style.scss` y lo inyecta con `useStyle()` al renderizarse.
+ * Así el bundler descarta el CSS de los componentes que no se usan.
+ */
 
 export const AdaptoPlugin = {
   install(app: App, options: FrameworkOptions = {}) {
@@ -37,20 +21,6 @@ export const AdaptoPlugin = {
       styles: [
         { id: 'tokens', css: tokensCSS },
         { id: 'main', css: main },
-        { id: 'button', css: button },
-        { id: 'avatar', css: avatar },
-        { id: 'card', css: card },
-        { id: 'accordion', css: accordion },
-        { id: 'calendar', css: calendar },
-        { id: 'calendar-navigation', css: calendarNavigation },
-        { id: 'date-display', css: dateDisplay },
-        { id: 'dialog', css: dialog },
-        { id: 'tooltip', css: tooltip },
-        { id: 'input-field', css: inputField },
-        { id: 'textarea', css: textarea },
-        { id: 'checkbox', css: checkbox },
-        { id: 'radio', css: radio },
-        { id: 'select', css: select },
         ...(options.styles ?? []),
       ],
     })

@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, type PropType } from 'vue'
 import { useFramework } from '../../../composables/useFramework'
+import { useStyle } from '@/lib/composables/useStyle'
 import type { Icon, Radius, Size, Variant } from '../../../types/globals.ts'
 import AdaptoIcon from '../adpt-icon/index.vue'
 import { remToPx } from '@/lib/utils/units.ts'
+import css from './style.scss?raw'
 
 const fw = useFramework()
+
+useStyle('button', css)
 
 const cmpClass = fw.cx('btn')
 

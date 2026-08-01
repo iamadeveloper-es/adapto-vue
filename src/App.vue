@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
 import AdptSelect from './lib/components/form/adpt-select/index.vue'
+import AdptButton from './lib/components/element/adpt-button/index.vue'
 
 const selectedValue = ref('');
 const options = reactive([
