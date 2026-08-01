@@ -28,7 +28,9 @@ function parseTokens(css: string, prefix: string): Record<string, string> {
   const re = new RegExp(`--${prefix}-([\\w-]+):\\s*([^;]+);`, 'g');
   let match;
   while ((match = re.exec(css)) !== null) {
-    tokens[match[1]] = match[2].trim();
+    const [, key, value] = match;
+    if (key === undefined || value === undefined) continue;
+    tokens[key] = value.trim();
   }
   return tokens;
 }

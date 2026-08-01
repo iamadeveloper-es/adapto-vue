@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, type Component } from 'vue';
 import * as icons from "lucide-vue-next";
 import { useFramework } from '../../../composables/useFramework'
 
@@ -34,14 +34,16 @@ const props = defineProps({
   },
 });
 
-const icon = computed(() => {
+// El módulo de lucide exporta también helpers que no son componentes, así que el
+// lookup dinámico se acota a Component para que `<component :is>` lo acepte.
+const icon = computed<Component | undefined>(() => {
   const nameToString = String(props.name);
   const formattedName = nameToString
     .split('-')
     .map((item) => item.charAt(0).toUpperCase() + item.substring(1))
     .join('');
 
-  return icons[formattedName as keyof typeof icons];
+  return icons[formattedName as keyof typeof icons] as Component | undefined;
 });
 </script>
 

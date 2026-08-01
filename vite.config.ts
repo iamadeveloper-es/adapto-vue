@@ -24,6 +24,24 @@ export default defineConfig({
       name: 'Adapto-ui',
       // the proper extensions will be added
       fileName: 'adapto-ui',
-    }
+    },
+    rollupOptions: {
+      // Los peers no se empaquetan: inlinar Vue duplicaría la instancia y
+      // rompería provide/inject (useFramework) en la app del consumidor.
+      // Los subpaths (dayjs/plugin/*, dayjs/locale/*) también: son UMD y, si
+      // se empaquetan, emiten un `require()` que revienta en el navegador.
+      external: (id: string) =>
+        id === 'vue' || id === 'lucide-vue-next' || id === 'dayjs' || id.startsWith('dayjs/'),
+      output: {
+        globals: {
+          vue: 'Vue',
+          'lucide-vue-next': 'LucideVueNext',
+          dayjs: 'dayjs',
+          'dayjs/plugin/weekday': 'dayjs_plugin_weekday',
+          'dayjs/plugin/localeData': 'dayjs_plugin_localeData',
+          'dayjs/locale/es': 'dayjs_locale_es',
+        },
+      },
+    },
   }
 })

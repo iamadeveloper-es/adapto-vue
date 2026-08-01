@@ -45,6 +45,10 @@ export type StyleModule = {
   css: string
 }
 
-export type FrameworkOptions = Partial<ThemeOptions> & {
+// `Partial` es superficial: dejaría `tokens` exigiendo primitive+semantic+component
+// completos, cuando `normalizeTokens` acepta overrides parciales. Se separa para que
+// el consumidor pueda pasar solo el grupo que quiere sobrescribir.
+export type FrameworkOptions = Partial<Omit<ThemeOptions, 'tokens'>> & {
+  tokens?: Partial<Tokens>
   styles?: StyleModule[]
 }

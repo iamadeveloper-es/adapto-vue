@@ -9,8 +9,10 @@
   ],
   "main": "./dist/adapto-ui.umd.cjs",
   "module": "./dist/adapto-ui.js",
+  "types": "./dist/types/lib/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/types/lib/index.d.ts",
       "import": "./dist/adapto-ui.js",
       "require": "./dist/adapto-ui.umd.cjs"
     }
@@ -21,7 +23,9 @@
     "preview": "vite preview",
     "test:unit": "vitest",
     "test:e2e": "playwright test",
-    "build-only": "vite build",
+    "build-only": "run-s build:js build:types",
+    "build:js": "vite build",
+    "build:types": "vue-tsc -p tsconfig.lib.json",
     "type-check": "vue-tsc --build",
     "lint": "run-s \"lint:*\"",
     "lint:oxlint": "oxlint . --fix",
@@ -31,13 +35,16 @@
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
   },
-  "dependencies": {
-    "dayjs": "^1.11.21",
+  "peerDependencies": {
+    "dayjs": "^1.11.0",
     "lucide-vue-next": "^1.0.0",
-    "vue": "^3.5.38"
+    "vue": "^3.5.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.0",
+    "dayjs": "^1.11.21",
+    "lucide-vue-next": "^1.0.0",
+    "vue": "^3.5.38",
     "@tsconfig/node24": "^24.0.4",
     "@types/jsdom": "^28.0.3",
     "@types/node": "^24.13.2",

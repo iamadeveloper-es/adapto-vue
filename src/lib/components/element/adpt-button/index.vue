@@ -100,7 +100,9 @@ const handleIcon = computed(() => {
 
   const {name, size} = props.icon
 
-  const iconSize = size ? size : remToPx(fontSize.value) + 4
+  // fontSize se resuelve en onMounted, así que en el primer render aún está vacío:
+  // sin la guarda, remToPx('') daría NaN y el <svg> recibiría width/height inválidos.
+  const iconSize = size ? size : fontSize.value ? remToPx(fontSize.value) + 4 : undefined
 
   const icon = {
     name: name,
