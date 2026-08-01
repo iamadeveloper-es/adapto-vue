@@ -1,0 +1,100 @@
+.fw-select{
+  position: relative;
+  display: block;
+  width: 100%;
+
+  border-radius: 3px;
+
+  &__button{
+    width: 100%;
+    padding-inline: var(--fw-select-padding-inline);
+    padding-block: var(--fw-select-padding-block);
+    font-size: var(--fw-select-font-size, 1rem);
+    min-height: var(--fw-select-min-height);
+    background-color: transparent;
+    color: currentColor;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+
+  &__listbox{
+    position: absolute;
+    width: 100%;
+    border-radius: 3px;
+  }
+
+  &__option{
+    padding-inline: var(--fw-select-padding-inline);
+    padding-block: calc(var(--fw-select-padding-block) * 1.5);
+    font-size: var(--fw-select-font-size, 1rem);
+    transition: background-color .3s ease-in;
+    cursor: pointer;
+
+    &:hover{
+      background-color: color-mix(in srgb, currentColor 10%, transparent);
+    }
+  }
+
+  [role="option"][aria-selected="true"]{
+    background-color: color-mix(in srgb, currentColor 20%, transparent);
+  }
+
+  // Variantes
+  &--outlined{
+    background: transparent;
+    border: thin solid currentColor;
+  }
+
+  &--soft{
+    border: none;
+    background-color: color-mix(in srgb, currentColor 20%, transparent);
+  }
+
+  &--fussy{
+    border: thin solid currentColor;
+    background-color: color-mix(in srgb, currentColor 20%, transparent);
+  }
+
+  &--underlined{
+    border-radius: 3px 3px 0 0;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: thin solid currentColor;
+    background-color: color-mix(in srgb, currentColor 5%, transparent);
+  }
+
+  // Sizes
+  &--xs{
+    --fw-select-padding-block: var(--fw-spacing-base);
+    --fw-select-padding-inline: calc(var(--fw-spacing-base) * 2);
+    --fw-select-font-size: var(--fw-text-xs);
+  }
+
+  &--sm{
+    --fw-select-padding-block: calc(var(--fw-spacing-base) * 1.5);
+    --fw-select-padding-inline: calc(var(--fw-spacing-base) * 2.5);
+    --fw-select-font-size: var(--fw-text-xs);
+  }
+
+  &--md{
+    --fw-select-padding-block: calc(var(--fw-spacing-base) * 1.75);
+    --fw-select-padding-inline: calc(var(--fw-spacing-base) * 3);
+    --fw-select-font-size: var(--fw-text-sm);
+  }
+
+  &--lg{
+    --fw-select-padding-block: calc(var(--fw-spacing-base) * 2);
+    --fw-select-padding-inline: calc(var(--fw-spacing-base) * 3);
+    --fw-select-font-size: var(--fw-text-sm);
+  }
+
+  &--xl{
+    --fw-select-padding-block: calc(var(--fw-spacing-base) * 2.5);
+    --fw-select-padding-inline: calc(var(--fw-spacing-base) * 3.5);
+    --fw-select-font-size: var(--fw-text-sm);
+  }
+}

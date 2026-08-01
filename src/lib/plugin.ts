@@ -1,8 +1,8 @@
 import type { App } from 'vue'
 import { initFramework } from '../core/init'
 import type { FrameworkOptions } from '../core/types'
-import rippleDirective from './directives/ripple-effect';
-import { vClickOutside } from './directives/v-click-outside';
+import rippleDirective from './directives/ripple-effect'
+import { vClickOutside } from './directives/v-click-outside'
 
 /* Estilos globales */
 import tokensCSS from './styles/sass/tokens.scss?raw'
@@ -28,6 +28,7 @@ import inputField from './components/form/adpt-input-field/style.scss?raw'
 import textarea from './components/form/adpt-textarea/style.scss?raw'
 import checkbox from './components/form/adpt-checkbox/style.scss?raw'
 import radio from './components/form/adpt-radio/style.scss?raw'
+import select from './components/form/adpt-select/style.scss?raw'
 
 export const AdaptoPlugin = {
   install(app: App, options: FrameworkOptions = {}) {
@@ -49,14 +50,14 @@ export const AdaptoPlugin = {
         { id: 'textarea', css: textarea },
         { id: 'checkbox', css: checkbox },
         { id: 'radio', css: radio },
+        { id: 'select', css: select },
         ...(options.styles ?? []),
       ],
     })
 
     app.provide('fw', fw)
 
-    app.directive('ripple', rippleDirective);
-    app.directive('click-outside', vClickOutside);
-  }
-
+    app.directive('ripple', rippleDirective)
+    app.directive('click-outside', vClickOutside)
+  },
 }

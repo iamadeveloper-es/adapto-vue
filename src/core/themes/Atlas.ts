@@ -329,6 +329,15 @@ export const Atlas: ThemeOptions = {
       'checkbox': {
         disabled: 'sm.surface.800'
       },
+      select: {
+        'padding-block': 'pr.spacing.md',
+        'padding-inline': 'pr.spacing.lg',
+        'font-size': 'pr.text.sm',
+        'min-height': 'cs.2.75rem',
+        'border-width': 'cs.1px',
+        'border-style': 'cs.solid',
+        'border-color': 'sm.surface.500'
+      },
       //- Overlay
       dialog: {
         backdrop: 'pr.overlay.scrim',
