@@ -89,6 +89,7 @@ export const Atlas: ThemeOptions = {
         base: '4px',
         md: '8px',
         lg: '16px',
+        xl: '32px',
       },
       radius: {
         sm: '4px',
@@ -291,7 +292,9 @@ export const Atlas: ThemeOptions = {
         gap: 'cs.0.5rem',
       },
       avatar: {
-        size: 'pr.spacing.base'
+        bg: 'sm.surface.300',
+        size: 'pr.spacing.xl',
+        'font-size': 'pr.text.base',
       },
       card: {
         bg: 'pr.white.500',

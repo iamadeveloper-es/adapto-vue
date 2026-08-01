@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-// import { Size } from '../../../types/components.global';
+import { computed, type PropType } from 'vue';
 import { useFramework } from '@/lib/composables/useFramework';
-// import { useComponentStyles } from '../../../composables/useComponentStyles';
-// import { getAvatarCss } from './style.css';
+import type { Size } from '@/lib/types/globals';
 
 
 const fw = useFramework()
@@ -14,97 +12,79 @@ defineOptions({
   name: 'AdaptoAvatar',
 })
 
+
 const props = defineProps({
   image: {
     type: String
   },
   name: {
-    type: String,
-    default: 'Avatar name'
-  },
-  alt: {
-    type: String
-  },
-  text: {
     type: String
   },
   size: {
-    type: String,
-    default: 'xs'
+    type: String as PropType<Size>,
+    default: 'md',
+    validator: (value: string) => ['xs', 'sm', 'md', 'lg', 'xl'].includes(value)
   },
-  clickable: {
-    type: Boolean,
-    default: false
-  },
-  isRounded: {
-    type: Boolean,
-    default: true
-  },
-  display: {
-    type: String,
-    validator(value) {
-      return 'img' === value || 'name' === value;
-    },
-    default: 'img'
-  },
-  bgColor: {
-    type: String,
-    default: ''
-  },
-  color: {
-    type: String,
-    default: 'white'
-  },
-  isBordered: {
+  showInitials: {
     type: Boolean,
     default: false
   }
 });
 
-const emit = defineEmits(['clicked']);
+const emit = defineEmits<{ clicked: [event: MouseEvent | KeyboardEvent] }>();
 
-const defaultSize: Size = 'md';
-const imageError = ref(false);
+const sizeMap: Record<Size, number> = {
+  xs: 16,
+  sm: 24,
+  md: 32,
+  lg: 48,
+  xl: 64
+}
 
-const getBG = computed(() => {
-  const colors = ['primary', 'info', 'success', 'warning', 'danger'];
-  const randomIndex = Math.floor(Math.random() * colors.length);
-  return props.bgColor ? props.bgColor : colors[randomIndex];
-});
+const avatarSize = computed(() => sizeMap[props.size] ?? sizeMap.md)
+
+const avatarClases = computed(() => [
+  cmpClass,
+  sizeMap[props.size] ? `${cmpClass}--${props.size}` : `${cmpClass}--md`
+])
 
 const initials = computed((): string => {
   const { name } = props;
+  if (!name) return '';
+
   const firstChar = name.charAt(0).toUpperCase();
   const secondChar = name.split(' ')[1]?.charAt(0).toUpperCase();
 
-  return secondChar ? `${firstChar}${secondChar}` : `${firstChar}`;
+  return secondChar ? `${firstChar}${secondChar}` : firstChar;
 });
 
-const isImageDisplay = computed(() => props.image && props.display === 'img' && !imageError.value);
+const showText = computed(() => !props.image && !props.showInitials)
 
-const emitEvent = (ev: Event) => {
+const emitEvent = (ev: MouseEvent | KeyboardEvent) => {
   emit('clicked', ev);
 };
 
 </script>
 
 <template>
-  <div :style="{
-      width: `var(--${cmpClass}-size-${size}, var(--${cmpClass}-size-${defaultSize}))`,
-      height: `var(--${cmpClass}-size-${size}, var(--${cmpClass}-size-${defaultSize}))`,
-      color: isImageDisplay ? '' : `var(--${cmpClass}-${color})`,
-      backgroundColor: isImageDisplay ? '' : `var(--${cmpClass}-${getBG})`,
-      borderColor: !isBordered && !color ? '' : `var(--${cmpClass}-${color})`
-    }"
-    :class="[cmpClass, { 'is-clickable': clickable, 'radius-full': isRounded, [`${cmpClass}--bordered`]: isBordered}]"
-    @click="emitEvent">
-    <img v-if="isImageDisplay && !text && !imageError" :src="image" :alt="alt ? alt : name"
-      :class="[`${cmpClass}__img`, { circle: isRounded }]" @error="imageError = true">
-    <span v-else-if="display === 'name' || text" :class="`${cmpClass}__initials`" :style="{
-      fontSize: `var(--${cmpClass}-text-${size}, var(--${cmpClass}-text-${defaultSize}))`,
-      lineHeight: `var(--${cmpClass}-text-${size}, var(--${cmpClass}-text-${defaultSize}))`
-    }">
-      <span :class="`${cmpClass}__truncate`">{{ display === 'name' && !text ? initials : text }}</span>
-    </span>
+  <div
+    :style="{ [`--${fw.prefix}-avatar-size`]: `${avatarSize}px` }"
+    :class="avatarClases"
+    role="button"
+    tabindex="0"
+    :aria-label="name"
+    @click="emitEvent"
+    @keydown.enter="emitEvent"
+    @keydown.space.prevent="emitEvent">
+    <img
+    v-if="image && !showInitials"
+    :src="image"
+    :alt="name ?? ''"
+    :class="[`${cmpClass}__img`]">
+    <span
+    v-else
+    aria-hidden="true"
+    :class="{'truncate' : showText}"
+    >{{ showText ? name : initials }}</span>
   </div>
 </template>

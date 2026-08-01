@@ -2057,7 +2057,7 @@ var require_speakingurl = __commonJS2({
         };
       };
       var escapeChars = function escapeChars2(input) {
-        return input.replace(/[-\\^$*+?.()|[\]{}\/]/g, "\\$&");
+        return input.replace(/[-\\^$*+?.()|[\]{}/]/g, "\\$&");
       };
       var isReplacedCustomChar = function(ch, customReplacements) {
         for (var c in customReplacements) {
