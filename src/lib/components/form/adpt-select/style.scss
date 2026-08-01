@@ -24,6 +24,7 @@
     position: absolute;
     width: 100%;
     border-radius: 3px;
+    transform-origin: top;
   }
 
   &__option{
@@ -33,7 +34,8 @@
     transition: background-color .3s ease-in;
     cursor: pointer;
 
-    &:hover{
+    &:hover,
+    &.is-active{
       background-color: color-mix(in srgb, currentColor 10%, transparent);
     }
   }
@@ -97,4 +99,16 @@
     --fw-select-padding-inline: calc(var(--fw-spacing-base) * 3.5);
     --fw-select-font-size: var(--fw-text-sm);
   }
+}
+
+// Animación de apertura/cierre del listbox
+.fw-select-listbox-enter-active,
+.fw-select-listbox-leave-active{
+  transition: opacity .18s cubic-bezier(0.4, 0, 0.2, 1), transform .18s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fw-select-listbox-enter-from,
+.fw-select-listbox-leave-to{
+  opacity: 0;
+  transform: translateY(-6px) scaleY(0.96);
 }
