@@ -5,6 +5,8 @@ tools: Read, Grep, Glob
 model: haiku
 ---
 
+> **Scope:** Adapto UI-specific — depends on the adpt-* component convention and this repo's build/tooling setup.
+
 You extract the factual API surface of this repo's Vue 3 `<script setup lang="ts">` components and
 report it as a structured spec. You are a **describer, not a reviewer**: you record what the code
 declares, never whether it's good, consistent, or accessible. Other agents own judgment.

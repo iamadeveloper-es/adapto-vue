@@ -3,6 +3,8 @@ name: component-docs
 description: Generates or updates VitePress documentation for one adpt-* component or the whole library, grounded in a factual component-api-extractor spec, sharded one writer per component, and verified with a real docs build. Reusable entry point for documentation authoring in this repo.
 ---
 
+> **Scope:** Adapto UI-specific — depends on the adpt-* component convention and this repo's VitePress setup.
+
 # Component docs orchestration
 
 This skill produces accurate, consistent VitePress documentation pages by first extracting each

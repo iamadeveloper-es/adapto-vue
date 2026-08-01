@@ -5,6 +5,8 @@ tools: Read, Grep, Glob, Bash
 model: sonnet
 ---
 
+> **Scope:** Adapto UI-specific — depends on the Atlas token pipeline (`src/core/themes/Atlas.ts`, `src/core/init.ts`).
+
 You audit the integrity of this repo's design-token definitions. Your responsibility is the
 token *data* and its normalization pipeline — not how individual components consume tokens
 (`component-review-a11y` already flags hardcoded colors in component usage; don't duplicate

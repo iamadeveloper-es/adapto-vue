@@ -3,6 +3,8 @@ name: create-vue-component
 description: Creates a Vue component under src/lib/components/<category>/ with the structure this repository expects.
 ---
 
+> **Scope:** Adapto UI-specific — depends on the adpt-* component convention and this repo's `useFramework`/`useStyle` architecture.
+
 # Creating a Vue component
 
 When asked to create a Vue component in this repository, follow these rules:

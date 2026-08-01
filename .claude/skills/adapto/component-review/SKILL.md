@@ -3,6 +3,8 @@ name: component-review
 description: Runs a multi-agent quality review (TypeScript typing, props/API consistency, accessibility AA) of one adpt-* component or the whole library, and reports one consolidated result in chat with 0-10 scores per area.
 ---
 
+> **Scope:** Adapto UI-specific — depends on the adpt-* component convention.
+
 # Component review orchestration
 
 This skill launches four single-responsibility subagents to review adpt-* Vue components and presents one consolidated, scored report in chat. It's the reusable entry point for component quality review in this repo — usable today for 10 components and unchanged as the library grows to 30.

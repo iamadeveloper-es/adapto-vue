@@ -3,6 +3,8 @@ name: release-readiness
 description: Produces a read-only go/no-go checklist for one or more adpt-* components — code quality, unit test coverage, documentation, and theme token integrity — by reusing the component-review, component-docs, component-test-writer and core-tokens-review agents instead of re-auditing anything itself.
 ---
 
+> **Scope:** Adapto UI-specific — depends on the adpt-* component convention and the Atlas token pipeline.
+
 # Release readiness orchestration
 
 This skill answers "is this component ready to ship?" by fanning out to the domain-specific

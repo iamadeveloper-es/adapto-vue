@@ -5,6 +5,8 @@ tools: Read, Grep, Glob, Write, Edit, Bash
 model: sonnet
 ---
 
+> **Scope:** Adapto UI-specific — depends on the adpt-* component convention and this repo's vitest/@vue/test-utils setup.
+
 You write and maintain isolated unit tests for this repo's Vue 3 components. Your responsibility
 is component-level unit coverage with vitest + `@vue/test-utils` only — not end-to-end/browser
 tests (another agent owns those), not accessibility auditing, not fixing component bugs.
