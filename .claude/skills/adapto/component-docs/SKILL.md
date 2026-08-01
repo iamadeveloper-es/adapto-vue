@@ -1,6 +1,7 @@
 ---
 name: component-docs
 description: Generates or updates VitePress documentation for one adpt-* component or the whole library, grounded in a factual component-api-extractor spec, sharded one writer per component, and verified with a real docs build. Reusable entry point for documentation authoring in this repo.
+disable-model-invocation: true
 ---
 
 > **Scope:** Adapto UI-specific — depends on the adpt-* component convention and this repo's VitePress setup.
@@ -86,11 +87,14 @@ registration changes made, and the final build status. Don't wrap it in extra co
 
 ## Audit mode
 
-When called in verification mode (e.g. from `release-readiness`), run steps 1-2 normally, then
-invoke the writers with "verification/audit pass only — do not create or edit any files". Skip
-steps 4 and 5 entirely: nothing was written, so there's nothing to register or build. Report per
-component: missing page / out of date (with the specific props/emits/slots that differ) / up to
-date.
+When the user asks what's missing or stale rather than for a rewrite ("¿qué docs faltan?"), run
+steps 1-2 normally, then invoke the writers with "verification/audit pass only — do not create or
+edit any files". Skip steps 4 and 5 entirely: nothing was written, so there's nothing to register
+or build. Report per component: missing page / out of date (with the specific props/emits/slots
+that differ) / up to date.
+
+Note that `release-readiness` does **not** call this mode — it runs `component-api-extractor`
+itself and compares against the doc pages, to keep its fan-out flat.
 
 ## Scaling notes
 
@@ -98,4 +102,4 @@ date.
   plus one writer per component (Sonnet). The extractor stays O(1); only the generative step
   scales, which is where context budget actually matters.
 - To run outside a slash-command context: "Run the component-docs orchestration (see
-  `.claude/skills/public/component-docs/SKILL.md`) for `<component-name-or-'all components'>`."
+  `.claude/skills/adapto/component-docs/SKILL.md`) for `<component-name-or-'all components'>`."

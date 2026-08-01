@@ -73,8 +73,31 @@ not before. The subfolder is organizational only — it does not become part of 
 - **Documentation** (`component-docs`): `component-api-extractor` extracts the factual API (1 call)
   → one `component-docs-writer` per component in parallel → the orchestration applies the shared
   registries in `config.ts`/`theme/index.ts` and verifies with `pnpm docs:build`.
-- **Release** (`release-readiness`): reuses the above in audit mode →
-  `release-readiness-report`.
+- **Release** (`release-readiness`): the three reviewers + `component-test-writer` +
+  `component-api-extractor` + `core-tokens-review`, all in audit mode and all in one parallel
+  batch → `release-readiness-report`. It calls the **agents** directly rather than nesting the
+  `component-review`/`component-docs` skills: invoking a skill expands its procedure into the
+  current context instead of running it in isolation, so nesting would serialize the fan-out.
+
+Both directions between skills and subagents are supported by Claude Code and both are used here
+on purpose — see `docs/agentic-architecture.md` for the reasoning and the doc citations:
+
+- *skill → subagent*: the three orchestrations above are procedures whose steps dispatch agents
+  via the Agent tool. A `SKILL.md` never executes anything itself; it is text injected into the
+  caller's context, and the caller does the dispatching.
+- *subagent → skill*: `component-docs-writer`, `component-test-writer` and `component-e2e-writer`
+  declare `skills: [adpt-component-conventions]`, which injects that skill's full content at
+  startup. Put shared factual knowledge there rather than duplicating it across agent bodies.
+
+Skill front-matter policy:
+
+- `disable-model-invocation: true` on the orchestrations (`component-review`, `component-docs`,
+  `release-readiness`): they cost several agent calls and `component-docs` writes files, so they
+  must be deliberate `/name` invocations, never auto-triggered. The trade-off is that such a skill
+  can no longer be preloaded via a `skills:` field — keep reference skills like
+  `adpt-component-conventions` free of the flag.
+- Reference skills carry no orchestration steps. A skill with only guidelines and no actionable
+  task is fine as preloaded context but useless as a `context: fork` target.
 
 Model policy, when adding or modifying an agent:
 

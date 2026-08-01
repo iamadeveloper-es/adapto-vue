@@ -1,6 +1,7 @@
 ---
 name: component-review
 description: Runs a multi-agent quality review (TypeScript typing, props/API consistency, accessibility AA) of one adpt-* component or the whole library, and reports one consolidated result in chat with 0-10 scores per area.
+disable-model-invocation: true
 ---
 
 > **Scope:** Adapto UI-specific — depends on the adpt-* component convention.
@@ -21,7 +22,7 @@ Invoke these three agents — `component-review-types`, `component-review-props`
 - Single component: pass the concrete path, e.g. "Review `src/lib/components/element/adpt-button/index.vue`."
 - Whole library: tell the agent "Review all components — enumerate `src/lib/components/**/adpt-*/index.vue` yourself," so the agent does its own discovery rather than you hardcoding a file list. This is what keeps the orchestration scalable: adding a new component (or category) folder requires no change here.
 
-Each agent already knows its own checklist and output format (see `.claude/agents/component-review-*.md`) — don't restate their instructions, just give them the scope.
+Each agent already knows its own checklist and output format (see `.claude/agents/adapto/component-review-*.md`) — don't restate their instructions, just give them the scope.
 
 ## 3. Compile the report
 
@@ -39,4 +40,4 @@ Relay the reporting agent's output to the user as your answer — including its 
 
 - Default behavior is O(1) agent calls (4 total) no matter how many components exist, because each analysis agent enumerates and loops over its own file list internally.
 - If the library grows large enough that a single whole-library pass starts producing shallow or truncated findings, shard the run instead: call the three analysis agents once per component (3× more calls, but each with a tighter, deeper scope) rather than once for everything. Only switch to this mode if you observe quality degrading — it's not the default.
-- This skill and the four agents are the reusable orchestration prompt — no separate prompt file is needed. To run it from outside a slash-command context (e.g. pasted into a fresh session), use: "Run the component-review orchestration (see `.claude/skills/public/component-review/SKILL.md`) for `<component-name-or-'all components'>`."
+- This skill and the four agents are the reusable orchestration prompt — no separate prompt file is needed. To run it from outside a slash-command context (e.g. pasted into a fresh session), use: "Run the component-review orchestration (see `.claude/skills/adapto/component-review/SKILL.md`) for `<component-name-or-'all components'>`."

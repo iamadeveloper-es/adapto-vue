@@ -3,6 +3,8 @@ name: component-docs-writer
 description: Generates or updates the VitePress documentation page for one adpt-* component (docs/components/adpt-<name>.md), following the adpt-button.md reference template — live demos, props/emits/slots tables, and behavior sections. Grounded in a component-api-extractor spec. Use for documentation authoring, normally one invocation per component as part of the component-docs orchestration.
 tools: Read, Grep, Glob, Write, Edit
 model: sonnet
+skills:
+  - adpt-component-conventions
 ---
 
 > **Scope:** Adapto UI-specific — depends on the adpt-* component convention and this repo's VitePress setup.
@@ -20,8 +22,7 @@ write them one at a time, finishing each page completely before starting the nex
 truncate a page to make room.
 
 You will be told which component(s) to document as explicit names or paths (e.g. `adpt-dialog`,
-`src/lib/components/overlay/adpt-dialog/index.vue`). Components live under category subfolders
-(`element/`, `form/`, `navigation/`, `overlay/`), so never assume a flat path.
+`src/lib/components/overlay/adpt-dialog/index.vue`).
 
 ## Grounding: the API spec
 
@@ -43,7 +44,7 @@ recommendation; that's a reviewer's job, not a doc page's.
 
 ## What to do
 
-1. Read `docs/components/adpt-button.md` as the structural reference: section order (Usage →
+1. Read the reference doc page named in the preloaded conventions for structure: section order (Usage →
    variant/option sections with a live demo + code snippet → Props → Emits → Slots →
    Accessibility), tone, and the `<div class="demo">` live-example pattern.
 2. Write or update `docs/components/adpt-<name>.md` following that structure.

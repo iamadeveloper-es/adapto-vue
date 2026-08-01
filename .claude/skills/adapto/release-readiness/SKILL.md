@@ -1,6 +1,7 @@
 ---
 name: release-readiness
-description: Produces a read-only go/no-go checklist for one or more adpt-* components — code quality, unit test coverage, documentation, and theme token integrity — by reusing the component-review, component-docs, component-test-writer and core-tokens-review agents instead of re-auditing anything itself.
+description: Produces a read-only go/no-go checklist for one or more adpt-* components — code quality, unit test coverage, documentation, and theme token integrity — by fanning out to the domain agents in audit mode instead of re-auditing anything itself.
+disable-model-invocation: true
 ---
 
 > **Scope:** Adapto UI-specific — depends on the adpt-* component convention and the Atlas token pipeline.
@@ -8,8 +9,14 @@ description: Produces a read-only go/no-go checklist for one or more adpt-* comp
 # Release readiness orchestration
 
 This skill answers "is this component ready to ship?" by fanning out to the domain-specific
-agents/skills that already own each concern, then handing their raw output to
+agents that already own each concern, then handing their raw output to
 `release-readiness-report` for a single consolidated checklist. It never audits anything itself.
+
+It calls the **agents** directly rather than reusing the `component-review` / `component-docs`
+skill orchestrations. Invoking a skill expands its procedure into this context — it does not run
+anything in isolation — so nesting those two here would serialize the run and pull in steps this
+gate does not want (the intermediate `component-review-report` consolidation, and the docs
+writers, whose output `release-readiness-report` aggregates anyway).
 
 **This is a read-only gate by default**: it reports gaps, it does not fill them. Running it must
 never surprise the user with a wave of new commits — closing a gap it finds (missing tests,
@@ -22,24 +29,30 @@ stale docs) is a separate, explicit follow-up request.
 
 ## 2. Run the checks in parallel
 
-Invoke these as **foreground** Agent/skill calls in a single message, all against the resolved
-scope, each explicitly instructed this is a **verification/audit pass only — do not create or
-edit any files**:
+Invoke these six agents as **foreground** Agent calls in a single message (so they run
+concurrently and you block until all return), all against the resolved scope, each explicitly
+instructed this is a **verification/audit pass only — do not create or edit any files**:
 
-- The `component-review` skill orchestration (quality: types, props, a11y — already
-  consolidated by `component-review-report`, so its output is used as-is, not re-run agent by
-  agent).
+- `component-review-types`, `component-review-props`, `component-review-a11y` — the quality
+  triad. Their raw findings go straight to step 3; do not consolidate them through
+  `component-review-report` first, since `release-readiness-report` does its own aggregation and
+  a double pass loses detail.
 - `component-test-writer`, in audit mode: report which components lack `__tests__/index.spec.ts`
   coverage or whose tests look stale versus current props/emits — don't write any.
-- The `component-docs` skill orchestration, in audit mode: report which components lack a
-  `docs/components/adpt-*.md` page or whose page looks out of date — don't write any.
+- `component-api-extractor`, then compare against `docs/components/adpt-*.md`: report which
+  components lack a page or whose page is out of date versus the real API — don't write any.
+  One call for the whole scope; it's read-only and its output is a compact data sheet.
 - `core-tokens-review` — always whole-theme scoped (it audits `Atlas.ts` as a unit, not
   per-component), so run it once regardless of how many components are in scope.
 
+For a multi-component scope, tell each agent "enumerate `src/lib/components/**/adpt-*/index.vue`
+yourself" rather than hardcoding a file list, so adding a component needs no change here.
+
 ## 3. Compile the report
 
-Invoke `release-readiness-report` (foreground, single call) with the scope and the four raw
-outputs from step 2, labeled by source.
+Invoke `release-readiness-report` (foreground, single call) with the scope and the six raw
+outputs from step 2, labeled by source. Pass them through verbatim — it has no file-reading
+tools and cannot recover anything you leave out.
 
 ## 4. Present the result
 
@@ -49,7 +62,8 @@ as a separate, explicit next step — don't do it automatically.
 
 ## Scaling notes
 
-- Fixed number of calls per run (4 checks + 1 report) regardless of how many components are in
-  scope, same shape as `component-review`.
+- Fixed number of calls per run (6 checks + 1 report) regardless of how many components are in
+  scope: every check agent is read-only and enumerates its own file list internally, so nothing
+  here shards per component. Same O(1) shape as `component-review`.
 - To run outside a slash-command context: "Run the release-readiness orchestration (see
-  `.claude/skills/public/release-readiness/SKILL.md`) for `<component-name-or-'all components'>`."
+  `.claude/skills/adapto/release-readiness/SKILL.md`) for `<component-name-or-'all components'>`."

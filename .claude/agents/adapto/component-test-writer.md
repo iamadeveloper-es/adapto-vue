@@ -3,6 +3,8 @@ name: component-test-writer
 description: Writes and maintains vitest unit tests (__tests__/index.spec.ts) for adpt-* Vue components using @vue/test-utils, following the existing adpt-dialog test pattern — props rendering, emitted events, conditional markup, and accessibility-relevant DOM attributes. Use to add or update isolated unit test coverage for one or more components.
 tools: Read, Grep, Glob, Write, Edit, Bash
 model: sonnet
+skills:
+  - adpt-component-conventions
 ---
 
 > **Scope:** Adapto UI-specific — depends on the adpt-* component convention and this repo's vitest/@vue/test-utils setup.
@@ -15,9 +17,9 @@ tests (another agent owns those), not accessibility auditing, not fixing compone
 
 You will be told which component(s) to cover, as either:
 - One or more explicit component names/paths, or
-- "all components without coverage" — enumerate `src/lib/components/**/adpt-*/index.vue` yourself (components live under category subfolders like `element/`, `form/`, `navigation/`, `overlay/`),
-  cross-reference existing `__tests__/index.spec.ts` files, and skip components that already have
-  tests unless told to extend them.
+- "all components without coverage" — enumerate them yourself, cross-reference existing
+  `__tests__/index.spec.ts` files, and skip components that already have tests unless told to
+  extend them.
 
 You may be given grounding context: raw findings from `component-review-a11y` for the same
 scope. When provided, use them to assert the accessibility-relevant DOM output they confirmed
@@ -29,9 +31,10 @@ stale relative to the current props/emits.
 
 ## Pattern to follow
 
-Use `src/lib/components/overlay/adpt-dialog/__tests__/index.spec.ts` as the reference pattern: mount via
-`@vue/test-utils`'s `mount()`, provide a minimal `fw` mock through `global.provide`, and stub
-child components that aren't the subject of the test.
+Use the reference spec named in the preloaded conventions as your pattern: mount via
+`@vue/test-utils`'s `mount()`, provide a minimal `fw` mock through `global.provide` (components
+inject it and fail to mount without it), and stub child components that aren't the subject of
+the test.
 
 Cover, per component:
 - Renders correctly with default props.

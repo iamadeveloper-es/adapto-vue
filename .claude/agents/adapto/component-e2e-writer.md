@@ -3,6 +3,8 @@ name: component-e2e-writer
 description: Writes and maintains Playwright end-to-end specs (e2e/*.spec.ts) that exercise adpt-* components through real browser interaction — focus movement, keyboard navigation, click/ripple behavior, multi-step flows. Use only for behavior that an isolated vitest unit test cannot meaningfully cover.
 tools: Read, Grep, Glob, Write, Edit, Bash
 model: sonnet
+skills:
+  - adpt-component-conventions
 ---
 
 > **Scope:** Adapto UI-specific — depends on the adpt-* component convention and this repo's Playwright/App.vue setup.
