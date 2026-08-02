@@ -44,11 +44,9 @@ const props = defineProps({
   },
   iconPrepend: {
     type: Object as PropType<Icon>,
-    default: (() => {})
   },
   iconAppend: {
     type: Object as PropType<Icon>,
-    default: (() => {})
   },
   hideLabel: {
     type: Boolean,
@@ -60,9 +58,12 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['clicked', 'closable'])
+const emit = defineEmits<{
+  clicked: [event: MouseEvent | KeyboardEvent]
+  closable: [event: MouseEvent]
+}>()
 const elementRef = ref<HTMLElement | null>(null)
-const fontSize = ref()
+const fontSize = ref('')
 const show = ref(true)
 
 const chipClasses = computed(() => {
@@ -71,17 +72,17 @@ const chipClasses = computed(() => {
     'rounded--full',
     `${cmpClass}--${props.variant}`,
     `${cmpClass}--${props.size}`,
-    {'is-disabled' : props.disabled}
+    { 'is-disabled': props.disabled }
   ]
 
   return classes
 })
 
-const getColor = computed(() => props.color ? fw.cv(props.color) : 'sm-surface-300')
+const getColor = computed(() => props.color ? fw.cv(props.color) : fw.cv('sm-surface-300'))
 
-const hasIconPrepend = computed(() => props.iconPrepend && Object.keys(props.iconPrepend).length );
+const hasIconPrepend = computed(() => !!props.iconPrepend?.name)
 
-const hasIconAppend = computed(() => props.iconAppend && Object.keys(props.iconAppend).length );
+const hasIconAppend = computed(() => !!props.iconAppend?.name)
 
 const setIcon = (name: string, size?: string | number) => {
   const iconSize = typeof size === 'number'
@@ -100,16 +101,17 @@ const setIcon = (name: string, size?: string | number) => {
   return icon
 }
 const handleIconPrepend = computed(() => {
-  const { name, size } = props.iconPrepend
+  const { name, size } = props.iconPrepend ?? { name: '' }
   return setIcon(name, size)
 })
 
 const handleIconAppend = computed(() => {
-  const { name, size } = props.iconAppend
+  const { name, size } = props.iconAppend ?? { name: '' }
   return setIcon(name, size)
 })
 
-const emitValue = (event: MouseEvent) => {
+const emitValue = (event: MouseEvent | KeyboardEvent) => {
+  if (props.disabled) return
   emit('clicked', event)
 }
 
@@ -129,30 +131,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <span
-  v-if="show"
-  ref="elementRef"
-  :style="{color: getColor}"
-  :class="chipClasses"
-  @click.stop="emitValue">
-    <AdaptoIcon
-    v-if="hasIconPrepend" v-bind="handleIconPrepend"
-    :aria-hidden="hasIconPrepend && hideLabel ? true : null" />
-    <div
-    v-if="!hideLabel">{{ label }}</div>
-    <AdaptoIcon
-    v-if="hasIconAppend" v-bind="handleIconAppend"
-    :aria-hidden="hasIconAppend && hideLabel ? true : null" />
-    <AdptButton
-    v-if="closable"
-    label="Close dialog"
-    :hide-label="true"
-    :disabled="disabled"
-    variant="soft"
-    :color="getColor"
-    size="3xs"
-    radius="full"
-    :icon="{ name: 'x' }"
-    @clicked.stop="emitClosable" />
+  <span v-if="show" ref="elementRef" :style="{ color: getColor }" :class="chipClasses" role="button"
+    :tabindex="disabled ? -1 : 0" :aria-disabled="disabled || undefined" :aria-label="hideLabel ? label : undefined"
+    @click.stop="emitValue" @keydown.enter.self="emitValue" @keydown.space.self.prevent="emitValue">
+    <AdaptoIcon v-if="hasIconPrepend" v-bind="handleIconPrepend"
+      :aria-hidden="hasIconPrepend && hideLabel ? true : null" />
+    <div v-if="!hideLabel">{{ label }}</div>
+    <AdaptoIcon v-if="hasIconAppend" v-bind="handleIconAppend"
+      :aria-hidden="hasIconAppend && hideLabel ? true : null" />
+    <AdptButton v-if="closable" :label="`Remove ${label}`" :hide-label="true" :disabled="disabled" variant="soft"
+      :color="getColor" size="3xs" radius="full" :icon="{ name: 'x' }" @clicked.stop="emitClosable" />
   </span>
 </template>
