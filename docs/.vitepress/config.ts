@@ -29,6 +29,7 @@ export default defineConfig({
               { text: 'Textarea', link: '/components/adpt-textarea' },
               { text: 'Checkbox', link: '/components/adpt-checkbox' },
               { text: 'Radio', link: '/components/adpt-radio' },
+              { text: 'Select', link: '/components/adpt-select' },
             ]
           },
           { text: 'Navigation',
