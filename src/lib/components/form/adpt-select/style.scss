@@ -2,14 +2,13 @@
   position: relative;
   display: block;
   width: 100%;
-
+  font-size: var(--fw-select-font-size, 1rem);
   border-radius: 3px;
 
   &__button{
     width: 100%;
     padding-inline: var(--fw-select-padding-inline);
     padding-block: var(--fw-select-padding-block);
-    font-size: var(--fw-select-font-size, 1rem);
     min-height: var(--fw-select-min-height);
     background-color: transparent;
     color: currentColor;
@@ -30,7 +29,6 @@
   &__option{
     padding-inline: var(--fw-select-padding-inline);
     padding-block: calc(var(--fw-select-padding-block) * 1.5);
-    font-size: var(--fw-select-font-size, 1rem);
     transition: background-color .3s ease-in;
     cursor: pointer;
 

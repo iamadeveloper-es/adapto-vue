@@ -62,7 +62,11 @@ const handleIcon = computed(() => {
 
   const {name, size} = props.icon
 
-  const iconSize = size ? size : remToPx(fontSize.value) + 2
+  const iconSize = size ?
+    size :
+    fontSize.value ?
+    remToPx(fontSize.value) + 2 :
+    remToPx('1rem') + 2
 
   const icon = {
     name: name,
@@ -237,7 +241,7 @@ onBeforeUnmount(() => clearTimeout(typeaheadTimer))
     :size="handleIcon?.size"
     :class="`${cmpClass}__icon`"/>
     </button>
-    <Transition name="fw-select-listbox">
+    <Transition :name="`${cmpClass}-listbox`">
       <div
       v-if="showList"
       :id="listboxId"
