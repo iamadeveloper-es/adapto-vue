@@ -111,7 +111,7 @@ Para decidir dónde va algo nuevo:
 
 | Si es… | va en… |
 |---|---|
-| Un procedimiento con pasos, que puede incluir "delega X" | una **skill** en `.claude/skills/adapto/` |
+| Un procedimiento con pasos, que puede incluir "delega X" | una **skill** en `.claude/skills/` |
 | Conocimiento factual que varios agentes necesitan | una **skill de referencia**, precargada con `skills:` |
 | Un trabajador con contexto aislado y herramientas restringidas | un **subagente** en `.claude/agents/adapto/` |
 

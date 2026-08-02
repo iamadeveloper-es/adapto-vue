@@ -102,4 +102,4 @@ itself and compares against the doc pages, to keep its fan-out flat.
   plus one writer per component (Sonnet). The extractor stays O(1); only the generative step
   scales, which is where context budget actually matters.
 - To run outside a slash-command context: "Run the component-docs orchestration (see
-  `.claude/skills/adapto/component-docs/SKILL.md`) for `<component-name-or-'all components'>`."
+  `.claude/skills/component-docs/SKILL.md`) for `<component-name-or-'all components'>`."

@@ -2,9 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(node -e \"console.log\\(Object.keys\\(require\\('./package.json'\\).scripts\\).join\\(' '\\)\\)\")",
-      "Edit(/.claude/skills/adapto/**)",
+      "Edit(/.claude/skills/**)",
       "Bash(sed -i '' 's/Invoke these six agents as \\\\*\\\\*foreground\\\\*\\\\*/Invoke these five agents as **foreground**/' .claude/skills/adapto/release-readiness/SKILL.md)",
-      "Bash(sed -i '' 's/a component-test-writer audit summary, a$/a `component-test-writer` audit summary, a/' .claude/agents/adapto/release-readiness-report.md)"
+      "Bash(sed -i '' 's/a component-test-writer audit summary, a$/a `component-test-writer` audit summary, a/' .claude/agents/adapto/release-readiness-report.md)",
+      "Edit(/.claude/skills/component-review/**)",
+      "Edit(/.claude/skills/release-readiness/**)"
     ]
   }
 }

@@ -77,4 +77,4 @@ as a separate, explicit next step — don't do it automatically.
   of how many components are in scope: every check agent is read-only and enumerates its own file
   list internally, so nothing here shards per component. Same O(1) shape as `component-review`.
 - To run outside a slash-command context: "Run the release-readiness orchestration (see
-  `.claude/skills/adapto/release-readiness/SKILL.md`) for `<component-name-or-'all components'>`."
+  `.claude/skills/release-readiness/SKILL.md`) for `<component-name-or-'all components'>`."

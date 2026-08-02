@@ -59,14 +59,22 @@ adapto-ui is a Vue 3 + TypeScript component library installed as a plugin (`Adap
 
 ## Agentic infrastructure
 
-Subagents live in `.claude/agents/` and orchestrations in `.claude/skills/`, each split by scope:
-`adapto/` for anything that depends on the adpt-* component convention, the Atlas token pipeline,
-or this repo's build/tooling setup — which today is everything. A future agent or skill with no
-such dependency (e.g. commit-message conventions, a generic Vue 3 pattern reviewer) goes in
-`agents/generic/` or `skills/generic/` instead; create that folder only when the first one lands,
-not before. The subfolder is organizational only — it does not become part of the invocation name
-(`/component-docs`, not `/adapto:component-docs`), since Claude Code resolves identity from the
-`name:` frontmatter field for agents and from the skill directory name for skills.
+Subagents live in `.claude/agents/` and orchestrations in `.claude/skills/`, but the two are
+discovered differently, which changes how each can be organized:
+
+- **Agents** resolve identity from the `name:` frontmatter field, so they can be namespaced into
+  subfolders freely. All ten adapto agents live under `.claude/agents/adapto/`, split by scope —
+  `adapto/` for anything that depends on the adpt-* component convention, the Atlas token
+  pipeline, or this repo's build/tooling setup (today, everything). A future agent with no such
+  dependency (e.g. a generic Vue 3 pattern reviewer) goes in `agents/generic/` instead; create
+  that folder only when the first one lands, not before.
+- **Skills** resolve identity from the skill directory itself, and at least in the VSCode
+  extension environment, nesting a `SKILL.md` more than one level under `.claude/skills/` makes it
+  undiscoverable — `/component-docs` and the `Skill` tool both fail to find it. Because of this,
+  all skills live flat at `.claude/skills/<name>/`, with no `adapto/` subfolder, even though every
+  one of them is currently adapto-specific. If a generic skill is ever needed, it lands at the
+  same flat level — there is no scoping mechanism available for skills the way there is for
+  agents.
 
 - **Review** (`component-review`): `component-review-types`, `component-review-props` and
   `component-review-a11y` in parallel → `component-review-report` consolidates and scores 0-10 per area.
