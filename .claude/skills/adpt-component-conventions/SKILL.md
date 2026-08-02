@@ -15,10 +15,16 @@ prescribes no workflow of its own.
 ```
 src/lib/components/<category>/adpt-<name>/
 ├── index.vue          # <script setup lang="ts"> then <template>. No <style> block.
-├── style.scss         # optional; only if the component has its own styles
-└── __tests__/
-    └── index.spec.ts  # optional; vitest + @vue/test-utils
+└── style.scss         # optional; only if the component has its own styles
+
+tests/lib/components/<category>/adpt-<name>/
+└── index.spec.ts       # optional; vitest + @vue/test-utils
 ```
+
+Unit tests do **not** live next to the component. They live under a top-level `tests/` folder
+that mirrors the path of the file under test — the same way `e2e/` sits alongside `src/` instead
+of inside it. Import the subject under test through the `@/` alias (`@/lib/components/...`), not
+a relative path crossing from `tests/` back into `src/`.
 
 - `<category>` is a real subfolder — today `element/`, `form/`, `overlay/`. **Never assume a flat
   path.** To find a component by name, glob `src/lib/components/**/adpt-<name>`; to enumerate all
@@ -81,7 +87,7 @@ to be externalized and declared as a peer, or it lands whole in every consumer's
 | For | Read |
 |---|---|
 | Component source | `src/lib/components/element/adpt-button/index.vue` |
-| Unit tests | `src/lib/components/overlay/adpt-dialog/__tests__/index.spec.ts` |
+| Unit tests | `tests/lib/components/overlay/adpt-dialog/index.spec.ts` |
 | Documentation page | `docs/components/adpt-button.md` |
 
 ## Known limitation: `?raw` under vitest
@@ -94,6 +100,10 @@ Verify styling through `pnpm build-only` or the sandbox instead.
 
 `pnpm lint` · `pnpm format` · `pnpm test:unit` · `pnpm test:e2e` · `pnpm type-check` ·
 `pnpm build-only` (bundle + declarations) · `pnpm docs:build`.
+
+`pnpm test:unit` runs with coverage enabled (`vitest.config.ts`, `coverage.thresholds`), scoped to
+`src/lib/**` and `src/core/**`: `functions`/`branches`/`statements` must be 100%, `lines` allows at
+most 10 uncovered lines project-wide.
 
 The sandbox (`sandbox/app/`) consumes `dist`, including its types — not the sources. After
 changing the library, `pnpm build-only` has to run or the sandbox keeps showing the previous

@@ -1,6 +1,6 @@
 ---
 name: component-test-writer
-description: Writes and maintains vitest unit tests (__tests__/index.spec.ts) for adpt-* Vue components using @vue/test-utils, following the existing adpt-dialog test pattern — props rendering, emitted events, conditional markup, and accessibility-relevant DOM attributes. Use to add or update isolated unit test coverage for one or more components.
+description: Writes and maintains vitest unit tests (tests/lib/components/<category>/adpt-<name>/index.spec.ts) for adpt-* Vue components using @vue/test-utils, following the existing adpt-dialog test pattern — props rendering, emitted events, conditional markup, and accessibility-relevant DOM attributes. Use to add or update isolated unit test coverage for one or more components.
 tools: Read, Grep, Glob, Write, Edit, Bash
 model: sonnet
 skills:
@@ -18,8 +18,14 @@ tests (another agent owns those), not accessibility auditing, not fixing compone
 You will be told which component(s) to cover, as either:
 - One or more explicit component names/paths, or
 - "all components without coverage" — enumerate them yourself, cross-reference existing
-  `__tests__/index.spec.ts` files, and skip components that already have tests unless told to
-  extend them.
+  `tests/lib/components/**/index.spec.ts` files, and skip components that already have tests
+  unless told to extend them.
+
+Tests live under a top-level `tests/` folder that mirrors the path of the file under test, not
+next to the component — e.g. `src/lib/components/element/adpt-button/index.vue` is covered by
+`tests/lib/components/element/adpt-button/index.spec.ts`. Import the subject under test through
+the `@/` alias (`@/lib/components/<category>/adpt-<name>/index.vue`), never a relative path
+crossing from `tests/` back into `src/`.
 
 You may be given grounding context: raw findings from `component-review-a11y` for the same
 scope. When provided, use them to assert the accessibility-relevant DOM output they confirmed
@@ -51,7 +57,7 @@ Cover, per component:
 - Never modify component source to make a test pass.
 - Never write a test that asserts clearly buggy behavior as correct — report the bug instead
   (path:line and what's wrong), and skip that specific assertion.
-- Out of scope: `src/core` engine unit tests (`src/core/__tests__`) — this agent's pattern is
+- Out of scope: `src/core` engine unit tests (`tests/core/`) — this agent's pattern is
   Vue-mount-based and doesn't fit testing framework-agnostic core logic.
 
 ## Verify your work

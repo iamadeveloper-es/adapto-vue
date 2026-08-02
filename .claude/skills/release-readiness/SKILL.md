@@ -37,8 +37,9 @@ instructed this is a **verification/audit pass only — do not create or edit an
   triad. Their raw findings go straight to step 3; do not consolidate them through
   `component-review-report` first, since `release-readiness-report` does its own aggregation and
   a double pass loses detail.
-- `component-test-writer`, in audit mode: report which components lack `__tests__/index.spec.ts`
-  coverage or whose tests look stale versus current props/emits — don't write any.
+- `component-test-writer`, in audit mode: report which components lack
+  `tests/lib/components/**/index.spec.ts` coverage or whose tests look stale versus current
+  props/emits — don't write any.
 - `component-api-extractor` — one call for the whole scope. Ask it only for the factual API
   spec, which is its entire contract; it is descriptive and never evaluative, so do **not** ask
   it to judge whether a doc page is stale.

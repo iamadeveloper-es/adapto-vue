@@ -53,7 +53,8 @@ adapto-ui is a Vue 3 + TypeScript component library installed as a plugin (`Adap
 - Do not modify `src/App.vue` or `src/main.ts` unless explicitly asked (they are the development playground, not the library).
 - Focused changes consistent with the existing architecture; prefer simple, composable solutions over over-engineered ones.
 - Package manager: `pnpm`. Relevant commands: `pnpm lint` (oxlint + eslint), `pnpm format` (prettier), `pnpm test:unit` (vitest), `pnpm test:e2e` (playwright), `pnpm type-check` (vue-tsc), `pnpm build-only` (bundle + declarations).
-- Tests live in `__tests__/` folders next to the code they cover, using `vitest` + `@vue/test-utils`.
+- Tests live under a top-level `tests/` folder, mirroring `src/`'s path (e.g. `src/lib/components/element/adpt-button/index.vue` → `tests/lib/components/element/adpt-button/index.spec.ts`), the same way `e2e/` sits alongside `src/` rather than inside it. Use `vitest` + `@vue/test-utils`, and import the subject under test through the `@/` alias rather than a relative path back into `src/`.
+- Coverage is enforced on every `pnpm test:unit` run, scoped to `src/lib/**` and `src/core/**`: `functions`/`branches`/`statements` must be 100%, `lines` allows at most 10 uncovered project-wide (`vitest.config.ts`, `coverage.thresholds`).
 - Known limitation: under vitest, `import css from './style.scss?raw'` resolves to an empty string, so style injection cannot be asserted in unit tests. Verify styling through a build or the sandbox instead.
 - The sandbox consumes `dist`, not the sources — including its types. After changing the library, run `pnpm build-only` or the sandbox will keep showing the previous state.
 
