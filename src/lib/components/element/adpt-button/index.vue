@@ -17,6 +17,7 @@ defineOptions({
   name: 'AdaptoButton',
 })
 
+type ButtonSize = Size | '2xs' | '3xs'
 const props = defineProps({
   variant: {
     type: String as PropType<Variant>,
@@ -29,7 +30,7 @@ const props = defineProps({
     default: '',
   },
   size: {
-    type: String as PropType<Size>,
+    type: String as PropType<ButtonSize>,
     default: 'xs'
   },
   radius: {

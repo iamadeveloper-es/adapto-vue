@@ -86,6 +86,8 @@ export const Atlas: ThemeOptions = {
         lg: '24px',
       },
       spacing: {
+        '2xs': '1.25px',
+        xs: '2px',
         base: '4px',
         md: '8px',
         lg: '16px',
@@ -99,6 +101,8 @@ export const Atlas: ThemeOptions = {
         full: '9999px',
       },
       text: {
+        '3xs': '.55rem',
+        '2xs': '.65rem',
         xs: '.75rem',
         sm: '.875rem',
         base: '1rem',
@@ -317,6 +321,13 @@ export const Atlas: ThemeOptions = {
         'padding-block': 'pr.spacing.md',
         'padding-inline': 'pr.spacing.lg',
         'title-font-size': 'pr.text.sm'
+      },
+      chip: {
+        bg: 'sm.surface.300',
+        'padding-block': 'pr.spacing.base',
+        'padding-inline': 'pr.spacing.md',
+        'font-size': 'pr.text.sm',
+        gap: 'cs.0.2rem'
       },
       //- Form
       input: {

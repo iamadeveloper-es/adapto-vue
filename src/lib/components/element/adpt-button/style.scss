@@ -17,7 +17,7 @@
   cursor: pointer;
 
   // Estados
-  &:not([disabled]) &:is(:not(.fw-btn--link)){
+  &:not([disabled]), &:not(.fw-btn--link){
     @include hoverCurrentColor('hover');
     @include hoverCurrentColor('focus')
   }
@@ -69,6 +69,18 @@
   }
 
   // Sizes
+  &--3xs{
+    --fw-btn-padding-block: var(--fw-spacing-2xs);
+    --fw-btn-padding-inline: var(--fw-spacing-2xs);
+    --fw-btn-font-size: var(--fw-text-3xs);
+  }
+
+  &--2xs{
+    --fw-btn-padding-block: var(--fw-spacing-xs);
+    --fw-btn-padding-inline: var(--fw-spacing-xs);
+    --fw-btn-font-size: var(--fw-text-2xs);
+  }
+
   &--xs{
     --fw-btn-padding-block: var(--fw-spacing-base);
     --fw-btn-padding-inline: calc(var(--fw-spacing-base) * 2);

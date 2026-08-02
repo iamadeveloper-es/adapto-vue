@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
 import AdptSelect from './lib/components/form/adpt-select/index.vue'
-import AdptButton from './lib/components/element/adpt-button/index.vue'
+import AdptChip from './lib/components/element/adpt-chip/index.vue'
 
 const selectedValue = ref('');
 const options = reactive([
@@ -18,6 +18,10 @@ const options = reactive([
     value: 'option-3'
   }
 ])
+
+const showAlert = () => {
+  alert('Chip clickada!!')
+}
 </script>
 
 <template>
@@ -25,6 +29,12 @@ const options = reactive([
 v-model="selectedValue"
 :options="options"
 ></AdptSelect>
+<br>
+<br>
+<AdptChip
+label="Chip"
+:icon-prepend="{name: 'hard-drive-download'}"
+:icon-append="{name: 'cat'}" closable @clicked="showAlert"/>
 </template>
 
 <style lang="scss">
