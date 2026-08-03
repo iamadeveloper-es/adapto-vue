@@ -1,5 +1,6 @@
 import { injectCSS, injectTokens } from './inject-css.ts'
 import { createUtils } from './create-utils.ts'
+import { applyThemeMode } from './theme-mode.ts'
 import type { FrameworkOptions, ThemeOptions, Tokens } from './types'
 import { Atlas } from '@/core/themes/Atlas'
 
@@ -9,17 +10,22 @@ import { Atlas } from '@/core/themes/Atlas'
  */
 export function initFramework(options: FrameworkOptions = {}) {
   const prefix = options.prefix || Atlas.prefix
+  const darkModeSelector = options.darkModeSelector || Atlas.darkModeSelector || 'dark-mode'
 
   // Normaliza y combina los tokens primitivos, semánticos y de componentes.
   const configTokens = normalizeTokens(options.tokens, prefix)
+
+  // Normaliza los overrides semánticos de dark mode del tema base.
+  const darkTokens = normalizeSemanticTokens(Atlas.modes.dark.semantic, prefix)
 
   const styleModules = options.styles ?? []
   const tokensStyle = styleModules.find((style) => style.id === 'tokens')
   const componentStyles = styleModules.filter((style) => style.id !== 'tokens')
 
-  // Inyecta los tokens resultantes como variables CSS en el documento.
+  // Inyecta los tokens resultantes como variables CSS en el documento, junto con
+  // el bloque de overrides de dark mode bajo el selector configurado.
   if (tokensStyle) {
-    injectTokens(tokensStyle.css, prefix, configTokens)
+    injectTokens(tokensStyle.css, prefix, configTokens, darkTokens, darkModeSelector)
   }
 
   // Carga los estilos globales entregados por la capa que consume el core.
@@ -27,7 +33,14 @@ export function initFramework(options: FrameworkOptions = {}) {
     injectCSS(style.css, prefix, style.id)
   }
 
-  return createUtils(prefix)
+  const utils = createUtils(prefix, darkModeSelector)
+
+  // Aplica el modo inicial: el guardado por el consumidor o, si no hay, el del sistema.
+  if (darkModeSelector) {
+    applyThemeMode(utils.getInitialMode(), darkModeSelector)
+  }
+
+  return utils
 }
 
 /**

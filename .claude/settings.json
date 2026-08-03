@@ -6,7 +6,10 @@
       "Bash(sed -i '' 's/Invoke these six agents as \\\\*\\\\*foreground\\\\*\\\\*/Invoke these five agents as **foreground**/' .claude/skills/adapto/release-readiness/SKILL.md)",
       "Bash(sed -i '' 's/a component-test-writer audit summary, a$/a `component-test-writer` audit summary, a/' .claude/agents/adapto/release-readiness-report.md)",
       "Edit(/.claude/skills/component-review/**)",
-      "Edit(/.claude/skills/release-readiness/**)"
+      "Edit(/.claude/skills/release-readiness/**)",
+      "Bash(pnpm vitest *)",
+      "Bash(npx eslint *)",
+      "Bash(git stash *)"
     ]
   }
 }

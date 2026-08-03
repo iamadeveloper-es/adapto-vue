@@ -1,5 +1,14 @@
 export { AdaptoPlugin } from './plugin.ts';
 
+//- Theme mode
+export {
+  applyThemeMode,
+  getStoredThemeMode,
+  getSystemThemeMode,
+  storeThemeMode,
+} from '../core/theme-mode.ts';
+export type { ThemeMode } from '../core/types';
+
 /*
  * Cada componente inyecta su propio CSS al renderizarse, así que un consumidor
  * que solo importe algunos de estos se lleva únicamente sus estilos.

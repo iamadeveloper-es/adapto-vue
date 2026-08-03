@@ -30,6 +30,8 @@ export type Modes = {
   }
 }
 
+export type ThemeMode = 'light' | 'dark'
+
 export type ThemeOptions = {
   name: string
   id: string

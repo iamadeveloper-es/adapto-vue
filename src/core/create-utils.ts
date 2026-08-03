@@ -1,4 +1,12 @@
-export function createUtils(prefix: string) {
+import {
+  applyThemeMode,
+  getStoredThemeMode,
+  getSystemThemeMode,
+  storeThemeMode,
+} from './theme-mode'
+import type { ThemeMode } from './types'
+
+export function createUtils(prefix: string, darkModeSelector: string) {
 
   return {
     prefix,
@@ -22,6 +30,25 @@ export function createUtils(prefix: string) {
       return getComputedStyle(document.documentElement)
         .getPropertyValue(`--${prefix}-${name}`)
         .trim();
+    },
+
+    /** Aplica un modo de color concreto y lo persiste para futuras cargas */
+    setMode(mode: ThemeMode) {
+      applyThemeMode(mode, darkModeSelector);
+      storeThemeMode(mode, prefix);
+    },
+
+    /** Alterna entre light y dark a partir de la clase actualmente aplicada */
+    toggleMode() {
+      const isDark =
+        typeof document !== 'undefined' &&
+        document.documentElement.classList.contains(darkModeSelector);
+      this.setMode(isDark ? 'light' : 'dark');
+    },
+
+    /** Modo con el que arrancar: el guardado por el consumidor o, si no hay, el del sistema */
+    getInitialMode(): ThemeMode {
+      return getStoredThemeMode(prefix) ?? getSystemThemeMode();
     },
   };
 }
