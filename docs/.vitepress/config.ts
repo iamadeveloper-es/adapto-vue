@@ -7,9 +7,16 @@ export default defineConfig({
   description: 'Component library documentation for Adapto UI',
 
   themeConfig: {
-    nav: [{ text: 'Components', link: '/components/adpt-button' }],
+    nav: [
+      { text: 'Guide', link: '/guide/theming' },
+      { text: 'Components', link: '/components/adpt-button' },
+    ],
 
     sidebar: [
+      {
+        text: 'Guide',
+        items: [{ text: 'Styling & Theming', link: '/guide/theming' }],
+      },
       {
         text: 'Components',
         items: [
