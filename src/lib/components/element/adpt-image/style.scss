@@ -1,0 +1,26 @@
+.fw-image{
+  display: flex;
+  flex: 1 0 auto;
+  max-height: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  position: relative;
+
+  &__img{
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  &--contain{
+    .fw-image__img{
+      object-fit: contain;
+    }
+  }
+
+  &--cover{
+    .fw-image__img{
+      object-fit: cover;
+    }
+  }
+}
