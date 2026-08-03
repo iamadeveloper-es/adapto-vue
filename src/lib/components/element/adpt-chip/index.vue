@@ -40,7 +40,7 @@ const props = defineProps({
   },
   size: {
     type: String as PropType<Size>,
-    default: 'lg'
+    default: 'xs'
   },
   iconPrepend: {
     type: Object as PropType<Icon>,
