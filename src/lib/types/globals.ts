@@ -22,3 +22,10 @@ export type ComboboxOptions = {
   label: string,
   value: string | number
 }
+
+export type TabItem = {
+  label: string,
+  value: string | number,
+  icon?: Icon,
+  disabled?: boolean
+}

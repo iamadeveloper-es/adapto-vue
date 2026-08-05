@@ -22,6 +22,7 @@ export { default as AdaptoButton } from './components/element/adpt-button/index.
 export { default as AdaptoCalendar } from './components/element/adpt-calendar/index.vue';
 export { default as AdaptoCard } from './components/element/adpt-card/index.vue';
 export { default as AdaptoIcon } from './components/element/adpt-icon/index.vue';
+export { default as AdaptoTabs } from './components/element/adpt-tabs/index.vue';
 
 //- Overlay
 export { default as AdaptoDialog } from './components/overlay/adpt-dialog/index.vue';

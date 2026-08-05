@@ -1,0 +1,169 @@
+.fw-tabs{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &__list{
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--fw-spacing-base);
+
+    &.divider{
+      border-bottom: thin solid color-mix(in srgb, currentColor 15%, transparent);
+    }
+
+    &.align-start{
+      justify-content: start;
+    }
+
+    &.align-center{
+      justify-content: center;
+    }
+
+    &.align-end{
+      justify-content: end;
+    }
+  }
+
+  &__indicator{
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    height: 2px;
+    background-color: currentColor;
+    pointer-events: none;
+    transition: transform .25s cubic-bezier(0.4, 0, 0.2, 1), width .25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &__tab{
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--fw-spacing-base);
+    border: none;
+    color: currentColor;
+    background-color: transparent;
+    appearance: none;
+    padding-inline: var(--fw-tabs-padding-inline);
+    padding-block: var(--fw-tabs-padding-block);
+    font-size: var(--fw-tabs-font-size, 1rem);
+    transition: background-color .2s ease-in, color .2s ease-in;
+    cursor: pointer;
+
+    &:hover:not(:disabled), &:focus-visible{
+      background-color: color-mix(in srgb, currentColor 7%, transparent);
+    }
+
+    &:disabled{
+      opacity: .5;
+      cursor: not-allowed;
+    }
+  }
+
+  &__icon{
+    flex-shrink: 0;
+  }
+
+  &__panel-wrapper{
+    position: relative;
+    overflow: hidden;
+  }
+
+  &__panel{
+    padding-block: calc(var(--fw-spacing-base) * 2);
+  }
+
+  &--full-width &__list{
+    width: 100%;
+  }
+
+  &--full-width &__tab{
+    flex: 1 1 0;
+    justify-content: center;
+  }
+
+  // Variantes
+
+  &--outlined &__tab{
+    border: thin solid transparent;
+  }
+  &--outlined &__tab.is-active{
+    border-color: currentColor;
+  }
+
+  &--soft &__tab.is-active{
+    background-color: color-mix(in srgb, currentColor 10%, transparent);
+  }
+
+  &--fussy &__tab.is-active{
+    border: thin solid currentColor;
+    background-color: color-mix(in srgb, currentColor 5%, transparent);
+  }
+
+  // Sizes
+  &--xs{
+    --fw-tabs-padding-block: var(--fw-spacing-base);
+    --fw-tabs-padding-inline: calc(var(--fw-spacing-base) * 2);
+    --fw-tabs-font-size: var(--fw-text-xs);
+  }
+
+  &--sm{
+    --fw-tabs-padding-block: calc(var(--fw-spacing-base) * 1.5);
+    --fw-tabs-padding-inline: calc(var(--fw-spacing-base) * 2.5);
+    --fw-tabs-font-size: var(--fw-text-xs);
+  }
+
+  &--md{
+    --fw-tabs-padding-block: calc(var(--fw-spacing-base) * 1.75);
+    --fw-tabs-padding-inline: calc(var(--fw-spacing-base) * 3);
+    --fw-tabs-font-size: var(--fw-text-sm);
+  }
+
+  &--lg{
+    --fw-tabs-padding-block: calc(var(--fw-spacing-base) * 2);
+    --fw-tabs-padding-inline: calc(var(--fw-spacing-base) * 3);
+    --fw-tabs-font-size: var(--fw-text-sm);
+  }
+
+  &--xl{
+    --fw-tabs-padding-block: calc(var(--fw-spacing-base) * 2.7);
+    --fw-tabs-padding-inline: calc(var(--fw-spacing-base) * 3.7);
+    --fw-tabs-font-size: var(--fw-text-sm);
+  }
+}
+
+// Animación direccional entre paneles: el panel saliente y el entrante se
+// desplazan en la misma dirección (uno "empuja" al otro fuera del contenedor)
+// en vez de cruzarse. La dirección la decide `panelDirection` en el componente
+// según si el tab activo entrante queda a la izquierda (prev) o a la derecha
+// (next) del anterior.
+.fw-tabs-panel-next-enter-active,
+.fw-tabs-panel-next-leave-active,
+.fw-tabs-panel-prev-enter-active,
+.fw-tabs-panel-prev-leave-active{
+  // position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: transform .25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// next: el tab activo pasa a estar a la derecha del anterior → empuja de derecha a izquierda
+.fw-tabs-panel-next-enter-from{
+  transform: translateX(100%);
+}
+
+.fw-tabs-panel-next-leave-to{
+  transform: translateX(-100%);
+}
+
+// prev: el tab activo pasa a estar a la izquierda del anterior → empuja de izquierda a derecha
+.fw-tabs-panel-prev-enter-from{
+  transform: translateX(-100%);
+}
+
+.fw-tabs-panel-prev-leave-to{
+  transform: translateX(100%);
+}
