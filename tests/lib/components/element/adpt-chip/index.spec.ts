@@ -25,9 +25,10 @@ const AdptButtonStub = {
   template: '<button type="button" class="close-btn" @click="$emit(\'clicked\', $event)">{{ label }}</button>',
 }
 
-function mountChip(props: Record<string, unknown> = {}) {
+function mountChip(props: Record<string, unknown> = {}, attachTo?: HTMLElement) {
   return mount(AdptChip, {
     props: { label: 'Tag', ...props },
+    attachTo,
     global: {
       provide: { fw },
       stubs: {
@@ -98,8 +99,8 @@ describe('adpt-chip', () => {
       expect(wrapper.attributes('style')).toContain('var(--fw-primary)')
     })
 
-    it('renders the prepend icon when iconPrepend has a name, before the label', () => {
-      const wrapper = mountChip({ iconPrepend: { name: 'star', size: 20 } })
+    it('renders the prepend icon when prependIcon has a name, before the label', () => {
+      const wrapper = mountChip({ prependIcon: { name: 'star', size: 20 } })
 
       const icons = wrapper.findAll('.icon-stub')
       expect(icons).toHaveLength(1)
@@ -111,8 +112,8 @@ describe('adpt-chip', () => {
       expect(children[1].tagName).toBe('DIV')
     })
 
-    it('renders the append icon when iconAppend has a name, after the label', () => {
-      const wrapper = mountChip({ iconAppend: { name: 'chevron-right', size: 14 } })
+    it('renders the append icon when appendIcon has a name, after the label', () => {
+      const wrapper = mountChip({ appendIcon: { name: 'chevron-right', size: 14 } })
 
       const icons = wrapper.findAll('.icon-stub')
       expect(icons).toHaveLength(1)
@@ -124,15 +125,15 @@ describe('adpt-chip', () => {
       expect(children[1].classList.contains('icon-stub')).toBe(true)
     })
 
-    it('does not render an icon when iconPrepend/iconAppend have no name', () => {
-      const wrapper = mountChip({ iconPrepend: {}, iconAppend: {} })
+    it('does not render an icon when prependIcon/appendIcon have no name', () => {
+      const wrapper = mountChip({ prependIcon: {}, appendIcon: {} })
 
       expect(wrapper.find('.icon-stub').exists()).toBe(false)
     })
 
     it('resolves a string icon size (e.g. rem) through remToPx', () => {
       const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize)
-      const wrapper = mountChip({ iconPrepend: { name: 'star', size: '1.5rem' } })
+      const wrapper = mountChip({ prependIcon: { name: 'star', size: '1.5rem' } })
 
       expect(wrapper.find('.icon-stub').attributes('size')).toBe(String(1.5 * rootFontSize))
     })
@@ -141,9 +142,17 @@ describe('adpt-chip', () => {
       // jsdom does not compute a real root font-size, so remToPx('1rem') can
       // resolve to NaN here even though it resolves to a real pixel value in
       // a browser; this only asserts the fallback branch is exercised.
-      const wrapper = mountChip({ iconPrepend: { name: 'star' } })
+      const wrapper = mountChip({ prependIcon: { name: 'star' } })
 
       expect(wrapper.find('.icon-stub').attributes('size')).toBeDefined()
+    })
+
+    it('marks prepend/append icons as aria-hidden regardless of hideLabel', () => {
+      const wrapper = mountChip({ prependIcon: { name: 'star', size: 20 }, appendIcon: { name: 'chevron-right', size: 14 } })
+
+      const icons = wrapper.findAll('.icon-stub')
+      expect(icons[0]!.attributes('aria-hidden')).toBe('true')
+      expect(icons[1]!.attributes('aria-hidden')).toBe('true')
     })
 
     describe('hideLabel', () => {
@@ -154,22 +163,10 @@ describe('adpt-chip', () => {
         expect(wrapper.find('div').exists()).toBe(false)
       })
 
-      it('marks the prepend icon as aria-hidden when hideLabel is true', () => {
-        const wrapper = mountChip({ hideLabel: true, iconPrepend: { name: 'star', size: 20 } })
+      it('still marks the prepend icon as aria-hidden when hideLabel is true', () => {
+        const wrapper = mountChip({ hideLabel: true, prependIcon: { name: 'star', size: 20 } })
 
         expect(wrapper.find('.icon-stub').attributes('aria-hidden')).toBe('true')
-      })
-
-      it('marks the append icon as aria-hidden when hideLabel is true', () => {
-        const wrapper = mountChip({ hideLabel: true, iconAppend: { name: 'chevron-right', size: 14 } })
-
-        expect(wrapper.find('.icon-stub').attributes('aria-hidden')).toBe('true')
-      })
-
-      it('does not mark the icon as aria-hidden when hideLabel is false', () => {
-        const wrapper = mountChip({ iconPrepend: { name: 'star', size: 20 } })
-
-        expect(wrapper.find('.icon-stub').attributes('aria-hidden')).toBeUndefined()
       })
     })
 
@@ -189,6 +186,24 @@ describe('adpt-chip', () => {
       })
     })
 
+    describe('clickable', () => {
+      it('drops role, tabindex and aria-disabled when clickable is false', () => {
+        const wrapper = mountChip({ clickable: false, disabled: true })
+
+        expect(wrapper.attributes('role')).toBeUndefined()
+        expect(wrapper.attributes('tabindex')).toBeUndefined()
+        expect(wrapper.attributes('aria-disabled')).toBeUndefined()
+      })
+
+      it('does not emit "clicked" on click when clickable is false', async () => {
+        const wrapper = mountChip({ clickable: false })
+
+        await wrapper.trigger('click')
+
+        expect(wrapper.emitted('clicked')).toBeUndefined()
+      })
+    })
+
     describe('closable', () => {
       it('renders a close button with the "Remove <label>" label', () => {
         const wrapper = mountChip({ closable: true })
@@ -203,6 +218,48 @@ describe('adpt-chip', () => {
         const wrapper = mountChip({ closable: false })
 
         expect(wrapper.findComponent(AdptButtonStub).exists()).toBe(false)
+      })
+
+      it('wraps content in role="group" with aria-label set to the label, regardless of hideLabel', () => {
+        const wrapper = mountChip({ closable: true })
+
+        expect(wrapper.attributes('role')).toBe('group')
+        expect(wrapper.attributes('aria-label')).toBe('Tag')
+      })
+
+      it('does not nest the close button inside the clickable role="button" element', () => {
+        const wrapper = mountChip({ closable: true })
+
+        const content = wrapper.get('.fw-chip__content')
+        expect(content.attributes('role')).toBe('button')
+        expect(content.find('.close-btn').exists()).toBe(false)
+      })
+
+      it('drops role/tabindex/aria-disabled from the content span when clickable is false', () => {
+        const wrapper = mountChip({ closable: true, clickable: false, disabled: true })
+
+        const content = wrapper.get('.fw-chip__content')
+        expect(content.attributes('role')).toBeUndefined()
+        expect(content.attributes('tabindex')).toBeUndefined()
+        expect(content.attributes('aria-disabled')).toBeUndefined()
+      })
+
+      it('renders prepend/append icons inside the content span', () => {
+        const wrapper = mountChip({
+          closable: true,
+          prependIcon: { name: 'star', size: 20 },
+          appendIcon: { name: 'chevron-right', size: 14 },
+        })
+
+        const icons = wrapper.get('.fw-chip__content').findAll('.icon-stub')
+        expect(icons).toHaveLength(2)
+      })
+
+      it('hides the visible label text inside the content span when hideLabel is true', () => {
+        const wrapper = mountChip({ closable: true, hideLabel: true })
+
+        expect(wrapper.get('.fw-chip__content').find('div').exists()).toBe(false)
+        expect(wrapper.attributes('aria-label')).toBe('Tag')
       })
     })
   })
@@ -258,16 +315,66 @@ describe('adpt-chip', () => {
       expect(wrapper.emitted('clicked')).toBeUndefined()
     })
 
-    it('emits "closable" with the MouseEvent and unmounts the chip when the close button is used', async () => {
+    it('emits "closed" with the MouseEvent and unmounts the chip when the close button is used', async () => {
       const wrapper = mountChip({ closable: true })
 
       const closeButton = wrapper.findComponent(AdptButtonStub)
       const event = new MouseEvent('click')
       await closeButton.vm.$emit('clicked', event)
 
-      expect(wrapper.emitted('closable')).toHaveLength(1)
-      expect(wrapper.emitted('closable')![0]![0]).toBe(event)
-      expect(wrapper.find('[role="button"]').exists()).toBe(false)
+      expect(wrapper.emitted('closed')).toHaveLength(1)
+      expect(wrapper.emitted('closed')![0]![0]).toBe(event)
+      expect(wrapper.find('[role="group"]').exists()).toBe(false)
+    })
+
+    describe('focus restoration on close', () => {
+      it('does not try to move focus when nothing inside the chip is focused', async () => {
+        const container = document.createElement('div')
+        document.body.appendChild(container)
+        const wrapper = mountChip({ closable: true }, container)
+
+        const closeButton = wrapper.findComponent(AdptButtonStub)
+        await closeButton.vm.$emit('clicked', new MouseEvent('click'))
+
+        expect(wrapper.emitted('closed')).toHaveLength(1)
+        wrapper.unmount()
+        container.remove()
+      })
+
+      it('moves focus to the next sibling when the close button had focus and a sibling exists', async () => {
+        const container = document.createElement('div')
+        document.body.appendChild(container)
+        const wrapper = mountChip({ closable: true }, container)
+        const sibling = document.createElement('button')
+        sibling.textContent = 'next chip'
+        wrapper.element.after(sibling)
+
+        const closeButtonEl = wrapper.get('.close-btn').element as HTMLButtonElement
+        closeButtonEl.focus()
+        expect(document.activeElement).toBe(closeButtonEl)
+
+        const closeButton = wrapper.findComponent(AdptButtonStub)
+        await closeButton.vm.$emit('clicked', new MouseEvent('click'))
+
+        expect(document.activeElement).toBe(sibling)
+        wrapper.unmount()
+        container.remove()
+      })
+
+      it('does not move focus when the close button had focus but there is no sibling', async () => {
+        const container = document.createElement('div')
+        document.body.appendChild(container)
+        const wrapper = mountChip({ closable: true }, container)
+
+        const closeButtonEl = wrapper.get('.close-btn').element as HTMLButtonElement
+        closeButtonEl.focus()
+
+        const closeButton = wrapper.findComponent(AdptButtonStub)
+        await closeButton.vm.$emit('clicked', new MouseEvent('click'))
+
+        expect(wrapper.emitted('closed')).toHaveLength(1)
+        container.remove()
+      })
     })
   })
 })

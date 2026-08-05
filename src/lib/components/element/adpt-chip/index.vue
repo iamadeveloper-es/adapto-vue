@@ -42,10 +42,10 @@ const props = defineProps({
     type: String as PropType<Size>,
     default: 'xs'
   },
-  iconPrepend: {
+  prependIcon: {
     type: Object as PropType<Icon>,
   },
-  iconAppend: {
+  appendIcon: {
     type: Object as PropType<Icon>,
   },
   hideLabel: {
@@ -55,12 +55,16 @@ const props = defineProps({
   closable: {
     type: Boolean,
     default: false
+  },
+  clickable: {
+    type: Boolean,
+    default: true
   }
 })
 
 const emit = defineEmits<{
   clicked: [event: MouseEvent | KeyboardEvent]
-  closable: [event: MouseEvent]
+  closed: [event: MouseEvent]
 }>()
 const elementRef = ref<HTMLElement | null>(null)
 const fontSize = ref('')
@@ -80,9 +84,9 @@ const chipClasses = computed(() => {
 
 const getColor = computed(() => props.color ? fw.cv(props.color) : fw.cv('sm-surface-300'))
 
-const hasIconPrepend = computed(() => !!props.iconPrepend?.name)
+const hasIconPrepend = computed(() => !!props.prependIcon?.name)
 
-const hasIconAppend = computed(() => !!props.iconAppend?.name)
+const hasIconAppend = computed(() => !!props.appendIcon?.name)
 
 const setIcon = (name: string, size?: string | number) => {
   const iconSize = typeof size === 'number'
@@ -101,23 +105,29 @@ const setIcon = (name: string, size?: string | number) => {
   return icon
 }
 const handleIconPrepend = computed(() => {
-  const { name, size } = props.iconPrepend ?? { name: '' }
+  const { name, size } = props.prependIcon ?? { name: '' }
   return setIcon(name, size)
 })
 
 const handleIconAppend = computed(() => {
-  const { name, size } = props.iconAppend ?? { name: '' }
+  const { name, size } = props.appendIcon ?? { name: '' }
   return setIcon(name, size)
 })
 
 const emitValue = (event: MouseEvent | KeyboardEvent) => {
-  if (props.disabled) return
+  if (props.disabled || !props.clickable) return
   emit('clicked', event)
 }
 
-const emitClosable = (event: MouseEvent) => {
+const emitClosed = (event: MouseEvent) => {
+  const chipEl = elementRef.value as HTMLElement
+  const hadFocus = chipEl.contains(document.activeElement)
+  const neighbor = chipEl.nextElementSibling
+
+  if (hadFocus && neighbor instanceof HTMLElement) neighbor.focus()
+
   show.value = false
-  emit('closable', event)
+  emit('closed', event)
 }
 
 onMounted(() => {
@@ -131,15 +141,26 @@ onMounted(() => {
 </script>
 
 <template>
-  <span v-if="show" ref="elementRef" :style="{ color: getColor }" :class="chipClasses" role="button"
-    :tabindex="disabled ? -1 : 0" :aria-disabled="disabled || undefined" :aria-label="hideLabel ? label : undefined"
+  <span v-if="show && !closable" ref="elementRef" :style="{ color: getColor }" :class="chipClasses"
+    :role="clickable ? 'button' : undefined" :tabindex="clickable ? (disabled ? -1 : 0) : undefined"
+    :aria-disabled="clickable ? (disabled || undefined) : undefined" :aria-label="hideLabel ? label : undefined"
     @click.stop="emitValue" @keydown.enter.self="emitValue" @keydown.space.self.prevent="emitValue">
-    <AdaptoIcon v-if="hasIconPrepend" v-bind="handleIconPrepend"
-      :aria-hidden="hasIconPrepend && hideLabel ? true : null" />
+    <AdaptoIcon v-if="hasIconPrepend" v-bind="handleIconPrepend" aria-hidden="true" />
     <div v-if="!hideLabel">{{ label }}</div>
-    <AdaptoIcon v-if="hasIconAppend" v-bind="handleIconAppend"
-      :aria-hidden="hasIconAppend && hideLabel ? true : null" />
-    <AdptButton v-if="closable" :label="`Remove ${label}`" :hide-label="true" :disabled="disabled" variant="soft"
-      :color="getColor" size="3xs" radius="full" :icon="{ name: 'x' }" @clicked.stop="emitClosable" />
+    <AdaptoIcon v-if="hasIconAppend" v-bind="handleIconAppend" aria-hidden="true" />
+  </span>
+
+  <span v-else-if="show" ref="elementRef" :style="{ color: getColor }" :class="chipClasses" role="group"
+    :aria-label="label">
+    <span :class="`${cmpClass}__content`" :role="clickable ? 'button' : undefined"
+      :tabindex="clickable ? (disabled ? -1 : 0) : undefined"
+      :aria-disabled="clickable ? (disabled || undefined) : undefined" @click.stop="emitValue"
+      @keydown.enter.self="emitValue" @keydown.space.self.prevent="emitValue">
+      <AdaptoIcon v-if="hasIconPrepend" v-bind="handleIconPrepend" aria-hidden="true" />
+      <div v-if="!hideLabel">{{ label }}</div>
+      <AdaptoIcon v-if="hasIconAppend" v-bind="handleIconAppend" aria-hidden="true" />
+    </span>
+    <AdptButton :label="`Remove ${label}`" :hide-label="true" :disabled="disabled" variant="soft" :color="getColor"
+      size="3xs" radius="full" :icon="{ name: 'x' }" @clicked.stop="emitClosed" />
   </span>
 </template>
