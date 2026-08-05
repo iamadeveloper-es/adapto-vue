@@ -30,6 +30,7 @@ export default defineConfig({
               { text: 'Card', link: '/components/adpt-card' },
               { text: 'Accordion', link: '/components/adpt-accordion' },
               { text: 'Accordion List', link: '/components/adpt-accordion-list' },
+              { text: 'Tabs', link: '/components/adpt-tabs' },
             ]
           },
           { text: 'Form',
