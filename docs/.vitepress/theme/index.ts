@@ -2,6 +2,7 @@ import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import { AdaptoPlugin } from '../../../src/lib/plugin'
 import AdaptoButton from '../../../src/lib/components/element/adpt-button/index.vue'
+import AdaptoChip from '../../../src/lib/components/element/adpt-chip/index.vue'
 import AdaptoAvatar from '../../../src/lib/components/element/adpt-avatar/index.vue'
 import AdaptoIcon from '../../../src/lib/components/element/adpt-icon/index.vue'
 import AdaptoImage from '../../../src/lib/components/element/adpt-image/index.vue'
@@ -22,6 +23,7 @@ export default {
   enhanceApp({ app }) {
     app.use(AdaptoPlugin)
     app.component('AdaptoButton', AdaptoButton)
+    app.component('AdaptoChip', AdaptoChip)
     app.component('AdaptoAvatar', AdaptoAvatar)
     app.component('AdaptoIcon', AdaptoIcon)
     app.component('AdaptoCard', AdaptoCard)

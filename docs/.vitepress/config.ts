@@ -23,6 +23,7 @@ export default defineConfig({
           { text: 'Element',
             items: [
               { text: 'Button', link: '/components/adpt-button' },
+              { text: 'Chip', link: '/components/adpt-chip' },
               { text: 'Avatar', link: '/components/adpt-avatar' },
               { text: 'Icon', link: '/components/adpt-icon' },
               { text: 'Image', link: '/components/adpt-image' },
