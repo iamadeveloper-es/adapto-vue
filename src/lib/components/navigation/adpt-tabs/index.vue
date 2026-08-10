@@ -3,7 +3,7 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch, useId, type
 import { useFramework } from '@/lib/composables/useFramework'
 import { useStyle } from '@/lib/composables/useStyle'
 import css from './style.scss?raw'
-import AdaptoIcon from '../adpt-icon/index.vue'
+import AdaptoIcon from '../../element/adpt-icon/index.vue'
 import type { Radius, Size, TabItem, Variant } from '@/lib/types/globals.ts'
 
 const fw = useFramework()
