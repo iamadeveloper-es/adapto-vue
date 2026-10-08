@@ -5,6 +5,8 @@ import AdptImage from './lib/components/element/adpt-image/index.vue'
 import AdptChip from './lib/components/element/adpt-chip/index.vue'
 import AdaptoTabs from './lib/components/navigation/adpt-tabs/index.vue'
 
+import AdaptoBreadcrumbs from './lib/components/navigation/adpt-breadcrumbs/index.vue'
+
 const selectedValue = ref('')
 const options = reactive([
   {
@@ -39,10 +41,29 @@ const tabs = [
   { label: 'Landscape', value: 'landscape'},
   { label: 'Deshabilitado', value: 'disabled', disabled: true },
 ]
+
+const breadcrumbsItems = ref([
+  {
+    label: 'Link 1',
+    route: 'link-1',
+    disable: false
+  },
+  {
+    label: 'Link 2',
+    route: 'link-2',
+    disable: false
+  },
+  {
+    label: 'Link 3',
+    route: 'link-3',
+    disable: true
+  }
+])
 </script>
 
 <template>
-  <AdptSelect v-model="selectedValue" :options="options"></AdptSelect>
+  <AdaptoBreadcrumbs :items="breadcrumbsItems" :link-component="'a'"/>
+  <!-- <AdptSelect v-model="selectedValue" :options="options"></AdptSelect> -->
   <br>
   <br>
   <!-- <AdptChip label="Chip" :prepend-icon="{ name: 'hard-drive-download' }" :append-icon="{ name: 'cat' }" closable

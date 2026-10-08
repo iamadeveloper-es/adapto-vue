@@ -1,95 +1,98 @@
 # Accordion List
 
-`adpt-accordion-list` is a lightweight coordination wrapper for [`AdaptoAccordion`](./adpt-accordion)
-items. It has no visual style of its own — it renders a plain `<div>` around its slot content — and
-exists purely to provide shared state so that only one child accordion can be open at a time.
+`adpt-accordion-list` es un contenedor ligero de coordinación para elementos
+[`AdaptoAccordion`](./adpt-accordion). No tiene estilo visual propio —renderiza un `<div>` sin más
+alrededor del contenido de su slot— y existe únicamente para aportar estado compartido de modo que
+solo un acordeón hijo pueda estar abierto a la vez.
 
-- **Component name:** `AdaptoAccordionList`
-- **Source:** `src/lib/components/element/adpt-accordion-list/index.vue`
-- **Styles:** none (`style.scss` not present; this component only renders a wrapper `<div>`)
+- **Nombre del componente:** `AdaptoAccordionList`
+- **Fuente:** `src/lib/components/element/adpt-accordion-list/index.vue`
+- **Estilos:** ninguno (no hay `style.scss`; este componente solo renderiza un `<div>` contenedor)
 
-## Usage
+## Uso
 
-Once [`AdaptoPlugin`](../../src/lib/plugin.ts) is installed on the app, `AdaptoAccordionList` is
-available globally. Wrap two or more `AdaptoAccordion` items in it to link them together:
+Una vez instalado [`AdaptoPlugin`](../../src/lib/plugin.ts) en la aplicación,
+`AdaptoAccordionList` está disponible de forma global. Envuelve en él dos o más elementos
+`AdaptoAccordion` para enlazarlos entre sí:
 
 ```vue-html
 <AdaptoAccordionList>
-  <AdaptoAccordion title="First item">
-    Content of the first item.
+  <AdaptoAccordion title="Primer elemento">
+    Contenido del primer elemento.
   </AdaptoAccordion>
-  <AdaptoAccordion title="Second item">
-    Content of the second item.
+  <AdaptoAccordion title="Segundo elemento">
+    Contenido del segundo elemento.
   </AdaptoAccordion>
 </AdaptoAccordionList>
 ```
 
-`AdaptoAccordionList` accepts no props and emits no events — it works purely through slot content
-and an internal `provide`/`inject` context.
+`AdaptoAccordionList` no acepta props ni emite eventos: funciona exclusivamente a través del
+contenido del slot y de un contexto interno de `provide`/`inject`.
 
-## Single-open coordination
+## Coordinación de apertura única
 
-`AdaptoAccordionList` provides an `AccordionKey` injection context — an `opened` ref (the `id` of
-the currently open accordion, or `null`), an `isList: true` flag, and a `toggle(id)` function. Each
-child `AdaptoAccordion` injects this context (falling back to its own local `modelValue` when no
-list ancestor exists) and calls `toggle(id)` instead of managing its own open state.
+`AdaptoAccordionList` provee un contexto de inyección `AccordionKey`: un ref `opened` (el `id` del
+acordeón abierto en ese momento, o `null`), una bandera `isList: true` y una función `toggle(id)`.
+Cada `AdaptoAccordion` hijo inyecta este contexto (y recurre a su propio `modelValue` local cuando
+no existe una lista ancestro) y llama a `toggle(id)` en lugar de gestionar su estado de apertura.
 
-Opening one accordion in the list closes whichever one was previously open, and clicking the title
-of the currently open accordion again closes it, leaving none open. Try it below:
+Abrir un acordeón de la lista cierra el que estuviera abierto antes, y volver a hacer clic en el
+título del acordeón abierto lo cierra, dejando ninguno abierto. Pruébalo aquí:
 
 <div class="demo" style="display: block;">
   <AdaptoAccordionList>
-    <AdaptoAccordion title="What is Adapto UI?">
-      A Vue 3 + TypeScript component library installable as a plugin, with a token-based theming system.
+    <AdaptoAccordion title="¿Qué es Adapto UI?">
+      Una librería de componentes Vue 3 + TypeScript instalable como plugin, con un sistema de theming basado en tokens.
     </AdaptoAccordion>
-    <AdaptoAccordion title="How does theming work?">
-      Styles are generated from a base theme (Atlas) merged with overrides, then injected at runtime as CSS custom properties.
+    <AdaptoAccordion title="¿Cómo funciona el theming?">
+      Los estilos se generan a partir de un tema base (Atlas) fusionado con overrides, y se inyectan en tiempo de ejecución como custom properties CSS.
     </AdaptoAccordion>
-    <AdaptoAccordion title="Can accordions be disabled?">
-      Yes, each AdaptoAccordion accepts its own `disabled` prop independently of the list.
+    <AdaptoAccordion title="¿Se pueden deshabilitar los acordeones?">
+      Sí, cada AdaptoAccordion acepta su propia prop `disabled` con independencia de la lista.
     </AdaptoAccordion>
   </AdaptoAccordionList>
 </div>
 
 ```vue-html
 <AdaptoAccordionList>
-  <AdaptoAccordion title="What is Adapto UI?">
-    A Vue 3 + TypeScript component library installable as a plugin, with a token-based theming system.
+  <AdaptoAccordion title="¿Qué es Adapto UI?">
+    Una librería de componentes Vue 3 + TypeScript instalable como plugin, con un sistema de theming basado en tokens.
   </AdaptoAccordion>
-  <AdaptoAccordion title="How does theming work?">
-    Styles are generated from a base theme (Atlas) merged with overrides, then injected at runtime as CSS custom properties.
+  <AdaptoAccordion title="¿Cómo funciona el theming?">
+    Los estilos se generan a partir de un tema base (Atlas) fusionado con overrides, y se inyectan en tiempo de ejecución como custom properties CSS.
   </AdaptoAccordion>
-  <AdaptoAccordion title="Can accordions be disabled?">
-    Yes, each AdaptoAccordion accepts its own `disabled` prop independently of the list.
+  <AdaptoAccordion title="¿Se pueden deshabilitar los acordeones?">
+    Sí, cada AdaptoAccordion acepta su propia prop `disabled` con independencia de la lista.
   </AdaptoAccordion>
 </AdaptoAccordionList>
 ```
 
-::: tip Without a list
-An `AdaptoAccordion` rendered outside of an `AdaptoAccordionList` still works — it falls back to
-its own local `modelValue`/`update:modelValue` v-model, opening and closing independently of any
-sibling accordions. See the [Accordion](./adpt-accordion) page for that standalone usage.
+::: tip Sin lista
+Un `AdaptoAccordion` renderizado fuera de un `AdaptoAccordionList` sigue funcionando: recurre a su
+propio v-model local `modelValue`/`update:modelValue`, abriéndose y cerrándose con independencia de
+los acordeones hermanos. Consulta la página de [Accordion](./adpt-accordion) para ese uso autónomo.
 :::
 
 ## Props
 
-None. `AdaptoAccordionList` declares no props.
+Ninguna. `AdaptoAccordionList` no declara props.
 
 ## Emits
 
-None. `AdaptoAccordionList` declares no emits.
+Ninguno. `AdaptoAccordionList` no declara emits.
 
 ## Slots
 
-| Slot      | Description                                                                                     |
+| Slot      | Descripción                                                                                     |
 | --------- | ------------------------------------------------------------------------------------------------- |
-| `default` | Expects one or more `AdaptoAccordion` children. There is no fallback content if left empty.       |
+| `default` | Espera uno o más hijos `AdaptoAccordion`. No hay contenido de respaldo si se deja vacío.          |
 
-## Accessibility
+## Accesibilidad
 
-`AdaptoAccordionList` itself carries no ARIA attributes — it is a plain, unstyled `<div>` used only
-to share single-open-accordion state via `provide`/`inject`. All accessible markup (the toggle
-`<button>`, the `role="region"` content panel) lives on each individual `AdaptoAccordion`; see that
-component's own Accessibility section for details. The single-open behavior it coordinates matches
-the expected keyboard/screen-reader pattern for a standard accordion group, where opening one panel
-closes the others.
+`AdaptoAccordionList` no lleva atributos ARIA propios: es un `<div>` plano y sin estilos usado solo
+para compartir vía `provide`/`inject` el estado de acordeón único abierto. Todo el marcado
+accesible (el `<button>` que alterna, el panel de contenido con `role="region"`) vive en cada
+`AdaptoAccordion` individual; consulta la sección de accesibilidad de ese componente para los
+detalles. El comportamiento de apertura única que coordina se corresponde con el patrón de teclado
+y lector de pantalla esperado en un grupo de acordeones estándar, donde abrir un panel cierra los
+demás.

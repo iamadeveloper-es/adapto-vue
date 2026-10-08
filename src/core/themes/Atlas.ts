@@ -357,6 +357,10 @@ export const Atlas: ThemeOptions = {
         bg: 'sm.primary.800',
         color: 'sm.on-primary.800',
       },
+      //- Navigation
+      breadcrumbs: {
+        gap: 'pr.spacing.base'
+      }
     },
   },
   modes: {

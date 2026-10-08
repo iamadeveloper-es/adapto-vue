@@ -1,19 +1,20 @@
 # Checkbox
 
-`adpt-checkbox` is a labeled checkbox input built on a native `<input type="checkbox">`. It
-supports two `v-model` shapes: a `boolean` for a single standalone checkbox, or an array of
-values for a group of checkboxes sharing the same `modelValue` (multi-select). It ships a custom
-SVG icon that swaps between an unchecked/checked path, and an optional inline validation message.
+`adpt-checkbox` es una casilla de verificación etiquetada construida sobre un
+`<input type="checkbox">` nativo. Admite dos formas de `v-model`: un `boolean` para una casilla
+autónoma, o un array de valores para un grupo de casillas que comparten el mismo `modelValue`
+(selección múltiple). Incorpora un icono SVG propio que alterna entre el trazado sin marcar y el
+marcado, además de un mensaje de validación en línea opcional.
 
-- **Component name:** `AdaptoCheckbox`
-- **Source:** `src/lib/components/form/adpt-checkbox/index.vue`
-- **Styles:** `src/lib/components/form/adpt-checkbox/style.scss` (registered in `AdaptoPlugin`)
+- **Nombre del componente:** `AdaptoCheckbox`
+- **Fuente:** `src/lib/components/form/adpt-checkbox/index.vue`
+- **Estilos:** `src/lib/components/form/adpt-checkbox/style.scss` (se inyectan en el primer render del componente)
 
-## Usage
+## Uso
 
-Once [`AdaptoPlugin`](../../src/lib/plugin.ts) is installed on the app, `AdaptoCheckbox` is
-available globally. `name` is the only required prop; `modelValue` is not required by the prop
-declaration, but the component is not useful without a `v-model`.
+Una vez instalado [`AdaptoPlugin`](../../src/lib/plugin.ts) en la aplicación, `AdaptoCheckbox` está
+disponible de forma global. `name` es la única prop obligatoria; `modelValue` no lo es según la
+declaración de props, pero el componente no resulta útil sin un `v-model`.
 
 ```ts
 // main.ts
@@ -24,10 +25,10 @@ import App from './App.vue'
 createApp(App).use(AdaptoPlugin).mount('#app')
 ```
 
-### Single checkbox (boolean `v-model`)
+### Casilla única (`v-model` booleano)
 
-When `modelValue` is a plain `boolean`, the checkbox ignores the `value` prop for state purposes
-and simply reflects/toggles that boolean:
+Cuando `modelValue` es un `boolean` sin más, la casilla ignora la prop `value` a efectos de estado
+y simplemente refleja y alterna ese booleano:
 
 <script setup>
 import { ref } from 'vue'
@@ -40,7 +41,7 @@ const fruits = ref(['apple'])
   <AdaptoCheckbox
     v-model="accepted"
     name="terms"
-    label="I accept the terms and conditions"
+    label="Acepto los términos y condiciones"
     active-color="primary-500"
   />
   <span>modelValue: {{ accepted }}</span>
@@ -50,38 +51,39 @@ const fruits = ref(['apple'])
 <AdaptoCheckbox
   v-model="accepted"
   name="terms"
-  label="I accept the terms and conditions"
+  label="Acepto los términos y condiciones"
   active-color="primary-500"
 />
 ```
 
-### Checkbox group (array `v-model`)
+### Grupo de casillas (`v-model` de array)
 
-When several `AdaptoCheckbox` share the same array `modelValue` and each is given a distinct
-`value`, checked state is derived from `modelValue.includes(value)`, and toggling any one of them
-adds/removes its `value` from the shared array:
+Cuando varios `AdaptoCheckbox` comparten el mismo `modelValue` de tipo array y cada uno recibe un
+`value` distinto, el estado marcado se deriva de `modelValue.includes(value)`, y alternar
+cualquiera de ellos añade o quita su `value` del array compartido:
 
 <div class="demo" style="flex-direction: column; align-items: flex-start;">
-  <AdaptoCheckbox v-model="fruits" name="fruit" value="apple" label="Apple" active-color="primary-500" />
-  <AdaptoCheckbox v-model="fruits" name="fruit" value="banana" label="Banana" active-color="primary-500" />
-  <AdaptoCheckbox v-model="fruits" name="fruit" value="cherry" label="Cherry" active-color="primary-500" />
+  <AdaptoCheckbox v-model="fruits" name="fruit" value="apple" label="Manzana" active-color="primary-500" />
+  <AdaptoCheckbox v-model="fruits" name="fruit" value="banana" label="Plátano" active-color="primary-500" />
+  <AdaptoCheckbox v-model="fruits" name="fruit" value="cherry" label="Cereza" active-color="primary-500" />
   <span>modelValue: {{ fruits }}</span>
 </div>
 
 ```vue-html
-<AdaptoCheckbox v-model="fruits" name="fruit" value="apple" label="Apple" active-color="primary-500" />
-<AdaptoCheckbox v-model="fruits" name="fruit" value="banana" label="Banana" active-color="primary-500" />
-<AdaptoCheckbox v-model="fruits" name="fruit" value="cherry" label="Cherry" active-color="primary-500" />
+<AdaptoCheckbox v-model="fruits" name="fruit" value="apple" label="Manzana" active-color="primary-500" />
+<AdaptoCheckbox v-model="fruits" name="fruit" value="banana" label="Plátano" active-color="primary-500" />
+<AdaptoCheckbox v-model="fruits" name="fruit" value="cherry" label="Cereza" active-color="primary-500" />
 ```
 
-`value` accepts a `string`, `number`, `boolean`, or plain object — whatever shape is meaningful
-for the group's items. It defaults to `false`, which is only sensible for the standalone boolean
-mode above.
+`value` acepta un `string`, `number`, `boolean` u objeto plano: la forma que tenga sentido para los
+elementos del grupo. Su valor por defecto es `false`, que solo resulta razonable en el modo
+booleano autónomo anterior.
 
-## Active color
+## Color activo
 
-`activeColor` is a theme token name (e.g. `primary-500`, `success-600`) resolved via
-`fw.getVar` and applied as the checked icon's `color`. It has no effect while unchecked.
+`activeColor` es el nombre de un token del tema (p. ej. `primary-500`, `success-600`) resuelto
+mediante `fw.getVar` y aplicado como `color` del icono marcado. No tiene efecto mientras la casilla
+está sin marcar.
 
 <div class="demo">
   <AdaptoCheckbox name="c1" label="Primary" model-value active-color="primary-500" />
@@ -95,126 +97,126 @@ mode above.
 <AdaptoCheckbox name="c3" label="Danger" :model-value="true" active-color="danger-600" />
 ```
 
-## Hidden label
+## Etiqueta oculta
 
-`hideLabel` removes the `<label>` element entirely (not just visually) and adds a
-`--no-label` modifier class that removes the surrounding margins. `label` is still required in
-this case, since it becomes the input's `aria-label`.
+`hideLabel` elimina el elemento `<label>` por completo (no solo visualmente) y añade una clase
+modificadora `--no-label` que suprime los márgenes circundantes. `label` sigue siendo obligatoria en
+este caso, ya que pasa a ser el `aria-label` del input.
 
 <div class="demo">
-  <AdaptoCheckbox name="hidden" label="Subscribe to newsletter" hide-label active-color="primary-500" />
+  <AdaptoCheckbox name="hidden" label="Suscribirme a la newsletter" hide-label active-color="primary-500" />
 </div>
 
 ```vue-html
-<AdaptoCheckbox name="hidden" label="Subscribe to newsletter" hide-label active-color="primary-500" />
+<AdaptoCheckbox name="hidden" label="Suscribirme a la newsletter" hide-label active-color="primary-500" />
 ```
 
-## Validation message
+## Mensaje de validación
 
-Passing a non-empty `validations` string renders a `role="alert"` span below the checkbox, linked
-to the input via `aria-describedby`. The component does not validate anything itself — the
-consumer decides when to pass a message.
+Pasar una cadena `validations` no vacía renderiza un `span` con `role="alert"` debajo de la
+casilla, enlazado al input mediante `aria-describedby`. El componente no valida nada por sí mismo:
+quien lo consume decide cuándo pasar un mensaje.
 
 <div class="demo">
   <AdaptoCheckbox
     name="required-check"
-    label="I agree to the privacy policy"
+    label="Acepto la política de privacidad"
     active-color="primary-500"
-    validations="You must accept to continue"
+    validations="Debes aceptar para continuar"
   />
 </div>
 
 ```vue-html
 <AdaptoCheckbox
   name="required-check"
-  label="I agree to the privacy policy"
+  label="Acepto la política de privacidad"
   active-color="primary-500"
-  validations="You must accept to continue"
+  validations="Debes aceptar para continuar"
 />
 ```
 
 ## Slots
 
-The `label` slot replaces the static label text entirely, and the `link` slot renders additional
-content (e.g. an inline link) right after it, still inside the same `<label>`:
+El slot `label` sustituye por completo el texto estático de la etiqueta, y el slot `link` renderiza
+contenido adicional (p. ej. un enlace en línea) justo después, siempre dentro del mismo `<label>`:
 
 <div class="demo">
   <AdaptoCheckbox name="slotted" active-color="primary-500">
-    <template #label>I accept the</template>
+    <template #label>Acepto los</template>
     <template #link>
-      &nbsp;<a href="#" @click.prevent>terms of service</a>
+      &nbsp;<a href="#" @click.prevent>términos del servicio</a>
     </template>
   </AdaptoCheckbox>
 </div>
 
 ```vue-html
 <AdaptoCheckbox name="slotted" active-color="primary-500">
-  <template #label>I accept the</template>
+  <template #label>Acepto los</template>
   <template #link>
-    &nbsp;<a href="#">terms of service</a>
+    &nbsp;<a href="#">términos del servicio</a>
   </template>
 </AdaptoCheckbox>
 ```
 
-## States
+## Estados
 
 <div class="demo">
-  <AdaptoCheckbox name="disabled-unchecked" label="Disabled" disabled active-color="primary-500" />
-  <AdaptoCheckbox name="disabled-checked" label="Disabled, checked" disabled model-value active-color="primary-500" />
+  <AdaptoCheckbox name="disabled-unchecked" label="Deshabilitada" disabled active-color="primary-500" />
+  <AdaptoCheckbox name="disabled-checked" label="Deshabilitada y marcada" disabled model-value active-color="primary-500" />
 </div>
 
 ```vue-html
-<AdaptoCheckbox name="disabled-unchecked" label="Disabled" disabled active-color="primary-500" />
-<AdaptoCheckbox name="disabled-checked" label="Disabled, checked" disabled :model-value="true" active-color="primary-500" />
+<AdaptoCheckbox name="disabled-unchecked" label="Deshabilitada" disabled active-color="primary-500" />
+<AdaptoCheckbox name="disabled-checked" label="Deshabilitada y marcada" disabled :model-value="true" active-color="primary-500" />
 ```
 
-- **`disabled`** — sets the native `disabled` attribute on the input and adds a `disabled` class
-  to the root, which style.scss does not currently visually style (no dimming/cursor rule beyond
-  whatever the input's native disabled rendering provides).
-- **focused** — while the input has focus, an internal `isFocused` ref adds a `focused` class to
-  the root; there is no other prop-driven state.
+- **`disabled`** — establece el atributo nativo `disabled` en el input y añade una clase `disabled`
+  a la raíz, que `style.scss` no estiliza visualmente hoy por hoy (no hay regla de atenuación ni de
+  cursor más allá del render nativo que el navegador da a un input deshabilitado).
+- **enfocada** — mientras el input tiene el foco, un ref interno `isFocused` añade una clase
+  `focused` a la raíz; no hay ningún otro estado controlado por props.
 
 ## Props
 
-| Prop          | Type                                                          | Default              | Description                                                                                          |
+| Prop          | Tipo                                                          | Por defecto          | Descripción                                                                                          |
 | ------------- | --------------------------------------------------------------- | --------------------- | -------------------------------------------------------------------------------------------------------- |
-| `modelValue`  | `boolean \| CheckboxItemValue[]`                                | —                     | `v-model` binding. A `boolean` drives a single checkbox; an array of `CheckboxItemValue` drives a multi-select group. |
-| `disabled`    | `boolean`                                                       | `false`               | Disables the checkbox input.                                                                          |
-| `value`       | `string \| number \| boolean \| Record<string, unknown>`       | `false`               | The value associated with this checkbox. Only used to compute checked state when `modelValue` is an array. |
-| `name`        | `string`                                                        | —                     | **Required.** Native `name` attribute of the input, needed for form submission.                       |
-| `label`       | `string`                                                        | `'Checkbox label'`    | Visible text label, and always the input's `aria-label`. Overridden (visually) by the `label` slot.  |
-| `hideLabel`   | `boolean`                                                       | `false`               | Removes the `<label>` element and adds a `--no-label` modifier class.                                 |
-| `activeColor` | `string`                                                        | `'secondary-400'`     | Theme token name applied as the checked icon's color. No effect while unchecked.                      |
-| `validations` | `string`                                                        | —                     | Error message text. When set, renders a `role="alert"` span linked via `aria-describedby`.            |
+| `modelValue`  | `boolean \| CheckboxItemValue[]`                                | —                     | Enlace de `v-model`. Un `boolean` controla una casilla única; un array de `CheckboxItemValue` controla un grupo de selección múltiple. |
+| `disabled`    | `boolean`                                                       | `false`               | Deshabilita el input de la casilla.                                                                   |
+| `value`       | `string \| number \| boolean \| Record<string, unknown>`       | `false`               | Valor asociado a esta casilla. Solo se usa para calcular el estado marcado cuando `modelValue` es un array. |
+| `name`        | `string`                                                        | —                     | **Obligatoria.** Atributo nativo `name` del input, necesario para el envío del formulario.            |
+| `label`       | `string`                                                        | `'Checkbox label'`    | Texto visible de la etiqueta, y siempre el `aria-label` del input. El slot `label` lo sustituye visualmente. |
+| `hideLabel`   | `boolean`                                                       | `false`               | Elimina el elemento `<label>` y añade una clase modificadora `--no-label`.                            |
+| `activeColor` | `string`                                                        | `'secondary-400'`     | Nombre de token del tema aplicado como color del icono marcado. Sin efecto mientras está sin marcar.  |
+| `validations` | `string`                                                        | —                     | Texto del mensaje de error. Cuando se define, renderiza un `span` con `role="alert"` enlazado vía `aria-describedby`. |
 
-`CheckboxItemValue` is `string | number | boolean | Record<string, unknown>`.
+`CheckboxItemValue` es `string | number | boolean | Record<string, unknown>`.
 
 ## Emits
 
-| Event               | Payload                          | Description                                              |
+| Evento              | Payload                          | Descripción                                              |
 | -------------------- | ----------------------------------- | ------------------------------------------------------------ |
-| `update:modelValue` | `boolean \| CheckboxItemValue[]`  | Emitted whenever the native checkbox toggles, via `v-model`. |
-| `onFocus`            | `FocusEvent`                       | Emitted when the input gains focus.                       |
-| `onBlur`             | `FocusEvent`                       | Emitted when the input loses focus.                        |
+| `update:modelValue` | `boolean \| CheckboxItemValue[]`  | Se emite cada vez que la casilla nativa cambia, vía `v-model`. |
+| `onFocus`            | `FocusEvent`                       | Se emite cuando el input gana el foco.                    |
+| `onBlur`             | `FocusEvent`                       | Se emite cuando el input pierde el foco.                   |
 
 ## Slots
 
-| Slot    | Description                                                                    |
+| Slot    | Descripción                                                                    |
 | ------- | ---------------------------------------------------------------------------------- |
-| `label` | Renders inside the `<label>`, replacing the static `label` prop text.              |
-| `link`  | Renders inside the `<label>`, after the label content (typically for an inline link). |
+| `label` | Se renderiza dentro del `<label>`, sustituyendo el texto estático de la prop `label`. |
+| `link`  | Se renderiza dentro del `<label>`, tras el contenido de la etiqueta (normalmente para un enlace en línea). |
 
-## Accessibility
+## Accesibilidad
 
-- The input always exposes `label` as its `aria-label`, whether the visible text comes from the
-  `label` prop or the `label` slot, and even when `hideLabel` removes the `<label>` element.
-- The `<label for>`/`id` pairing (via `useId()`) associates the visible label with the input when
-  `hideLabel` is `false`, in addition to the `aria-label`.
-- When `validations` is set, the input gets `aria-describedby` pointing at the error span's id,
-  and the error span itself has `role="alert"` so assistive technology announces it.
-- The decorative icon `<span>` and its inner `<svg>` are both marked `aria-hidden="true"`
-  (`role="img"` is also present on the SVG, which is redundant with `aria-hidden`), so the visible
-  check mark never gets announced independently of the native checkbox state.
-- Consumers building a checkbox group are responsible for wrapping the group in a `fieldset`/
-  `legend` (or `role="group"` with an accessible name) if the group as a whole needs to be
-  announced — `adpt-checkbox` only handles the accessibility of each individual input.
+- El input expone siempre `label` como su `aria-label`, tanto si el texto visible viene de la prop
+  `label` como del slot `label`, e incluso cuando `hideLabel` elimina el elemento `<label>`.
+- El emparejamiento `<label for>`/`id` (mediante `useId()`) asocia la etiqueta visible con el input
+  cuando `hideLabel` es `false`, además del `aria-label`.
+- Cuando `validations` está definida, el input recibe `aria-describedby` apuntando al id del span de
+  error, y ese span lleva `role="alert"` para que las tecnologías de asistencia lo anuncien.
+- El `<span>` decorativo del icono y su `<svg>` interno se marcan ambos como `aria-hidden="true"`
+  (el SVG lleva además `role="img"`, redundante con `aria-hidden`), de forma que la marca visible
+  nunca se anuncia por separado del estado nativo de la casilla.
+- Quien construya un grupo de casillas es responsable de envolverlo en un `fieldset`/`legend` (o un
+  `role="group"` con nombre accesible) si el grupo en conjunto necesita anunciarse:
+  `adpt-checkbox` solo se encarga de la accesibilidad de cada input individual.

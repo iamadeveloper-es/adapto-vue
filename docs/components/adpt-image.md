@@ -1,17 +1,17 @@
 # Image
 
-`adpt-image` is a thin wrapper around a native `<img>`: a fixed-structure div/img pair that adds
-`object-fit` control, an optional `aspect-ratio` box, and a normalized `on-error` event. It has no
-slots and no visual variants beyond `fit`.
+`adpt-image` es una envoltura ligera sobre un `<img>` nativo: una pareja div/img de estructura
+fija que añade control de `object-fit`, una caja opcional de `aspect-ratio` y un evento `on-error`
+normalizado. No tiene slots ni variantes visuales más allá de `fit`.
 
-- **Component name:** `AdaptoImage`
-- **Source:** `src/lib/components/element/adpt-image/index.vue`
-- **Styles:** `src/lib/components/element/adpt-image/style.scss` (registered in `AdaptoPlugin`)
+- **Nombre del componente:** `AdaptoImage`
+- **Fuente:** `src/lib/components/element/adpt-image/index.vue`
+- **Estilos:** `src/lib/components/element/adpt-image/style.scss` (se inyectan en el primer render del componente)
 
-## Usage
+## Uso
 
-Once [`AdaptoPlugin`](../../src/lib/plugin.ts) is installed on the app, `AdaptoImage` is available
-globally. `src` is the only required prop:
+Una vez instalado [`AdaptoPlugin`](../../src/lib/plugin.ts) en la aplicación, `AdaptoImage` está
+disponible de forma global. `src` es la única prop obligatoria:
 
 ```ts
 // main.ts
@@ -23,124 +23,125 @@ createApp(App).use(AdaptoPlugin).mount('#app')
 ```
 
 ```vue-html
-<AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Mountain river" />
+<AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Río de montaña" />
 ```
 
-## Object fit
+## Ajuste del contenido
 
-The `fit` prop maps to a `.fw-image--<fit>` modifier class that sets `object-fit` on the inner
-`<img>`. Default is `'cover'`. Any value outside `'contain' | 'cover'` silently falls back to
-`'cover'` — both the applied class and the resolved `object-fit` behavior.
+La prop `fit` mapea a una clase modificadora `.fw-image--<fit>` que define `object-fit` en el
+`<img>` interno. Por defecto es `'cover'`. Cualquier valor fuera de `'contain' | 'cover'` cae
+silenciosamente en `'cover'`, tanto en la clase aplicada como en el comportamiento resuelto de
+`object-fit`.
 
 <div class="demo">
-  <AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Mountain river" fit="cover" aspect-ratio="1/1" width="160px" />
-  <AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Mountain river" fit="contain" aspect-ratio="1/1" width="160px" />
+  <AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Río de montaña" fit="cover" aspect-ratio="1/1" width="160px" />
+  <AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Río de montaña" fit="contain" aspect-ratio="1/1" width="160px" />
 </div>
 
 ```vue-html
-<AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Mountain river" fit="cover" aspect-ratio="1/1" width="160px" />
-<AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Mountain river" fit="contain" aspect-ratio="1/1" width="160px" />
+<AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Río de montaña" fit="cover" aspect-ratio="1/1" width="160px" />
+<AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Río de montaña" fit="contain" aspect-ratio="1/1" width="160px" />
 ```
 
-| `fit`       | Effect                                                             |
+| `fit`       | Efecto                                                             |
 | ----------- | ------------------------------------------------------------------- |
-| `cover`     | Fills the box, cropping overflow. **Default.**                     |
-| `contain`   | Scales the whole image to fit inside the box, letterboxing if needed. |
+| `cover`     | Rellena la caja recortando lo que sobresale. **Por defecto.**       |
+| `contain`   | Escala la imagen entera para que quepa dentro de la caja, dejando bandas si hace falta. |
 
-## Aspect ratio
+## Relación de aspecto
 
-The `aspectRatio` prop sets an inline `aspect-ratio` style on the wrapper `div`, but only when the
-value is one of a fixed whitelist: `'16/9' | '4/3' | '1/1' | '9/16'`. Any other value (or no value
-at all) is ignored and no `aspect-ratio` style is applied — the wrapper then sizes itself from the
-image's natural dimensions and the surrounding layout instead.
+La prop `aspectRatio` establece un estilo inline `aspect-ratio` en el `div` contenedor, pero solo
+cuando el valor pertenece a una lista fija: `'16/9' | '4/3' | '1/1' | '9/16'`. Cualquier otro valor
+(o ninguno) se ignora y no se aplica ningún `aspect-ratio`; en ese caso el contenedor se
+dimensiona a partir de las dimensiones naturales de la imagen y del layout circundante.
 
 <div class="demo">
-  <AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Mountain river" aspect-ratio="16/9" width="220px" />
-  <AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Mountain river" aspect-ratio="1/1" width="140px" />
-  <AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Mountain river" aspect-ratio="9/16" width="110px" />
+  <AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Río de montaña" aspect-ratio="16/9" width="220px" />
+  <AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Río de montaña" aspect-ratio="1/1" width="140px" />
+  <AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Río de montaña" aspect-ratio="9/16" width="110px" />
 </div>
 
 ```vue-html
-<AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Mountain river" aspect-ratio="16/9" width="220px" />
-<AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Mountain river" aspect-ratio="1/1" width="140px" />
-<AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Mountain river" aspect-ratio="9/16" width="110px" />
+<AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Río de montaña" aspect-ratio="16/9" width="220px" />
+<AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Río de montaña" aspect-ratio="1/1" width="140px" />
+<AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Río de montaña" aspect-ratio="9/16" width="110px" />
 ```
 
-::: warning No aspectRatio provided
-Without `aspectRatio`, the wrapper has no fixed height of its own — the rendered size depends on
-the `<img>`'s natural dimensions (scaled to the `width` you pass, if any) and whatever height the
-parent layout allows. Pass an `aspectRatio` whenever you need a predictable box before the image
-loads.
+::: warning Sin aspectRatio
+Sin `aspectRatio`, el contenedor no tiene altura fija propia: el tamaño renderizado depende de las
+dimensiones naturales del `<img>` (escaladas al `width` que pases, si lo hay) y de la altura que
+permita el layout padre. Pasa un `aspectRatio` siempre que necesites una caja predecible antes de
+que la imagen cargue.
 :::
 
-## Width
+## Ancho
 
-The `width` prop is written verbatim as the wrapper `div`'s inline `width` style, so it must
-include a unit (`"200px"`, `"50%"`, …) — a bare number is not converted to pixels.
+La prop `width` se escribe literalmente como estilo inline `width` del `div` contenedor, así que
+debe incluir unidad (`"200px"`, `"50%"`, …): un número suelto no se convierte a píxeles.
 
 <div class="demo">
-  <AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Mountain river" width="100px" aspect-ratio="1/1" />
-  <AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Mountain river" width="200px" aspect-ratio="1/1" />
+  <AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Río de montaña" width="100px" aspect-ratio="1/1" />
+  <AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Río de montaña" width="200px" aspect-ratio="1/1" />
 </div>
 
 ```vue-html
-<AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Mountain river" width="100px" aspect-ratio="1/1" />
-<AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Mountain river" width="200px" aspect-ratio="1/1" />
+<AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Río de montaña" width="100px" aspect-ratio="1/1" />
+<AdaptoImage src="https://picsum.photos/id/1015/800/500" alt="Río de montaña" width="200px" aspect-ratio="1/1" />
 ```
 
-## Error handling
+## Manejo de errores
 
-The `<img>`'s native `error` event is forwarded as `on-error`, carrying the original `Event`. This
-is the only way to react to a broken `src` — there is no built-in fallback image or placeholder
-state.
+El evento nativo `error` del `<img>` se reenvía como `on-error`, con el `Event` original. Es la
+única forma de reaccionar ante un `src` roto: no hay imagen de reserva ni estado de marcador de
+posición integrados.
 
 <div class="demo">
-  <AdaptoImage src="https://this-domain-does-not-exist.invalid/broken.jpg" alt="Broken image" width="120px" aspect-ratio="1/1" @on-error="() => {}" />
+  <AdaptoImage src="https://this-domain-does-not-exist.invalid/broken.jpg" alt="Imagen rota" width="120px" aspect-ratio="1/1" @on-error="() => {}" />
 </div>
 
 ```vue-html
 <AdaptoImage
   src="https://example.com/broken.jpg"
-  alt="Broken image"
+  alt="Imagen rota"
   @on-error="onImageError"
 />
 ```
 
 ```ts
 function onImageError(event: Event) {
-  // e.g. swap `src` to a fallback, log the failure, etc.
+  // p. ej. cambiar `src` por una imagen de reserva, registrar el fallo, etc.
 }
 ```
 
 ## Props
 
-| Prop          | Type                                    | Default   | Description                                                                                   |
+| Prop          | Tipo                                    | Por defecto | Descripción                                                                                   |
 | ------------- | ---------------------------------------- | --------- | ----------------------------------------------------------------------------------------------- |
-| `src`         | `string`                                  | —         | **Required.** Sets the `<img src>` attribute.                                                  |
-| `width`       | `string`                                  | `undefined` | Inline `width` style on the wrapper `div`. Must include a unit.                              |
-| `alt`         | `string`                                  | `undefined` | Sets the `<img alt>` attribute. Optional per the prop definition, but should be provided for semantic images. |
-| `fit`         | `'contain' \| 'cover'`                    | `'cover'` | Applies `object-fit` via a `.fw-image--<fit>` modifier class. Values outside this union fall back to `'cover'`. |
-| `aspectRatio` | `'16/9' \| '4/3' \| '1/1' \| '9/16'`       | `undefined` | Inline `aspect-ratio` style on the wrapper `div`, applied only if the value is in this whitelist; otherwise ignored. |
+| `src`         | `string`                                  | —         | **Obligatoria.** Define el atributo `<img src>`.                                               |
+| `width`       | `string`                                  | `undefined` | Estilo inline `width` en el `div` contenedor. Debe incluir unidad.                           |
+| `alt`         | `string`                                  | `undefined` | Define el atributo `<img alt>`. Opcional según la definición de la prop, pero debería pasarse en imágenes con significado. |
+| `fit`         | `'contain' \| 'cover'`                    | `'cover'` | Aplica `object-fit` mediante una clase modificadora `.fw-image--<fit>`. Los valores fuera de esta unión caen en `'cover'`. |
+| `aspectRatio` | `'16/9' \| '4/3' \| '1/1' \| '9/16'`       | `undefined` | Estilo inline `aspect-ratio` en el `div` contenedor, aplicado solo si el valor está en esta lista; en caso contrario se ignora. |
 
 ## Emits
 
-| Event      | Payload | Description                                                  |
+| Evento     | Payload | Descripción                                                  |
 | ---------- | ------- | ---------------------------------------------------------------- |
-| `on-error` | `Event` | Emitted when the `<img>` fails to load (native `error` event).  |
+| `on-error` | `Event` | Se emite cuando el `<img>` falla al cargar (evento nativo `error`). |
 
 ## Slots
 
-`adpt-image` has no slots. The wrapper `div` and the `<img>` it contains are a fixed structure —
-all rendered content comes from the `src`/`alt`/`fit`/`aspectRatio`/`width` props.
+`adpt-image` no tiene slots. El `div` contenedor y el `<img>` que contiene son una estructura
+fija: todo el contenido renderizado procede de las props `src`/`alt`/`fit`/`aspectRatio`/`width`.
 
-## Accessibility
+## Accesibilidad
 
-- The `<img>`'s `alt` attribute is bound directly to the `alt` prop. `alt` is optional in the prop
-  definition, but omitting it leaves the image without accessible text — always pass `alt` for any
-  image that conveys information, and pass an empty string explicitly (`alt=""`) for purely
-  decorative images.
-- There is no `role` or `aria-*` attribute beyond `alt`; assistive technology treats the element as
-  a standard image.
-- A failed load (`on-error`) does not change the rendered markup or announce anything on its own —
-  if you need users to be notified of a broken image, handle that in the `on-error` listener
-  yourself (e.g. swap in a fallback `src` or render accompanying text).
+- El atributo `alt` del `<img>` se enlaza directamente a la prop `alt`. `alt` es opcional en la
+  definición de la prop, pero omitirlo deja la imagen sin texto accesible: pasa siempre `alt` en
+  cualquier imagen que transmita información, y pasa explícitamente una cadena vacía (`alt=""`)
+  para imágenes puramente decorativas.
+- No hay ningún atributo `role` ni `aria-*` más allá de `alt`; las tecnologías de asistencia tratan
+  el elemento como una imagen estándar.
+- Un fallo de carga (`on-error`) no cambia el marcado renderizado ni anuncia nada por sí mismo: si
+  necesitas notificar a las personas usuarias de una imagen rota, gestiónalo tú en el manejador de
+  `on-error` (p. ej. sustituyendo el `src` por uno de reserva o renderizando texto acompañante).

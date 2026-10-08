@@ -1,20 +1,20 @@
 # Select
 
-`adpt-select` is a custom combobox/listbox built from a `<button>` and a `role="listbox"` popup
-(no native `<select>` involved). It supports four visual variants, full keyboard navigation
-(arrow keys, Home/End, typeahead search), click-outside dismissal, and an animated open/close
-transition.
+`adpt-select` es un combobox/listbox propio construido a partir de un `<button>` y un popup
+`role="listbox"` (sin `<select>` nativo de por medio). Admite cuatro variantes visuales, navegación
+completa por teclado (flechas, Inicio/Fin, búsqueda por escritura), cierre al hacer clic fuera y
+una transición animada de apertura y cierre.
 
-- **Component name:** `AdaptoSelect`
-- **Source:** `src/lib/components/form/adpt-select/index.vue`
-- **Styles:** `src/lib/components/form/adpt-select/style.scss` (injected on first render via
-  `useStyle`, not registered in `AdaptoPlugin`)
+- **Nombre del componente:** `AdaptoSelect`
+- **Fuente:** `src/lib/components/form/adpt-select/index.vue`
+- **Estilos:** `src/lib/components/form/adpt-select/style.scss` (inyectados en el primer render vía
+  `useStyle`, no registrados en `AdaptoPlugin`)
 
-## Usage
+## Uso
 
-Once [`AdaptoPlugin`](../../src/lib/plugin.ts) is installed on the app, `AdaptoSelect` is
-available globally. `options` is required; `modelValue` drives the selected item through
-`v-model`.
+Una vez instalado [`AdaptoPlugin`](../../src/lib/plugin.ts) en la aplicación, `AdaptoSelect` está
+disponible de forma global. `options` es obligatoria; `modelValue` controla el elemento
+seleccionado mediante `v-model`.
 
 ```ts
 // main.ts
@@ -30,10 +30,10 @@ import { ref } from 'vue'
 
 const fruit = ref()
 const fruitOptions = [
-  { label: 'Apple', value: 'apple' },
-  { label: 'Banana', value: 'banana' },
-  { label: 'Cherry', value: 'cherry' },
-  { label: 'Dragon fruit', value: 'dragon-fruit' },
+  { label: 'Manzana', value: 'apple' },
+  { label: 'Plátano', value: 'banana' },
+  { label: 'Cereza', value: 'cherry' },
+  { label: 'Pitaya', value: 'dragon-fruit' },
 ]
 </script>
 
@@ -49,20 +49,20 @@ const fruitOptions = [
 ```ts
 const fruit = ref()
 const fruitOptions = [
-  { label: 'Apple', value: 'apple' },
-  { label: 'Banana', value: 'banana' },
-  { label: 'Cherry', value: 'cherry' },
-  { label: 'Dragon fruit', value: 'dragon-fruit' },
+  { label: 'Manzana', value: 'apple' },
+  { label: 'Plátano', value: 'banana' },
+  { label: 'Cereza', value: 'cherry' },
+  { label: 'Pitaya', value: 'dragon-fruit' },
 ]
 ```
 
-While `modelValue` is empty/unset, the button shows the placeholder text
-`Selecciona una opción`. Once a value is set, it shows `selectedItem.label` — the label of the
-option whose `value` matches `modelValue`.
+Mientras `modelValue` está vacío o sin definir, el botón muestra el texto de marcador de posición
+`Selecciona una opción`. Una vez fijado un valor, muestra `selectedItem.label`: la etiqueta de la
+opción cuyo `value` coincide con `modelValue`.
 
-## Variants
+## Variantes
 
-The `variant` prop controls the visual style of the combobox button and listbox. Default is
+La prop `variant` controla el estilo visual del botón del combobox y del listbox. Por defecto es
 `outlined`.
 
 <div class="demo">
@@ -79,24 +79,25 @@ The `variant` prop controls the visual style of the combobox button and listbox.
 <AdaptoSelect variant="underlined" color="primary-700" :options="fruitOptions" />
 ```
 
-| Variant      | Description                                                                              |
+| Variante     | Descripción                                                                              |
 | ------------ | ----------------------------------------------------------------------------------------- |
-| `outlined`   | Transparent background with a `currentColor` border. **Default.**                        |
-| `fussy`      | Border **and** a tinted (`color-mix`) background — the most visually prominent variant.   |
-| `soft`       | Tinted background, no border.                                                             |
-| `underlined` | Transparent-ish background with only a bottom border, square top corners.                 |
+| `outlined`   | Fondo transparente con un borde en `currentColor`. **Por defecto.**                       |
+| `fussy`      | Borde **y** fondo tintado (`color-mix`): la variante visualmente más prominente.          |
+| `soft`       | Fondo tintado, sin borde.                                                                 |
+| `underlined` | Fondo casi transparente con solo borde inferior y esquinas superiores rectas.             |
 
-If `variant` is passed a value outside this set, `normalizedVariant` falls back to the literal
-string `'outlined'` instead of a `fw-select--outlined` class — meaning no variant class is
-applied at all in that edge case. In practice, the prop's own `validator` already restricts input
-to the four valid values, so this only matters when bypassing type-checking.
+Si se pasa a `variant` un valor fuera de este conjunto, `normalizedVariant` cae en la cadena
+literal `'outlined'` en lugar de en una clase `fw-select--outlined`, lo que significa que en ese
+caso límite no se aplica ninguna clase de variante. En la práctica, el propio `validator` de la
+prop ya restringe la entrada a los cuatro valores válidos, así que esto solo importa si se salta la
+comprobación de tipos.
 
-## Colors
+## Colores
 
-The `color` prop accepts the name of a theme token (primitive, e.g. `green-500`, or semantic,
-e.g. `primary-700`) as it is exposed on the CSS custom properties generated by the theme, i.e.
-`--adapto-<color>`. It sets the select's text color (`currentColor`), which the variants above
-then reuse for borders and tinted backgrounds. Default is `primary-700`.
+La prop `color` acepta el nombre de un token del tema (primitivo, p. ej. `green-500`, o semántico,
+p. ej. `primary-700`) tal y como se expone en las custom properties CSS que genera el tema, es
+decir `--adapto-<color>`. Define el color de texto del select (`currentColor`), que las variantes
+anteriores reutilizan para bordes y fondos tintados. Por defecto es `primary-700`.
 
 <div class="demo">
   <AdaptoSelect variant="fussy" color="primary-700" :options="fruitOptions" />
@@ -112,11 +113,11 @@ then reuse for borders and tinted backgrounds. Default is `primary-700`.
 <AdaptoSelect variant="fussy" color="danger-600" :options="fruitOptions" />
 ```
 
-## Icon
+## Icono
 
-The `icon` prop (`{ name, size? }`, matching the `Icon` type) controls the trailing chevron
-rendered via `AdaptoIcon`. It defaults to `{ name: 'chevron-down' }`. If `size` is omitted, it is
-computed from the select's `--fw-select-font-size` CSS variable (falling back to `1rem`) plus
+La prop `icon` (`{ name, size? }`, correspondiente al tipo `Icon`) controla el chevron final
+renderizado vía `AdaptoIcon`. Por defecto es `{ name: 'chevron-down' }`. Si se omite `size`, se
+calcula a partir de la variable CSS `--fw-select-font-size` del select (con `1rem` de respaldo) más
 2px.
 
 <div class="demo">
@@ -127,74 +128,78 @@ computed from the select's `--fw-select-font-size` CSS variable (falling back to
 <AdaptoSelect color="primary-700" :options="fruitOptions" :icon="{ name: 'list-filter' }" />
 ```
 
-::: warning `size` prop has no visible effect
-`adpt-select` declares a `size` prop (`'xs' | 'sm' | 'md' | 'lg' | 'xl'`, default `'xs'`) and the
-stylesheet defines matching `.fw-select--xs` … `.fw-select--xl` modifier classes with different
-padding/font-size. The component never reads `props.size` in the template or in any computed
-class list, so passing `size` currently has no effect — the select always renders at its base,
-unsized styling.
+::: warning La prop `size` no tiene efecto visible
+`adpt-select` declara una prop `size` (`'xs' | 'sm' | 'md' | 'lg' | 'xl'`, por defecto `'xs'`) y la
+hoja de estilos define las clases modificadoras correspondientes `.fw-select--xs` … `.fw-select--xl`
+con distinto padding y tamaño de fuente. El componente nunca lee `props.size` en el template ni en
+ninguna lista de clases calculada, así que pasar `size` no tiene efecto hoy por hoy: el select se
+renderiza siempre con su estilo base, sin dimensionar.
 :::
 
-## Keyboard and mouse interaction
+## Interacción con teclado y ratón
 
-- **Click** on the button toggles the listbox open/closed.
-- **ArrowDown / ArrowUp** move the active option; if the list is closed, either key opens it
-  first (starting from the currently selected option, or the first option if none is selected).
-- **Home / End** jump to the first/last option — only while the list is open.
-- **Enter / Space** select the active option and close the list; if the list is closed, they open
-  it instead.
-- **Escape** closes the list (only while open); **Tab** closes the list without changing the
-  value and lets focus move on naturally.
-- **Typeahead**: typing any single alphanumeric character searches option labels by case-insensitive
-  prefix match. If the list is open, matching moves the active option; if closed, matching
-  directly selects that option. The typed buffer resets after 500ms of inactivity.
-- **Mouse hover** over an option sets it active; **click** selects it and closes the list.
-- **Click outside** the component (via the `v-click-outside` directive) closes the list.
-- The active option is scrolled into view (`block: 'nearest'`) whenever it changes.
+- **Clic** en el botón alterna la apertura y el cierre del listbox.
+- **Flecha abajo / Flecha arriba** mueven la opción activa; si la lista está cerrada, cualquiera de
+  las dos la abre primero (partiendo de la opción seleccionada, o de la primera si no hay ninguna).
+- **Inicio / Fin** saltan a la primera o la última opción, solo mientras la lista está abierta.
+- **Enter / Espacio** seleccionan la opción activa y cierran la lista; si la lista está cerrada, la
+  abren.
+- **Escape** cierra la lista (solo si está abierta); **Tab** la cierra sin cambiar el valor y deja
+  que el foco avance con naturalidad.
+- **Búsqueda por escritura**: teclear cualquier carácter alfanumérico busca en las etiquetas de las
+  opciones por coincidencia de prefijo sin distinguir mayúsculas. Si la lista está abierta, la
+  coincidencia mueve la opción activa; si está cerrada, selecciona directamente esa opción. El búfer
+  escrito se reinicia tras 500 ms de inactividad.
+- **Pasar el ratón** sobre una opción la marca como activa; el **clic** la selecciona y cierra la
+  lista.
+- **Clic fuera** del componente (mediante la directiva `v-click-outside`) cierra la lista.
+- La opción activa se desplaza a la vista (`block: 'nearest'`) cada vez que cambia.
 
-Try it with the keyboard in the live demo above: focus the button, press <kbd>ArrowDown</kbd> to
-open and move through options, type a letter to jump to a matching label, and press
-<kbd>Enter</kbd> to select.
+Pruébalo con el teclado en la demo anterior: enfoca el botón, pulsa <kbd>Flecha abajo</kbd> para
+abrir y recorrer las opciones, escribe una letra para saltar a una etiqueta coincidente y pulsa
+<kbd>Enter</kbd> para seleccionar.
 
 ## Props
 
-| Prop         | Type                                                       | Default                          | Description                                                                                                    |
+| Prop         | Tipo                                                       | Por defecto                      | Descripción                                                                                                    |
 | ------------ | ------------------------------------------------------------ | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `modelValue` | `string`                                                    | —                                 | `v-model` binding. Displays `selectedItem.label` when it matches an option's `value`, otherwise the placeholder. |
-| `options`    | `ComboboxOptions[]` (`{ label: string, value: string \| number }[]`) | —          | **Required.** Options rendered as listbox entries.                                                              |
-| `color`      | `string`                                                    | `'primary-700'`                  | Theme token name resolved via `fw.cv()` and used as the select's text color.                                    |
-| `variant`    | `'outlined' \| 'fussy' \| 'soft' \| 'underlined'`             | `'outlined'`                     | Visual style of the button and listbox.                                                                          |
-| `size`       | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                        | `'xs'`                            | Declared, and matching size classes exist in the stylesheet, but the prop is never read in the component — it has no effect. |
-| `icon`       | `Icon` (`{ name, size?, color?, strokeWidth?, defaultClass? }`) | `{ name: 'chevron-down' }`   | Trailing icon rendered via `AdaptoIcon`. `size` is auto-computed from the font size when omitted.               |
+| `modelValue` | `string`                                                    | —                                 | Enlace de `v-model`. Muestra `selectedItem.label` cuando coincide con el `value` de una opción; si no, el marcador de posición. |
+| `options`    | `ComboboxOptions[]` (`{ label: string, value: string \| number }[]`) | —          | **Obligatoria.** Opciones renderizadas como entradas del listbox.                                               |
+| `color`      | `string`                                                    | `'primary-700'`                  | Nombre de token del tema resuelto vía `fw.cv()` y usado como color de texto del select.                         |
+| `variant`    | `'outlined' \| 'fussy' \| 'soft' \| 'underlined'`             | `'outlined'`                     | Estilo visual del botón y del listbox.                                                                           |
+| `size`       | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                        | `'xs'`                            | Declarada, y existen las clases de tamaño correspondientes en la hoja de estilos, pero la prop nunca se lee en el componente: no tiene efecto. |
+| `icon`       | `Icon` (`{ name, size?, color?, strokeWidth?, defaultClass? }`) | `{ name: 'chevron-down' }`   | Icono final renderizado vía `AdaptoIcon`. `size` se calcula automáticamente a partir del tamaño de fuente si se omite. |
 
 ## Emits
 
-| Event               | Payload            | Description                                                        |
+| Evento              | Payload            | Descripción                                                        |
 | -------------------- | -------------------- | ---------------------------------------------------------------------- |
-| `update:modelValue`  | `string \| number`  | Emitted with the selected option's `value` when an option is chosen. |
-| `onChange`           | —                   | Declared in the component's emits but never emitted by the script.  |
-| `onFocus`            | —                   | Declared in the component's emits but never emitted by the script.  |
-| `onBlur`             | —                   | Declared in the component's emits but never emitted by the script.  |
+| `update:modelValue`  | `string \| number`  | Se emite con el `value` de la opción elegida al seleccionar una.     |
+| `onChange`           | —                   | Declarado en los emits del componente pero nunca emitido por el script. |
+| `onFocus`            | —                   | Declarado en los emits del componente pero nunca emitido por el script. |
+| `onBlur`             | —                   | Declarado en los emits del componente pero nunca emitido por el script. |
 
 ## Slots
 
-`adpt-select` exposes no slots — option labels come exclusively from `options[].label`, and the
-placeholder text (`Selecciona una opción`) is hardcoded, not overridable.
+`adpt-select` no expone slots: las etiquetas de las opciones vienen exclusivamente de
+`options[].label`, y el texto del marcador de posición (`Selecciona una opción`) está escrito a
+fuego y no es sobrescribible.
 
-## Accessibility
+## Accesibilidad
 
-- The combobox button carries `role="combobox"`, `aria-haspopup="listbox"`, `:aria-expanded`
-  reflecting open/closed state, and `:aria-controls` pointing at the listbox id.
-- While the list is open, `:aria-activedescendant` on the button points at the currently active
-  option's id, so assistive technology tracks keyboard navigation without moving DOM focus off
-  the button.
-- The listbox itself has `role="listbox"` and `:aria-labelledby` referencing the button's id.
-- Each option has `role="option"` and `:aria-selected` set to `true` for the option matching the
-  current `modelValue`.
-- Full keyboard support is built in (see the interaction list above) — no consumer wiring is
-  needed for arrow-key navigation, typeahead, or `Escape`/`Tab` dismissal.
-- The component does not accept a `label`/`aria-label` prop, and the internal button's `id` is
-  generated via `useId()` — it isn't exposed as a prop or otherwise reachable from outside the
-  component. Consumers who need an accessible name for the combobox (e.g. via an external
-  `<label for>`) have no built-in way to wire it up; wrapping the component in a labeled
-  `<div role="group">`/`fieldset` is the practical workaround.
+- El botón del combobox lleva `role="combobox"`, `aria-haspopup="listbox"`, un `:aria-expanded` que
+  refleja el estado abierto/cerrado y un `:aria-controls` que apunta al id del listbox.
+- Mientras la lista está abierta, el `:aria-activedescendant` del botón apunta al id de la opción
+  activa, de modo que las tecnologías de asistencia siguen la navegación por teclado sin mover el
+  foco del DOM fuera del botón.
+- El listbox tiene `role="listbox"` y un `:aria-labelledby` que referencia el id del botón.
+- Cada opción tiene `role="option"` y `:aria-selected` a `true` en la que coincide con el
+  `modelValue` actual.
+- El soporte completo de teclado viene de serie (consulta la lista de interacciones anterior): no
+  hace falta cablear nada para la navegación con flechas, la búsqueda por escritura o el cierre con
+  `Escape`/`Tab`.
+- El componente no acepta una prop `label`/`aria-label`, y el `id` del botón interno se genera con
+  `useId()`: no se expone como prop ni es accesible desde fuera del componente. Quien necesite un
+  nombre accesible para el combobox (p. ej. mediante un `<label for>` externo) no dispone de una vía
+  integrada para conectarlo; envolver el componente en un `<div role="group">`/`fieldset` etiquetado
+  es la solución práctica.

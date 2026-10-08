@@ -1,18 +1,19 @@
 # Card
 
-`adpt-card` is a purely presentational content container. It renders a semantic `<article>` with
-optional `media`, `title`, `subtitle`, `body` and `footer` slots, three visual variants, a
-configurable radius/elevation, and an optional "image overlap" layout where the title/subtitle
-block is superimposed on top of the media image.
+`adpt-card` es un contenedor de contenido puramente presentacional. Renderiza un `<article>`
+semántico con los slots opcionales `media`, `title`, `subtitle`, `body` y `footer`, tres variantes
+visuales, radio y elevación configurables y un layout opcional de «superposición de imagen» en el
+que el bloque de título y subtítulo se sitúa sobre la imagen del slot `media`.
 
-- **Component name:** `AdaptoCard`
-- **Source:** `src/lib/components/element/adpt-card/index.vue`
-- **Styles:** `src/lib/components/element/adpt-card/style.scss` (registered in `AdaptoPlugin`)
+- **Nombre del componente:** `AdaptoCard`
+- **Fuente:** `src/lib/components/element/adpt-card/index.vue`
+- **Estilos:** `src/lib/components/element/adpt-card/style.scss` (se inyectan en el primer render del componente)
 
-## Usage
+## Uso
 
-Once [`AdaptoPlugin`](../../src/lib/plugin.ts) is installed on the app, `AdaptoCard` is available
-globally. All content is provided through named slots — there are no `title`/`body` text props.
+Una vez instalado [`AdaptoPlugin`](../../src/lib/plugin.ts) en la aplicación, `AdaptoCard` está
+disponible de forma global. Todo el contenido se aporta mediante slots con nombre: no hay props de
+texto `title`/`body`.
 
 ```ts
 // main.ts
@@ -25,57 +26,57 @@ createApp(App).use(AdaptoPlugin).mount('#app')
 
 <div class="demo" style="display: block;">
   <AdaptoCard variant="outlined" color="primary-500" radius="md">
-    <template #title>Card title</template>
-    <template #subtitle>Supporting subtitle</template>
+    <template #title>Título de la tarjeta</template>
+    <template #subtitle>Subtítulo de apoyo</template>
     <template #body>
-      <p>Body content is fully consumer-provided — plain text, HTML, or nested components all
-      work here.</p>
+      <p>El contenido del cuerpo lo aporta por completo quien la consume: texto plano, HTML o
+      componentes anidados funcionan aquí.</p>
     </template>
     <template #footer>
-      <AdaptoButton label="Action" size="sm" color="primary-500" />
+      <AdaptoButton label="Acción" size="sm" color="primary-500" />
     </template>
   </AdaptoCard>
 </div>
 
 ```vue-html
 <AdaptoCard variant="outlined" color="primary-500" radius="md">
-  <template #title>Card title</template>
-  <template #subtitle>Supporting subtitle</template>
+  <template #title>Título de la tarjeta</template>
+  <template #subtitle>Subtítulo de apoyo</template>
   <template #body>
-    <p>Body content is fully consumer-provided — plain text, HTML, or nested components all
-    work here.</p>
+    <p>El contenido del cuerpo lo aporta por completo quien la consume: texto plano, HTML o
+    componentes anidados funcionan aquí.</p>
   </template>
   <template #footer>
-    <AdaptoButton label="Action" size="sm" color="primary-500" />
+    <AdaptoButton label="Acción" size="sm" color="primary-500" />
   </template>
 </AdaptoCard>
 ```
 
-Every section is conditionally rendered based on which slots are actually passed: the header
-block (`title`/`subtitle`/`media`) only appears if a `title` or `subtitle` slot is present, and
-`body`/`footer` only render if their respective slots are used. A card with no slots at all
-renders an essentially empty `<article>`.
+Cada sección se renderiza condicionalmente según los slots que se pasen: el bloque de cabecera
+(`title`/`subtitle`/`media`) solo aparece si hay un slot `title` o `subtitle`, y `body`/`footer`
+solo se renderizan si se usan sus slots respectivos. Una tarjeta sin ningún slot renderiza un
+`<article>` prácticamente vacío.
 
-## Variants
+## Variantes
 
-The `variant` prop controls the card's background/border style. Default is `default`.
+La prop `variant` controla el estilo de fondo y borde de la tarjeta. Por defecto es `default`.
 
 <div class="demo">
   <AdaptoCard variant="default" color="primary-500" style="width: 220px;">
     <template #title>Default</template>
-    <template #body>Uses the theme's card background token.</template>
+    <template #body>Usa el token de fondo de tarjeta del tema.</template>
   </AdaptoCard>
   <AdaptoCard variant="outlined" color="primary-500" style="width: 220px;">
     <template #title>Outlined</template>
-    <template #body>Transparent background, `currentColor` border.</template>
+    <template #body>Fondo transparente, borde en `currentColor`.</template>
   </AdaptoCard>
   <AdaptoCard variant="fussy" color="primary-500" style="width: 220px;">
     <template #title>Fussy</template>
-    <template #body>Border and a tinted background.</template>
+    <template #body>Borde y fondo tintado.</template>
   </AdaptoCard>
   <AdaptoCard variant="soft" color="primary-500" style="width: 220px;">
     <template #title>Soft</template>
-    <template #body>Tinted background, no border.</template>
+    <template #body>Fondo tintado, sin borde.</template>
   </AdaptoCard>
 </div>
 
@@ -86,112 +87,114 @@ The `variant` prop controls the card's background/border style. Default is `defa
 <AdaptoCard variant="soft" color="primary-500">...</AdaptoCard>
 ```
 
-| Variant    | Description                                                                  |
+| Variante   | Descripción                                                                  |
 | ---------- | ------------------------------------------------------------------------------ |
-| `default`  | Uses the theme's `--fw-card-bg` background token. **Default.**               |
-| `outlined` | Transparent background with a `currentColor` border.                        |
-| `fussy`    | `currentColor` border **and** a tinted (`color-mix`) background.            |
-| `soft`     | Tinted (`color-mix`) background, no border.                                 |
+| `default`  | Usa el token de fondo `--fw-card-bg` del tema. **Por defecto.**               |
+| `outlined` | Fondo transparente con un borde en `currentColor`.                            |
+| `fussy`    | Borde en `currentColor` **y** fondo tintado (`color-mix`).                    |
+| `soft`     | Fondo tintado (`color-mix`), sin borde.                                       |
 
-Any value outside `'default' | 'outlined' | 'fussy' | 'soft'` falls back to `default` (enforced
-by the prop's `validator`).
+Cualquier valor fuera de `'default' | 'outlined' | 'fussy' | 'soft'` cae en `default` (lo impone el
+`validator` de la prop).
 
-## Colors
+## Colores
 
-`color`, `titleColor` and `subtitleColor` each accept the name of a theme token (e.g.
-`primary-500`, `danger-700`) resolved to `var(--fw-<color>)`. `color` sets the card's overall text
-color (`currentColor`), which `outlined`/`fussy`/`soft` reuse for borders and tinted backgrounds.
-`titleColor`/`subtitleColor` independently override just the title/subtitle slot wrapper's color.
+`color`, `titleColor` y `subtitleColor` aceptan cada uno el nombre de un token del tema (p. ej.
+`primary-500`, `danger-700`) resuelto a `var(--fw-<color>)`. `color` define el color de texto
+general de la tarjeta (`currentColor`), que `outlined`/`fussy`/`soft` reutilizan para bordes y
+fondos tintados. `titleColor`/`subtitleColor` sobrescriben de forma independiente solo el color del
+contenedor del slot de título o de subtítulo.
 
 <div class="demo">
   <AdaptoCard variant="soft" color="success-600" title-color="success-800" style="width: 260px;">
-    <template #title>Success</template>
-    <template #subtitle>Independent subtitle color</template>
-    <template #body>Card color vs. title color.</template>
+    <template #title>Éxito</template>
+    <template #subtitle>Color de subtítulo independiente</template>
+    <template #body>Color de la tarjeta frente a color del título.</template>
   </AdaptoCard>
 </div>
 
 ```vue-html
 <AdaptoCard variant="soft" color="success-600" title-color="success-800">
-  <template #title>Success</template>
-  <template #subtitle>Independent subtitle color</template>
-  <template #body>Card color vs. title color.</template>
+  <template #title>Éxito</template>
+  <template #subtitle>Color de subtítulo independiente</template>
+  <template #body>Color de la tarjeta frente a color del título.</template>
 </AdaptoCard>
 ```
 
-If left unset (the default for all three), no inline `color` style is applied and the element
-falls back to its inherited/ambient text color.
+Si se dejan sin definir (el valor por defecto en los tres casos), no se aplica ningún estilo
+inline `color` y el elemento hereda el color de texto de su contexto.
 
-## Radius & elevation
+## Radio y elevación
 
-`radius` maps to the shared `.rounded--*` utility classes (default `sm`). `elevation` maps to
-`.elevation-<n>` utility classes and accepts `'1' | '2' | '3' | '4' | '5'`; it's unset (`''`) by
-default, which renders no elevation/shadow class at all.
+`radius` mapea a las clases utilitarias compartidas `.rounded--*` (por defecto `sm`). `elevation`
+mapea a las clases `.elevation-<n>` y acepta `'1' | '2' | '3' | '4' | '5'`; por defecto está sin
+definir (`''`), lo que no renderiza ninguna clase de elevación ni sombra.
 
 <div class="demo">
   <AdaptoCard variant="default" color="primary-500" radius="xl" elevation="3" style="width: 220px;">
-    <template #title>Rounded + elevated</template>
+    <template #title>Redondeada y elevada</template>
     <template #body>radius="xl" elevation="3"</template>
   </AdaptoCard>
 </div>
 
 ```vue-html
 <AdaptoCard variant="default" color="primary-500" radius="xl" elevation="3">
-  <template #title>Rounded + elevated</template>
+  <template #title>Redondeada y elevada</template>
   <template #body>radius="xl" elevation="3"</template>
 </AdaptoCard>
 ```
 
 ## Media
 
-Passing a `media` slot (typically an `<img>`) renders it above the title/subtitle block by
-default. `titleReverse` flips that stacking order, placing the media **below** the title/subtitle
-instead.
+Pasar un slot `media` (normalmente un `<img>`) lo renderiza por defecto sobre el bloque de título
+y subtítulo. `titleReverse` invierte ese orden de apilado y coloca el contenido multimedia
+**debajo** del título y el subtítulo.
 
 <div class="demo">
   <AdaptoCard variant="default" color="primary-500" style="width: 260px;">
     <template #media>
-      <img src="https://picsum.photos/id/1015/400/300" alt="Mountain lake at sunrise" />
+      <img src="https://picsum.photos/id/1015/400/300" alt="Lago de montaña al amanecer" />
     </template>
-    <template #title>Stacked media</template>
-    <template #body>Media renders above the title block (default order).</template>
+    <template #title>Media apilada</template>
+    <template #body>La media se renderiza sobre el bloque de título (orden por defecto).</template>
   </AdaptoCard>
   <AdaptoCard variant="default" color="primary-500" title-reverse style="width: 260px;">
     <template #media>
-      <img src="https://picsum.photos/id/1018/400/300" alt="Forest road" />
+      <img src="https://picsum.photos/id/1018/400/300" alt="Camino en el bosque" />
     </template>
-    <template #title>Reversed media</template>
-    <template #body>`title-reverse` moves the media below the title block.</template>
+    <template #title>Media invertida</template>
+    <template #body>`title-reverse` mueve la media debajo del bloque de título.</template>
   </AdaptoCard>
 </div>
 
 ```vue-html
-<!-- default stacking: media above title -->
+<!-- apilado por defecto: media sobre el título -->
 <AdaptoCard color="primary-500">
   <template #media><img src="..." alt="..." /></template>
-  <template #title>Stacked media</template>
+  <template #title>Media apilada</template>
   <template #body>...</template>
 </AdaptoCard>
 
-<!-- title-reverse: media below title -->
+<!-- title-reverse: media bajo el título -->
 <AdaptoCard color="primary-500" title-reverse>
   <template #media><img src="..." alt="..." /></template>
-  <template #title>Reversed media</template>
+  <template #title>Media invertida</template>
   <template #body>...</template>
 </AdaptoCard>
 ```
 
-::: tip `titleReverse` requires a `media` slot
-`titleReverse` only has a visible effect when a `media` slot is present **and** `imageOverlap` is
-`false`. On a card without media, or with `imageOverlap` enabled, it is a silent no-op.
+::: tip `titleReverse` requiere un slot `media`
+`titleReverse` solo tiene efecto visible cuando hay un slot `media` **y** `imageOverlap` es
+`false`. En una tarjeta sin media, o con `imageOverlap` activo, no hace nada.
 :::
 
-### Image overlap
+### Superposición de imagen
 
-Setting `imageOverlap` superimposes the title/subtitle block on top of the media image instead of
-stacking them. `titleOverlapPosition` (`'top-start' | 'top-end' | 'bottom-start' | 'bottom-end' |
-'center'`) controls where the title block sits over the image, and `titleOverlapTextAlign`
-(`'start' | 'center' | 'end'`) controls the text alignment inside it.
+Activar `imageOverlap` sitúa el bloque de título y subtítulo sobre la imagen del slot `media` en
+lugar de apilarlos. `titleOverlapPosition` (`'top-start' | 'top-end' | 'bottom-start' |
+'bottom-end' | 'center'`) controla dónde se coloca el bloque de título sobre la imagen, y
+`titleOverlapTextAlign` (`'start' | 'center' | 'end'`) controla la alineación del texto dentro de
+él.
 
 <div class="demo">
   <AdaptoCard
@@ -203,10 +206,10 @@ stacking them. `titleOverlapPosition` (`'top-start' | 'top-end' | 'bottom-start'
     style="width: 280px;"
   >
     <template #media>
-      <img src="https://picsum.photos/id/1019/400/300" alt="Desert dunes" />
+      <img src="https://picsum.photos/id/1019/400/300" alt="Dunas del desierto" />
     </template>
-    <template #title>Overlapping title</template>
-    <template #subtitle>Positioned bottom-start</template>
+    <template #title>Título superpuesto</template>
+    <template #subtitle>Posicionado en bottom-start</template>
   </AdaptoCard>
 </div>
 
@@ -218,56 +221,56 @@ stacking them. `titleOverlapPosition` (`'top-start' | 'top-end' | 'bottom-start'
   title-overlap-text-align="start"
 >
   <template #media><img src="..." alt="..." /></template>
-  <template #title>Overlapping title</template>
-  <template #subtitle>Positioned bottom-start</template>
+  <template #title>Título superpuesto</template>
+  <template #subtitle>Posicionado en bottom-start</template>
 </AdaptoCard>
 ```
 
-::: warning `titleOverlapPosition` / `titleOverlapTextAlign` are modifiers of `imageOverlap`
-Both props are gated behind `imageOverlap` in the component's internal class computation: they
-only produce a visible effect when `imageOverlap` is `true`. Setting either one without
-`imageOverlap` compiles and renders without error, but has no visible effect — a silent no-op.
+::: warning `titleOverlapPosition` y `titleOverlapTextAlign` son modificadores de `imageOverlap`
+Ambas props están condicionadas a `imageOverlap` en el cálculo interno de clases del componente:
+solo producen un efecto visible cuando `imageOverlap` es `true`. Definir cualquiera de las dos sin
+`imageOverlap` compila y renderiza sin error, pero no tiene efecto visible.
 :::
 
 ## Props
 
-| Prop                     | Type                                                                | Default     | Description                                                                                     |
+| Prop                     | Tipo                                                                | Por defecto | Descripción                                                                                     |
 | ------------------------ | -------------------------------------------------------------------- | ----------- | --------------------------------------------------------------------------------------------------- |
-| `color`                  | `string`                                                              | `''`        | Theme token name resolved to `var(--fw-<color>)`, sets the card's text color (`currentColor`).      |
-| `titleColor`             | `string`                                                              | `''`        | Theme token name resolved to `var(--fw-<color>)`, applied only to the `title` slot wrapper.         |
-| `subtitleColor`          | `string`                                                              | `''`        | Theme token name resolved to `var(--fw-<color>)`, applied only to the `subtitle` slot wrapper.      |
-| `radius`                 | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'`                      | `'sm'`      | Corner radius, via the shared `.rounded--*` utility classes.                                        |
-| `variant`                | `'default' \| 'outlined' \| 'fussy' \| 'soft'`                        | `'default'` | Visual style of the card. Invalid values fall back to `'default'`.                                  |
-| `elevation`              | `'1' \| '2' \| '3' \| '4' \| '5'`                                     | `''`        | Adds an `.elevation-<n>` box-shadow utility class. Unset by default (no shadow).                    |
-| `imageOverlap`           | `boolean`                                                             | `false`     | Superimposes the title/subtitle block over the `media` slot instead of stacking them.               |
-| `titleOverlapPosition`   | `'top-start' \| 'top-end' \| 'bottom-start' \| 'bottom-end' \| 'center'` | `''`     | Position of the title block over the media image. **Only applies when `imageOverlap` is `true`.**   |
-| `titleOverlapTextAlign`  | `'start' \| 'center' \| 'end'`                                        | `''`        | Text alignment of the overlapping title block. **Only applies when `imageOverlap` is `true`.**      |
-| `titleReverse`           | `boolean`                                                             | `false`     | Renders `media` below the title/subtitle block instead of above. **Only applies when a `media` slot is present and `imageOverlap` is `false`.** |
+| `color`                  | `string`                                                              | `''`        | Nombre de token del tema resuelto a `var(--fw-<color>)`; define el color de texto de la tarjeta (`currentColor`). |
+| `titleColor`             | `string`                                                              | `''`        | Nombre de token del tema resuelto a `var(--fw-<color>)`, aplicado solo al contenedor del slot `title`. |
+| `subtitleColor`          | `string`                                                              | `''`        | Nombre de token del tema resuelto a `var(--fw-<color>)`, aplicado solo al contenedor del slot `subtitle`. |
+| `radius`                 | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'`                      | `'sm'`      | Radio de esquina, mediante las clases utilitarias compartidas `.rounded--*`.                        |
+| `variant`                | `'default' \| 'outlined' \| 'fussy' \| 'soft'`                        | `'default'` | Estilo visual de la tarjeta. Los valores inválidos caen en `'default'`.                            |
+| `elevation`              | `'1' \| '2' \| '3' \| '4' \| '5'`                                     | `''`        | Añade una clase utilitaria de sombra `.elevation-<n>`. Sin definir por defecto (sin sombra).       |
+| `imageOverlap`           | `boolean`                                                             | `false`     | Superpone el bloque de título y subtítulo sobre el slot `media` en lugar de apilarlos.             |
+| `titleOverlapPosition`   | `'top-start' \| 'top-end' \| 'bottom-start' \| 'bottom-end' \| 'center'` | `''`     | Posición del bloque de título sobre la imagen. **Solo aplica cuando `imageOverlap` es `true`.**    |
+| `titleOverlapTextAlign`  | `'start' \| 'center' \| 'end'`                                        | `''`        | Alineación del texto del bloque de título superpuesto. **Solo aplica cuando `imageOverlap` es `true`.** |
+| `titleReverse`           | `boolean`                                                             | `false`     | Renderiza `media` debajo del bloque de título y subtítulo en lugar de encima. **Solo aplica cuando hay un slot `media` y `imageOverlap` es `false`.** |
 
 ## Emits
 
-`AdaptoCard` is a purely presentational component — it declares no emits.
+`AdaptoCard` es un componente puramente presentacional: no declara ningún emit.
 
 ## Slots
 
-| Slot       | Description                                                                                   |
+| Slot       | Descripción                                                                                   |
 | ---------- | ------------------------------------------------------------------------------------------------- |
-| `media`    | Media content (typically an `<img>`), rendered inside the header block. The consumer is responsible for providing appropriate `alt` text. |
-| `title`    | Card title. Its presence (along with `subtitle`) determines whether the header block renders at all, and drives `aria-labelledby` on the root `<article>`. |
-| `subtitle` | Card subtitle, rendered under the title. Its presence drives `aria-describedby` on the root `<article>`. |
-| `body`     | Main card content. Only rendered when the slot is used.                                       |
-| `footer`   | Footer content (e.g. action buttons). Only rendered when the slot is used.                    |
+| `media`    | Contenido multimedia (normalmente un `<img>`), renderizado dentro del bloque de cabecera. Quien lo consume es responsable de aportar un `alt` adecuado. |
+| `title`    | Título de la tarjeta. Su presencia (junto con `subtitle`) determina si se renderiza el bloque de cabecera, y alimenta el `aria-labelledby` del `<article>` raíz. |
+| `subtitle` | Subtítulo de la tarjeta, renderizado bajo el título. Su presencia alimenta el `aria-describedby` del `<article>` raíz. |
+| `body`     | Contenido principal de la tarjeta. Solo se renderiza cuando se usa el slot.                   |
+| `footer`   | Contenido del pie (p. ej. botones de acción). Solo se renderiza cuando se usa el slot.        |
 
-## Accessibility
+## Accesibilidad
 
-- The root element is a semantic `<article>`.
-- When a `title` slot is present, the `<article>` gets `aria-labelledby` pointing at the title
-  block's auto-generated id, so assistive technology announces the card's title as its accessible
-  name.
-- When a `subtitle` slot is present, the `<article>` gets `aria-describedby` pointing at the
-  subtitle block's auto-generated id.
-- `AdaptoCard` has no interactive elements of its own; it renders no `role` beyond the implicit
-  `article` role and manages no focus.
-- Content inside `media`/`title`/`body`/`footer` slots is entirely consumer-provided — remember to
-  supply meaningful `alt` text on images passed to the `media` slot, and to use appropriately
-  focusable/labeled interactive elements (e.g. `AdaptoButton`) inside `footer`.
+- El elemento raíz es un `<article>` semántico.
+- Cuando hay un slot `title`, el `<article>` recibe `aria-labelledby` apuntando al id autogenerado
+  del bloque de título, de modo que las tecnologías de asistencia anuncian el título de la tarjeta
+  como su nombre accesible.
+- Cuando hay un slot `subtitle`, el `<article>` recibe `aria-describedby` apuntando al id
+  autogenerado del bloque de subtítulo.
+- `AdaptoCard` no tiene elementos interactivos propios; no renderiza ningún `role` más allá del
+  rol implícito `article` y no gestiona el foco.
+- El contenido de los slots `media`/`title`/`body`/`footer` lo aporta íntegramente quien consume el
+  componente: recuerda dar un `alt` significativo a las imágenes que pases al slot `media` y usar
+  elementos interactivos enfocables y etiquetados (p. ej. `AdaptoButton`) dentro de `footer`.

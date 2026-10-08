@@ -1,16 +1,16 @@
 # Icon
 
-`adpt-icon` is a thin wrapper around [`lucide-vue-next`](https://lucide.dev/). It resolves a
-kebab-case icon `name` (e.g. `arrow-right`) to the matching Lucide icon component (e.g.
-`ArrowRight`) and forwards size, color and stroke width to the rendered SVG.
+`adpt-icon` es una envoltura ligera sobre [`lucide-vue-next`](https://lucide.dev/). Resuelve un
+`name` de icono en kebab-case (p. ej. `arrow-right`) al componente Lucide correspondiente (p. ej.
+`ArrowRight`) y reenvía tamaño, color y grosor de trazo al SVG renderizado.
 
-- **Component name:** `AdaptoIcon`
-- **Source:** `src/lib/components/element/adpt-icon/index.vue`
+- **Nombre del componente:** `AdaptoIcon`
+- **Fuente:** `src/lib/components/element/adpt-icon/index.vue`
 
-## Usage
+## Uso
 
-Once [`AdaptoPlugin`](../../src/lib/plugin.ts) is installed on the app, `AdaptoIcon` is available
-globally:
+Una vez instalado [`AdaptoPlugin`](../../src/lib/plugin.ts) en la aplicación, `AdaptoIcon` está
+disponible de forma global:
 
 ```ts
 // main.ts
@@ -25,11 +25,11 @@ createApp(App).use(AdaptoPlugin).mount('#app')
 <AdaptoIcon name="star" />
 ```
 
-The `name` prop is always kebab-case, regardless of how the underlying Lucide component is
-named. Internally it is split on `-` and each segment is capitalized, so `arrow-right` becomes
-`ArrowRight`, `circle-check` becomes `CircleCheck`, and so on — matching the exported names in
-`lucide-vue-next`. If `name` doesn't resolve to a known Lucide icon, the `:is` binding receives
-`undefined` and nothing is rendered.
+La prop `name` va siempre en kebab-case, con independencia de cómo se llame el componente Lucide
+subyacente. Internamente se divide por `-` y se capitaliza cada segmento, de modo que
+`arrow-right` se convierte en `ArrowRight`, `circle-check` en `CircleCheck`, etc., coincidiendo con
+los nombres exportados en `lucide-vue-next`. Si `name` no resuelve a un icono Lucide conocido, el
+binding `:is` recibe `undefined` y no se renderiza nada.
 
 <div class="demo">
   <AdaptoIcon name="star" />
@@ -45,9 +45,9 @@ named. Internally it is split on `-` and each segment is capitalized, so `arrow-
 <AdaptoIcon name="settings" />
 ```
 
-## Size
+## Tamaño
 
-The `size` prop sets the icon's pixel width/height. Default is `24`.
+La prop `size` define el ancho y alto del icono en píxeles. Por defecto es `24`.
 
 <div class="demo">
   <AdaptoIcon name="star" :size="16" />
@@ -77,18 +77,19 @@ The `size` prop sets the icon's pixel width/height. Default is `24`.
 <AdaptoIcon name="heart" color="rgb(16, 185, 129)" />
 ```
 
-::: warning Raw CSS color, not a theme token
-Unlike `AdaptoButton`'s `color` prop — which takes a theme token name (e.g. `primary-500`)
-resolved through `fw.cv()` to a `var(--adapto-<color>)` — `AdaptoIcon`'s `color` prop is passed
-straight through to the underlying `<svg>`'s `color` attribute with no token resolution. It
-expects a raw CSS color value (hex, `rgb()`, a CSS color keyword, etc.). Passing a token name
-here (e.g. `color="primary-500"`) will **not** work as it does on `AdaptoButton`. If left
-unset, the icon falls back to Lucide's own default (`currentColor`).
+::: warning Color CSS en crudo, no un token del tema
+A diferencia de la prop `color` de `AdaptoButton` —que recibe el nombre de un token del tema (p.
+ej. `primary-500`) resuelto mediante `fw.cv()` a un `var(--adapto-<color>)`—, la prop `color` de
+`AdaptoIcon` se pasa tal cual al atributo `color` del `<svg>` subyacente, sin resolución de
+tokens. Espera un valor de color CSS en crudo (hex, `rgb()`, una palabra clave de color CSS,
+etc.). Pasar aquí un nombre de token (p. ej. `color="primary-500"`) **no** funcionará como en
+`AdaptoButton`. Si se deja sin definir, el icono usa el valor por defecto de Lucide
+(`currentColor`).
 :::
 
-## Stroke width
+## Grosor de trazo
 
-The `strokeWidth` prop controls the thickness of the icon's stroke. Default is `2`.
+La prop `strokeWidth` controla el grosor del trazo del icono. Por defecto es `2`.
 
 <div class="demo">
   <AdaptoIcon name="star" :stroke-width="1" :size="32" />
@@ -104,41 +105,43 @@ The `strokeWidth` prop controls the thickness of the icon's stroke. Default is `
 
 ## Props
 
-| Prop          | Type                | Default     | Description                                                                 |
+| Prop          | Tipo                | Por defecto | Descripción                                                                 |
 | ------------- | ------------------- | ----------- | ----------------------------------------------------------------------------- |
-| `name`        | `string` (required) | —           | Kebab-case icon name, converted to the matching PascalCase Lucide component (`arrow-right` → `ArrowRight`). |
-| `size`        | `number`             | `24`        | Icon width/height in pixels.                                                 |
-| `color`       | `string`             | `undefined` | Raw CSS color value (hex, `rgb()`, keyword, etc.) forwarded to the SVG's `color` attribute. **Not** a theme token — see the warning above. |
-| `strokeWidth` | `number`             | `2`         | Stroke thickness of the icon.                                                |
-| `defaultClass`| `string \| null`    | `null`      | See note below — currently has no visible effect.                            |
+| `name`        | `string` (obligatoria) | —        | Nombre del icono en kebab-case, convertido al componente Lucide equivalente en PascalCase (`arrow-right` → `ArrowRight`). |
+| `size`        | `number`             | `24`        | Ancho y alto del icono en píxeles.                                           |
+| `color`       | `string`             | `undefined` | Valor de color CSS en crudo (hex, `rgb()`, palabra clave, etc.) reenviado al atributo `color` del SVG. **No** es un token del tema: consulta el aviso anterior. |
+| `strokeWidth` | `number`             | `2`         | Grosor del trazo del icono.                                                  |
+| `defaultClass`| `string \| null`    | `null`      | Consulta la nota siguiente: hoy por hoy no tiene efecto visible.              |
 
-::: warning `defaultClass` is currently non-functional
-`defaultClass` is forwarded to the rendered Lucide component as `:default-class="defaultClass"`.
-`lucide-vue-next`'s icon components don't declare a `defaultClass`/`default-class` prop, so Vue's
-attribute fallthrough renders it as a literal `default-class="..."` attribute on the root `<svg>`
-instead of applying it as a CSS class. In practice, setting `defaultClass` has no visible styling
-effect. To add custom classes to an `AdaptoIcon`, use the standard `class` attribute instead
-(e.g. `<AdaptoIcon name="star" class="my-class" />`), which Vue merges with the component's own
-class automatically.
+::: warning `defaultClass` no es funcional actualmente
+`defaultClass` se reenvía al componente Lucide renderizado como `:default-class="defaultClass"`.
+Los componentes de icono de `lucide-vue-next` no declaran una prop `defaultClass`/`default-class`,
+así que el fallthrough de atributos de Vue lo renderiza como un atributo literal
+`default-class="..."` en el `<svg>` raíz en lugar de aplicarlo como clase CSS. En la práctica,
+establecer `defaultClass` no produce ningún efecto visual. Para añadir clases propias a un
+`AdaptoIcon`, usa el atributo estándar `class` (p. ej.
+`<AdaptoIcon name="star" class="mi-clase" />`), que Vue fusiona automáticamente con la clase
+propia del componente.
 :::
 
-## Accessibility
+## Accesibilidad
 
-`AdaptoIcon` is a non-interactive, non-focusable leaf element — it has no keyboard or focus
-management concerns of its own.
+`AdaptoIcon` es un elemento hoja no interactivo y no enfocable: no tiene por sí mismo cuestiones
+de gestión de foco ni de teclado.
 
-By default, Lucide's icon components render with `aria-hidden="true"` whenever no accessible-name
-attribute (`aria-label`/`aria-labelledby`) is forwarded through attrs fallthrough, so an
-`<AdaptoIcon>` is treated as **decorative** unless you say otherwise. This is how `AdaptoButton`
-uses it: icons inside a labeled button stay `aria-hidden` and rely on the button's own
-`aria-label`.
+Por defecto, los componentes de icono de Lucide se renderizan con `aria-hidden="true"` siempre que
+no se reenvíe por fallthrough ningún atributo de nombre accesible (`aria-label`/`aria-labelledby`),
+así que un `<AdaptoIcon>` se trata como **decorativo** salvo que indiques lo contrario. Así es como
+lo usa `AdaptoButton`: los iconos dentro de un botón etiquetado permanecen `aria-hidden` y se
+apoyan en el `aria-label` del propio botón.
 
-If you need to use `AdaptoIcon` as a meaningful, standalone icon (not decorative, and not inside
-an already-labeled control), pass an accessible name yourself via attrs fallthrough:
+Si necesitas usar `AdaptoIcon` como icono independiente con significado (no decorativo y no dentro
+de un control ya etiquetado), aporta tú mismo un nombre accesible mediante fallthrough de
+atributos:
 
 ```vue-html
-<AdaptoIcon name="alert-triangle" aria-label="Warning" />
+<AdaptoIcon name="alert-triangle" aria-label="Advertencia" />
 ```
 
-There is no dedicated `label`/`decorative` prop for this — it's implicit, so remember to add
-`aria-label` explicitly whenever an icon conveys meaning on its own.
+No existe una prop `label`/`decorative` dedicada para esto: es implícito, así que recuerda añadir
+`aria-label` explícitamente siempre que un icono transmita significado por sí solo.

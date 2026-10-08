@@ -1,22 +1,23 @@
 # Radio
 
-`adpt-radio` renders a single radio input with a custom SVG icon (unchecked square / checked
-checkmark), a label, and an optional inline validation message. Multiple `AdaptoRadio` instances
-sharing the same `name` and bound to the same `v-model` form a standard exclusive-choice group —
-there is no separate `AdaptoRadioGroup` wrapper component.
+`adpt-radio` renderiza un input de tipo radio con un icono SVG propio (cuadrado sin marcar / marca
+de verificación al marcarse), una etiqueta y un mensaje de validación en línea opcional. Varias
+instancias de `AdaptoRadio` que comparten el mismo `name` y están enlazadas al mismo `v-model`
+forman un grupo estándar de elección exclusiva: no existe un componente contenedor
+`AdaptoRadioGroup` aparte.
 
-- **Component name:** `AdaptoRadio`
-- **Source:** `src/lib/components/form/adpt-radio/index.vue`
-- **Styles:** `src/lib/components/form/adpt-radio/style.scss` (registered in `AdaptoPlugin`) for
-  the `fw-radio` layout classes, plus the shared `fw-check-radio` rules in
-  `src/lib/styles/sass/globals/forms/_check-radio.scss` (also used by `AdaptoCheckbox`) for the
-  icon, focus ring and disabled styling.
+- **Nombre del componente:** `AdaptoRadio`
+- **Fuente:** `src/lib/components/form/adpt-radio/index.vue`
+- **Estilos:** `src/lib/components/form/adpt-radio/style.scss` (se inyectan en el primer render del
+  componente) para las clases de layout `fw-radio`, más las reglas compartidas `fw-check-radio` de
+  `src/lib/styles/sass/globals/forms/_check-radio.scss` (usadas también por `AdaptoCheckbox`) para
+  el icono, el anillo de foco y el estilo deshabilitado.
 
-## Usage
+## Uso
 
-Once [`AdaptoPlugin`](../../src/lib/plugin.ts) is installed on the app, `AdaptoRadio` is available
-globally. `name` and `value` are required props; `modelValue` is optional on the component itself
-but is how you read/drive the selection with `v-model`.
+Una vez instalado [`AdaptoPlugin`](../../src/lib/plugin.ts) en la aplicación, `AdaptoRadio` está
+disponible de forma global. `name` y `value` son props obligatorias; `modelValue` es opcional en el
+componente en sí, pero es la vía para leer y controlar la selección con `v-model`.
 
 ```ts
 // main.ts
@@ -36,7 +37,7 @@ const answer = ref('')
 </script>
 
 <div class="demo">
-  <AdaptoRadio name="single-demo" value="on" label="Enable notifications" v-model="plan" active-color="primary-500" />
+  <AdaptoRadio name="single-demo" value="on" label="Activar notificaciones" v-model="plan" active-color="primary-500" />
 </div>
 
 ```vue-html
@@ -44,44 +45,44 @@ const answer = ref('')
   v-model="enabled"
   name="single-demo"
   value="on"
-  label="Enable notifications"
+  label="Activar notificaciones"
   active-color="primary-500"
 />
 ```
 
-## Radio group
+## Grupo de radios
 
-A group is just several `AdaptoRadio` elements sharing one `name` (which groups them at the
-native HTML level) and one `v-model` (which the component compares against each radio's `value`
-via `props.modelValue === props.value`, falling back to a `JSON.stringify` comparison so
-object-shaped values also work).
+Un grupo son sencillamente varios elementos `AdaptoRadio` que comparten un `name` (que los agrupa a
+nivel de HTML nativo) y un `v-model` (que el componente compara con el `value` de cada radio
+mediante `props.modelValue === props.value`, recurriendo a una comparación con `JSON.stringify`
+para que también funcionen los valores con forma de objeto).
 
 <div class="demo">
-  <AdaptoRadio name="plan" value="basic" label="Basic" v-model="plan" active-color="primary-500" />
+  <AdaptoRadio name="plan" value="basic" label="Básico" v-model="plan" active-color="primary-500" />
   <AdaptoRadio name="plan" value="pro" label="Pro" v-model="plan" active-color="primary-500" />
   <AdaptoRadio name="plan" value="enterprise" label="Enterprise" v-model="plan" active-color="primary-500" />
 </div>
 
-<p>Selected: <code>{{ plan }}</code></p>
+<p>Seleccionado: <code>{{ plan }}</code></p>
 
 ```vue-html
-<AdaptoRadio name="plan" value="basic" label="Basic" v-model="plan" active-color="primary-500" />
+<AdaptoRadio name="plan" value="basic" label="Básico" v-model="plan" active-color="primary-500" />
 <AdaptoRadio name="plan" value="pro" label="Pro" v-model="plan" active-color="primary-500" />
 <AdaptoRadio name="plan" value="enterprise" label="Enterprise" v-model="plan" active-color="primary-500" />
 ```
 
-::: tip No `<fieldset>`/`<legend>` provided
-`AdaptoRadio` renders one independent `<div>` per option; nothing in the component groups them
-under a `<fieldset>` with a `<legend>` describing the group as a whole. If the group needs an
-accessible group label, wrap the instances in your own `<fieldset>`/`<legend>` (or
+::: tip No se aporta `<fieldset>`/`<legend>`
+`AdaptoRadio` renderiza un `<div>` independiente por opción; nada dentro del componente los agrupa
+bajo un `<fieldset>` con un `<legend>` que describa el grupo en conjunto. Si el grupo necesita una
+etiqueta accesible de grupo, envuelve las instancias en tu propio `<fieldset>`/`<legend>` (o en un
 `role="radiogroup"` + `aria-label`).
 :::
 
-## Colors
+## Colores
 
-`activeColor` is a theme token name (e.g. `primary-500`, `danger-600`) applied as the icon's
-`color` **only while the radio is checked**; unchecked radios use the icon's inherited
-`currentColor`.
+`activeColor` es el nombre de un token del tema (p. ej. `primary-500`, `danger-600`) aplicado como
+`color` del icono **solo mientras el radio está marcado**; los radios sin marcar usan el
+`currentColor` heredado del icono.
 
 <div class="demo">
   <AdaptoRadio name="color-primary" value="on" label="Primary" model-value="on" active-color="primary-500" />
@@ -95,140 +96,143 @@ accessible group label, wrap the instances in your own `<fieldset>`/`<legend>` (
 <AdaptoRadio name="color-danger" value="on" label="Danger" model-value="on" active-color="danger-600" />
 ```
 
-::: warning `getVar`, not `cv` — a resolved value, not a live reference
-Unlike components that bind colors through `fw.cv(name)` (which yields the string
-`var(--fw-<name>)`), `AdaptoRadio` resolves `activeColor` through `fw.getVar(name)`, which calls
-`getComputedStyle(document.documentElement)` and reads back the **already-resolved** value of
-`--fw-<name>` at render time. In practice this still updates correctly on toggle because it's
-evaluated inline in the template, but it is reading a computed value rather than emitting a
-`var()` reference like most of the rest of the library does.
+::: warning `getVar`, no `cv`: un valor resuelto, no una referencia viva
+A diferencia de los componentes que enlazan colores mediante `fw.cv(name)` (que produce la cadena
+`var(--fw-<name>)`), `AdaptoRadio` resuelve `activeColor` con `fw.getVar(name)`, que llama a
+`getComputedStyle(document.documentElement)` y lee el valor **ya resuelto** de `--fw-<name>` en el
+momento del render. En la práctica sigue actualizándose correctamente al alternar, porque se evalúa
+en línea dentro del template, pero está leyendo un valor calculado en lugar de emitir una
+referencia `var()` como hace casi todo el resto de la librería.
 :::
 
-## Label & link slots
+## Slots `label` y `link`
 
-The default `label` prop text can be replaced with the `label` slot; an additional `link` slot
-renders right after it, still inside the same `<label>` (useful for "I agree to the **Terms of
-Service**" style copy where part of the text needs its own link/interaction).
+El texto por defecto de la prop `label` puede sustituirse con el slot `label`; un slot adicional
+`link` se renderiza justo después, dentro del mismo `<label>` (útil para textos del estilo «Acepto
+los **términos del servicio**», donde parte del texto necesita su propio enlace o interacción).
 
 <div class="demo">
   <AdaptoRadio name="agreement" value="accepted" v-model="agreement" active-color="primary-500">
-    <template #label>I agree to the</template>
-    <template #link>&nbsp;<a href="#" @click.prevent>Terms of Service</a></template>
+    <template #label>Acepto los</template>
+    <template #link>&nbsp;<a href="#" @click.prevent>términos del servicio</a></template>
   </AdaptoRadio>
 </div>
 
 ```vue-html
 <AdaptoRadio name="agreement" value="accepted" v-model="agreement" active-color="primary-500">
-  <template #label>I agree to the</template>
-  <template #link>&nbsp;<a href="#">Terms of Service</a></template>
+  <template #label>Acepto los</template>
+  <template #link>&nbsp;<a href="#">términos del servicio</a></template>
 </AdaptoRadio>
 ```
 
-## Validation
+## Validación
 
-When `validations` is set, an error `<span role="alert">` renders below the input/label, carrying
-an id of `{id}-error` that the input's `aria-describedby` points to. The component does not decide
-*when* to show it (there's no internal "touched"/"invalid" state) — it renders unconditionally
-whenever the prop has a value, so the consumer controls visibility by binding `validations`
-conditionally.
+Cuando `validations` está definida, se renderiza un `<span role="alert">` de error bajo el input y
+la etiqueta, con un id `{id}-error` al que apunta el `aria-describedby` del input. El componente no
+decide *cuándo* mostrarlo (no hay estado interno de «tocado» o «inválido»): se renderiza
+incondicionalmente siempre que la prop tenga valor, así que quien lo consume controla la visibilidad
+enlazando `validations` de forma condicional.
 
 <div class="demo">
-  <AdaptoRadio name="answer" value="yes" v-model="answer" label="Yes" active-color="primary-500" />
+  <AdaptoRadio name="answer" value="yes" v-model="answer" label="Sí" active-color="primary-500" />
   <AdaptoRadio
     name="answer"
     value="no"
     v-model="answer"
     label="No"
     active-color="primary-500"
-    validations="Please make a selection before continuing"
+    validations="Selecciona una opción antes de continuar"
   />
 </div>
 
 ```vue-html
-<AdaptoRadio name="answer" value="yes" v-model="answer" label="Yes" active-color="primary-500" />
+<AdaptoRadio name="answer" value="yes" v-model="answer" label="Sí" active-color="primary-500" />
 <AdaptoRadio
   name="answer"
   value="no"
   v-model="answer"
   label="No"
   active-color="primary-500"
-  :validations="showError ? 'Please make a selection before continuing' : undefined"
+  :validations="showError ? 'Selecciona una opción antes de continuar' : undefined"
 />
 ```
 
-## States
+## Estados
 
 <div class="demo">
-  <AdaptoRadio name="state-disabled" value="on" label="Disabled" model-value="on" active-color="primary-500" disabled />
-  <AdaptoRadio name="state-hidden" value="on" label="Hidden label (still has an accessible name)" model-value="on" active-color="primary-500" hide-label />
+  <AdaptoRadio name="state-disabled" value="on" label="Deshabilitado" model-value="on" active-color="primary-500" disabled />
+  <AdaptoRadio name="state-hidden" value="on" label="Etiqueta oculta (mantiene nombre accesible)" model-value="on" active-color="primary-500" hide-label />
 </div>
 
 ```vue-html
-<AdaptoRadio name="state-disabled" value="on" label="Disabled" model-value="on" active-color="primary-500" disabled />
-<AdaptoRadio name="state-hidden" value="on" label="Hidden label" model-value="on" active-color="primary-500" hide-label />
+<AdaptoRadio name="state-disabled" value="on" label="Deshabilitado" model-value="on" active-color="primary-500" disabled />
+<AdaptoRadio name="state-hidden" value="on" label="Etiqueta oculta" model-value="on" active-color="primary-500" hide-label />
 ```
 
-- **`disabled`** — sets the native `disabled` attribute on the `<input>` and adds a `disabled`
-  class to the root, which (via the shared `_check-radio.scss` rules) forces the label and icon to
-  a hardcoded `--cacao-surface-300` color token — a different, hardcoded prefix left over from an
-  earlier naming scheme, independent of the runtime `fw` prefix and of the `activeColor` prop.
-- **`hideLabel`** — removes the `<label>` element entirely (`v-if="!hideLabel"`) and adds a
-  `--no-label` modifier class that zeroes out the layout margins. The `aria-label` on the `<input>`
-  still uses the `label` prop regardless, so the radio keeps an accessible name even with no
-  visible label.
-- Focus is tracked internally (`isFocused` ref, set on native `focus`/`blur`) and adds a `focused`
-  class that draws a `currentColor` outline around the icon wrapper — this is a custom visible
-  focus indicator, not the browser's default outline.
+- **`disabled`** — establece el atributo nativo `disabled` en el `<input>` y añade una clase
+  `disabled` a la raíz, que (mediante las reglas compartidas de `_check-radio.scss`) fuerza la
+  etiqueta y el icono al token de color `--cacao-surface-300`, escrito a fuego: un prefijo distinto
+  heredado de un esquema de nombres anterior, independiente del prefijo `fw` en tiempo de ejecución
+  y de la prop `activeColor`.
+- **`hideLabel`** — elimina el elemento `<label>` por completo (`v-if="!hideLabel"`) y añade una
+  clase modificadora `--no-label` que anula los márgenes del layout. El `aria-label` del `<input>`
+  sigue usando la prop `label` en cualquier caso, así que el radio conserva un nombre accesible aun
+  sin etiqueta visible.
+- El foco se sigue internamente (ref `isFocused`, actualizado en los eventos nativos
+  `focus`/`blur`) y añade una clase `focused` que dibuja un contorno en `currentColor` alrededor del
+  contenedor del icono: es un indicador de foco visible propio, no el contorno por defecto del
+  navegador.
 
 ## Props
 
-| Prop           | Type                                                        | Default            | Description                                                                                     |
+| Prop           | Tipo                                                        | Por defecto        | Descripción                                                                                     |
 | -------------- | ------------------------------------------------------------ | ------------------- | ------------------------------------------------------------------------------------------------- |
-| `modelValue`   | `string \| number \| boolean \| Record<string, unknown>`     | —                   | `v-model` binding — the currently selected value across the whole group.                        |
-| `value`        | `string \| number \| boolean \| Record<string, unknown>` (required) | —            | The value this specific radio represents; compared against `modelValue` to derive checked state. |
-| `name`         | `string` (required)                                           | —                   | Native `name` attribute — radios sharing the same `name` form a group.                          |
-| `disabled`     | `boolean`                                                     | `false`             | Disables the native input and applies the disabled styling described above.                     |
-| `label`        | `string`                                                      | `'Radio label'`     | Visible label text and the input's `aria-label`. Visible text is overridden by the `label` slot, but the `aria-label` always uses this prop's text, even when the slot renders something different. |
-| `hideLabel`    | `boolean`                                                     | `false`             | Removes the visible `<label>` element and adds a `--no-label` modifier class. `aria-label` is unaffected. |
-| `activeColor`  | `string`                                                      | `'secondary-400'`   | Theme token name resolved via `fw.getVar` and applied as the icon's color, only while checked.  |
-| `validations`  | `string`                                                      | `undefined`         | Error message text. When set, renders a `role="alert"` span and wires `aria-describedby` on the input. |
+| `modelValue`   | `string \| number \| boolean \| Record<string, unknown>`     | —                   | Enlace de `v-model`: el valor seleccionado en todo el grupo.                                    |
+| `value`        | `string \| number \| boolean \| Record<string, unknown>` (obligatoria) | —          | Valor que representa este radio concreto; se compara con `modelValue` para derivar el estado marcado. |
+| `name`         | `string` (obligatoria)                                        | —                   | Atributo nativo `name`: los radios que comparten `name` forman un grupo.                        |
+| `disabled`     | `boolean`                                                     | `false`             | Deshabilita el input nativo y aplica el estilo deshabilitado descrito arriba.                   |
+| `label`        | `string`                                                      | `'Radio label'`     | Texto visible de la etiqueta y `aria-label` del input. El slot `label` sustituye el texto visible, pero el `aria-label` usa siempre el texto de esta prop, incluso cuando el slot renderiza otra cosa. |
+| `hideLabel`    | `boolean`                                                     | `false`             | Elimina el elemento `<label>` visible y añade una clase modificadora `--no-label`. No afecta al `aria-label`. |
+| `activeColor`  | `string`                                                      | `'secondary-400'`   | Nombre de token del tema resuelto vía `fw.getVar` y aplicado como color del icono, solo mientras está marcado. |
+| `validations`  | `string`                                                      | `undefined`         | Texto del mensaje de error. Cuando se define, renderiza un span con `role="alert"` y cablea el `aria-describedby` del input. |
 
 ## Emits
 
-| Event               | Payload      | Description                                                                 |
+| Evento              | Payload      | Descripción                                                                 |
 | -------------------- | ------------ | ---------------------------------------------------------------------------- |
-| `update:modelValue`  | `RadioValue` (`string \| number \| boolean \| Record<string, unknown>`) | Emitted through the native input's own `v-model` handling whenever this radio becomes the checked one. |
-| `onFocus`            | `FocusEvent` | Emitted on native `focus`. Listen for it with `@on-focus`, not `@focus` — see the note below. |
-| `onBlur`             | `FocusEvent` | Emitted on native `blur`. Listen for it with `@on-blur`, not `@blur`.        |
+| `update:modelValue`  | `RadioValue` (`string \| number \| boolean \| Record<string, unknown>`) | Se emite a través del propio manejo de `v-model` del input nativo cuando este radio pasa a ser el marcado. |
+| `onFocus`            | `FocusEvent` | Se emite en el `focus` nativo. Escúchalo con `@on-focus`, no con `@focus`: consulta la nota siguiente. |
+| `onBlur`             | `FocusEvent` | Se emite en el `blur` nativo. Escúchalo con `@on-blur`, no con `@blur`.      |
 
-::: warning Non-standard emit names
-`onFocus`/`onBlur` don't follow the "plain, kebab-case, thing-that-happened" convention used
-elsewhere in the library (compare `AdaptoButton`'s `clicked`). Because Vue treats `onXxx`-shaped
-prop/emit names specially, consumers must listen with `@on-focus` / `@on-blur` rather than the
-more idiomatic `@focus` / `@blur`.
+::: warning Nombres de emits no estándar
+`onFocus`/`onBlur` no siguen la convención de «kebab-case simple, cosa que ha ocurrido» usada en el
+resto de la librería (compara con el `clicked` de `AdaptoButton`). Como Vue trata de forma especial
+los nombres de prop/emit con forma `onXxx`, quien consume el componente debe escuchar con
+`@on-focus` / `@on-blur` en lugar de los más idiomáticos `@focus` / `@blur`.
 :::
 
 ## Slots
 
-| Slot    | Description                                                                                   |
+| Slot    | Descripción                                                                                   |
 | ------- | ----------------------------------------------------------------------------------------------- |
-| `label` | Renders inside the `<label>`, replacing the static `label` prop text (visible text only — the input's `aria-label` still uses the `label` prop, see above). Only rendered when `hideLabel` is `false`. |
-| `link`  | Renders inside the same `<label>`, right after the label content — for inline links/actions ("...the **Terms of Service**"). Only rendered when passed. |
+| `label` | Se renderiza dentro del `<label>`, sustituyendo el texto estático de la prop `label` (solo el texto visible: el `aria-label` del input sigue usando la prop `label`, ver arriba). Solo se renderiza cuando `hideLabel` es `false`. |
+| `link`  | Se renderiza dentro del mismo `<label>`, justo tras el contenido de la etiqueta, para enlaces o acciones en línea («…los **términos del servicio**»). Solo se renderiza si se pasa. |
 
-## Accessibility
+## Accesibilidad
 
-- The input's accessible name always comes from `aria-label="{label}"`, independently of whether
-  the visible text is the `label` prop or the `label` slot, and even when `hideLabel` removes the
-  visible `<label>` element altogether.
-- The decorative icon's inner `<svg>` carries both `role="img"` and `aria-hidden="true"`;
-  `aria-hidden` takes precedence in accessible-name/role computation, so the `role="img"` has no
-  practical effect — the icon is fully hidden from assistive technology either way, which is the
-  intended outcome since the label already conveys the checked state.
-- When `validations` is set, the error `<span role="alert">` is linked to the input via
-  `aria-describedby="{id}-error"`, so screen readers announce it alongside the input's name.
-  `aria-describedby` is only present at all when `validations` has a value.
-- Grouping relies entirely on the native `name` attribute shared across instances; the component
-  does not render a `<fieldset>`/`<legend>` or `role="radiogroup"` wrapper, so a group-level
-  accessible label/description is the consumer's responsibility (see the tip above).
-- Focus is visually indicated with a custom `currentColor` outline around the icon (via the
-  `focused` class), not just the browser's default focus ring.
+- El nombre accesible del input procede siempre de `aria-label="{label}"`, con independencia de si
+  el texto visible es la prop `label` o el slot `label`, e incluso cuando `hideLabel` elimina por
+  completo el elemento `<label>` visible.
+- El `<svg>` interno del icono decorativo lleva a la vez `role="img"` y `aria-hidden="true"`;
+  `aria-hidden` prevalece en el cálculo de nombre y rol accesibles, así que el `role="img"` no tiene
+  efecto práctico: el icono queda totalmente oculto a las tecnologías de asistencia en cualquier
+  caso, que es el resultado buscado, ya que la etiqueta ya transmite el estado marcado.
+- Cuando `validations` está definida, el `<span role="alert">` de error se enlaza al input mediante
+  `aria-describedby="{id}-error"`, de modo que los lectores de pantalla lo anuncian junto al nombre
+  del input. El `aria-describedby` solo está presente cuando `validations` tiene valor.
+- La agrupación se apoya por completo en el atributo nativo `name` compartido entre instancias; el
+  componente no renderiza ningún contenedor `<fieldset>`/`<legend>` ni `role="radiogroup"`, así que
+  la etiqueta o descripción accesible a nivel de grupo es responsabilidad de quien lo consume
+  (consulta el consejo anterior).
+- El foco se indica visualmente con un contorno propio en `currentColor` alrededor del icono
+  (mediante la clase `focused`), no solo con el anillo de foco por defecto del navegador.

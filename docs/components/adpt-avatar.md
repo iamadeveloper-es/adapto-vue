@@ -1,17 +1,18 @@
 # Avatar
 
-`adpt-avatar` displays a user's picture, full name, or initials inside a fixed-size circle. It
-behaves as an interactive element (`role="button"`, keyboard-activatable) and emits a single
-`clicked` event on click or on <kbd>Enter</kbd>/<kbd>Space</kbd>.
+`adpt-avatar` muestra la foto, el nombre completo o las iniciales de una persona dentro de un
+círculo de tamaño fijo. Se comporta como un elemento interactivo (`role="button"`, activable por
+teclado) y emite un único evento `clicked` al hacer clic o al pulsar
+<kbd>Enter</kbd>/<kbd>Espacio</kbd>.
 
-- **Component name:** `AdaptoAvatar`
-- **Source:** `src/lib/components/element/adpt-avatar/index.vue`
-- **Styles:** `src/lib/components/element/adpt-avatar/style.scss` (registered in `AdaptoPlugin`)
+- **Nombre del componente:** `AdaptoAvatar`
+- **Fuente:** `src/lib/components/element/adpt-avatar/index.vue`
+- **Estilos:** `src/lib/components/element/adpt-avatar/style.scss` (se inyectan en el primer render del componente)
 
-## Usage
+## Uso
 
-Once [`AdaptoPlugin`](../../src/lib/plugin.ts) is installed on the app, `AdaptoAvatar` is
-available globally:
+Una vez instalado [`AdaptoPlugin`](../../src/lib/plugin.ts) en la aplicación, `AdaptoAvatar` está
+disponible de forma global:
 
 ```ts
 // main.ts
@@ -26,10 +27,10 @@ createApp(App).use(AdaptoPlugin).mount('#app')
 <AdaptoAvatar name="Ada Lovelace" @clicked="onAvatarClick" />
 ```
 
-## Content: image, name, or initials
+## Contenido: imagen, nombre o iniciales
 
-`adpt-avatar` has no visual variants — its rendered content depends entirely on the combination
-of the `image` and `showInitials` props:
+`adpt-avatar` no tiene variantes visuales: el contenido que renderiza depende por completo de la
+combinación de las props `image` y `showInitials`:
 
 <div class="demo">
   <AdaptoAvatar image="https://i.pravatar.cc/150?img=12" name="Ada Lovelace" />
@@ -39,39 +40,39 @@ of the `image` and `showInitials` props:
 </div>
 
 ```vue-html
-<!-- image provided, showInitials false (default) -> renders the <img> -->
+<!-- con imagen y showInitials en false (por defecto) -> renderiza el <img> -->
 <AdaptoAvatar image="https://i.pravatar.cc/150?img=12" name="Ada Lovelace" />
 
-<!-- image provided, showInitials true -> the image is ignored, initials are shown instead -->
+<!-- con imagen y showInitials en true -> la imagen se ignora y se muestran las iniciales -->
 <AdaptoAvatar image="https://i.pravatar.cc/150?img=12" name="Ada Lovelace" show-initials />
 
-<!-- no image, showInitials false (default) -> renders the full name, truncated to fit -->
+<!-- sin imagen y showInitials en false (por defecto) -> renderiza el nombre completo, truncado -->
 <AdaptoAvatar name="Ada Lovelace" />
 
-<!-- no image, showInitials true -> renders the initials -->
+<!-- sin imagen y showInitials en true -> renderiza las iniciales -->
 <AdaptoAvatar name="Ada Lovelace" show-initials />
 ```
 
-| `image`    | `showInitials` | Rendered content                                    |
+| `image`      | `showInitials` | Contenido renderizado                                  |
 | ---------- | --------------- | ------------------------------------------------------ |
-| provided   | `false`         | `<img :src="image" :alt="name">`                       |
-| provided   | `true`          | Initials — the image is not requested/rendered.        |
-| not provided | `false`       | The full `name` text, truncated with an ellipsis if it overflows the circle. |
-| not provided | `true`        | Initials.                                               |
+| presente   | `false`         | `<img :src="image" :alt="name">`                       |
+| presente   | `true`          | Iniciales; la imagen no se solicita ni se renderiza.   |
+| ausente | `false`       | El texto completo de `name`, truncado con puntos suspensivos si desborda el círculo. |
+| ausente | `true`        | Iniciales.                                              |
 
-Initials are computed from `name` as the first character plus the first character of the second
-space-separated word (e.g. `"Ada Lovelace"` → `"AL"`, `"Ada"` → `"A"`).
+Las iniciales se calculan a partir de `name` como el primer carácter más el primer carácter de la
+segunda palabra separada por espacio (p. ej. `"Ada Lovelace"` → `"AL"`, `"Ada"` → `"A"`).
 
-::: warning No image and no name
-If neither `image` nor `name` is provided (and `showInitials` is `false`), the avatar renders an
-empty circle with no accessible name — this is a legitimate edge case of the component, not a
-bug, so always pass at least `name`.
+::: warning Sin imagen ni nombre
+Si no se pasa ni `image` ni `name` (y `showInitials` es `false`), el avatar renderiza un círculo
+vacío sin nombre accesible. Es un caso límite legítimo del componente, no un fallo, así que pasa
+siempre al menos `name`.
 :::
 
-## Sizes
+## Tamaños
 
-The `size` prop controls the avatar's diameter and font size via a fixed size map. Default is
-`'md'`.
+La prop `size` controla el diámetro del avatar y el tamaño de fuente mediante un mapa de tamaños
+fijo. Por defecto es `'md'`.
 
 <div class="demo">
   <AdaptoAvatar size="xs" name="Ada Lovelace" />
@@ -89,17 +90,17 @@ The `size` prop controls the avatar's diameter and font size via a fixed size ma
 <AdaptoAvatar size="xl" name="Ada Lovelace" />
 ```
 
-| Size | Diameter |
+| Tamaño | Diámetro |
 | ---- | -------- |
 | `xs` | 16px     |
 | `sm` | 24px     |
-| `md` | 32px (default) |
+| `md` | 32px (por defecto) |
 | `lg` | 48px     |
 | `xl` | 64px     |
 
-## Interaction
+## Interacción
 
-The avatar is always focusable and clickable, regardless of its content:
+El avatar siempre es enfocable y pulsable, sea cual sea su contenido:
 
 <div class="demo">
   <AdaptoAvatar name="Ada Lovelace" @clicked="() => {}" />
@@ -109,39 +110,39 @@ The avatar is always focusable and clickable, regardless of its content:
 <AdaptoAvatar name="Ada Lovelace" @clicked="onAvatarClick" />
 ```
 
-- Clicking the avatar emits `clicked` with the `MouseEvent`.
-- Pressing <kbd>Enter</kbd> or <kbd>Space</kbd> while the avatar is focused also emits `clicked`,
-  with the `KeyboardEvent`. The default page-scroll behavior of <kbd>Space</kbd> is prevented.
-- There is no `disabled` prop — the avatar is always interactive.
+- Al hacer clic en el avatar se emite `clicked` con el `MouseEvent`.
+- Pulsar <kbd>Enter</kbd> o <kbd>Espacio</kbd> con el avatar enfocado también emite `clicked`, con
+  el `KeyboardEvent`. Se evita el scroll de página que <kbd>Espacio</kbd> provoca por defecto.
+- No hay prop `disabled`: el avatar siempre es interactivo.
 
 ## Props
 
-| Prop           | Type                                       | Default | Description                                                                 |
+| Prop           | Tipo                                       | Por defecto | Descripción                                                                 |
 | -------------- | ------------------------------------------- | ------- | ------------------------------------------------------------------------------- |
-| `image`        | `string`                                    | `undefined` | Image URL. Rendered as `<img>` when set and `showInitials` is `false`. |
-| `name`         | `string`                                    | `undefined` | Person's name. Used as `aria-label`, as the `<img>` `alt`, and to compute the displayed initials/text. |
-| `size`         | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`       | `'md'`  | Diameter and font size, via a fixed size map.                               |
-| `showInitials` | `boolean`                                   | `false` | Forces initials to be shown instead of the image or the full name text.     |
+| `image`        | `string`                                    | `undefined` | URL de la imagen. Se renderiza como `<img>` cuando está definida y `showInitials` es `false`. |
+| `name`         | `string`                                    | `undefined` | Nombre de la persona. Se usa como `aria-label`, como `alt` del `<img>` y para calcular las iniciales o el texto mostrado. |
+| `size`         | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`       | `'md'`  | Diámetro y tamaño de fuente, mediante un mapa de tamaños fijo.               |
+| `showInitials` | `boolean`                                   | `false` | Fuerza mostrar las iniciales en lugar de la imagen o el nombre completo.     |
 
 ## Emits
 
-| Event     | Payload                        | Description                                                          |
+| Evento    | Payload                        | Descripción                                                          |
 | --------- | ------------------------------- | ------------------------------------------------------------------------ |
-| `clicked` | `MouseEvent \| KeyboardEvent`   | Emitted on click, or on <kbd>Enter</kbd>/<kbd>Space</kbd> keydown while focused. |
+| `clicked` | `MouseEvent \| KeyboardEvent`   | Se emite al hacer clic, o con <kbd>Enter</kbd>/<kbd>Espacio</kbd> mientras tiene el foco. |
 
 ## Slots
 
-`adpt-avatar` has no slots — its content (image, name, or initials) is fully controlled by the
-`image`, `name`, and `showInitials` props.
+`adpt-avatar` no tiene slots: su contenido (imagen, nombre o iniciales) lo controlan por completo
+las props `image`, `name` y `showInitials`.
 
-## Accessibility
+## Accesibilidad
 
-- The root element has `role="button"` and `tabindex="0"`, so it participates in the tab order
-  and is announced as a button by assistive technology.
-- `aria-label` is bound directly to the `name` prop. If `name` is omitted, the avatar exposes no
-  accessible name — always pass `name`, even when only `image` is used.
-- The `<img>` element's `alt` attribute also uses `name`, falling back to an empty string when
-  `name` is not provided.
-- The inner `<span>` used for the name/initials text is marked `aria-hidden="true"`, since the
-  accessible name is already supplied by `aria-label` on the root element — this avoids the text
-  being announced twice.
+- El elemento raíz tiene `role="button"` y `tabindex="0"`, así que participa en el orden de
+  tabulación y las tecnologías de asistencia lo anuncian como un botón.
+- `aria-label` se enlaza directamente a la prop `name`. Si se omite `name`, el avatar no expone
+  nombre accesible: pasa siempre `name`, incluso cuando solo uses `image`.
+- El atributo `alt` del elemento `<img>` también usa `name`, con cadena vacía como valor de
+  respaldo cuando `name` no se proporciona.
+- El `<span>` interno que muestra el nombre o las iniciales se marca como `aria-hidden="true"`,
+  ya que el nombre accesible lo aporta el `aria-label` del elemento raíz; así se evita que el
+  texto se anuncie dos veces.

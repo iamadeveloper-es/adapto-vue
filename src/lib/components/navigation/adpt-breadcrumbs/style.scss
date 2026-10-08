@@ -1,0 +1,22 @@
+.fw-breadcrumbs{
+  display: flex;
+  gap: var(--fw-breadcrumbs-gap, 4px);
+  align-items: center;
+  padding-block: 16px;
+
+  &__link{
+    display: flex;
+    align-items: center;
+    gap: var(--fw-breadcrumbs-gap, 4px);
+    cursor: pointer;
+
+    &.disabled{
+      pointer-events: none;
+      opacity: .38;
+    }
+
+    span{
+      display: inline-block;
+    }
+  }
+}

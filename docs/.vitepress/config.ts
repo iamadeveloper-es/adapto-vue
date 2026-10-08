@@ -3,22 +3,25 @@ import { defineConfig } from 'vitepress'
 import { prefixPlugin } from '../../vite-plugin-prefix-scss'
 
 export default defineConfig({
+  lang: 'es-ES',
   title: 'Adapto UI',
-  description: 'Component library documentation for Adapto UI',
+  description: 'Documentación de la librería de componentes Adapto UI',
 
   themeConfig: {
     nav: [
-      { text: 'Guide', link: '/guide/theming' },
-      { text: 'Components', link: '/components/adpt-button' },
+      { text: 'Guía', link: '/guide/theming' },
+      { text: 'Componentes', link: '/components/adpt-button' },
     ],
 
+    // Los nombres de categoría (Element, Form, Navigation, Overlay) se dejan en
+    // inglés a propósito: nombran las carpetas reales de src/lib/components/.
     sidebar: [
       {
-        text: 'Guide',
-        items: [{ text: 'Styling & Theming', link: '/guide/theming' }],
+        text: 'Guía',
+        items: [{ text: 'Estilos y theming', link: '/guide/theming' }],
       },
       {
-        text: 'Components',
+        text: 'Componentes',
         items: [
           { text: 'Element',
             items: [
@@ -30,7 +33,6 @@ export default defineConfig({
               { text: 'Card', link: '/components/adpt-card' },
               { text: 'Accordion', link: '/components/adpt-accordion' },
               { text: 'Accordion List', link: '/components/adpt-accordion-list' },
-              { text: 'Tabs', link: '/components/adpt-tabs' },
             ]
           },
           { text: 'Form',
@@ -43,7 +45,9 @@ export default defineConfig({
             ]
           },
           { text: 'Navigation',
-            items: []
+            items: [
+              { text: 'Tabs', link: '/components/adpt-tabs' },
+            ]
           },
           { text: 'Overlay',
             items: [
@@ -54,6 +58,14 @@ export default defineConfig({
         ]
       },
     ],
+
+    outline: { label: 'En esta página' },
+    docFooter: { prev: 'Anterior', next: 'Siguiente' },
+    darkModeSwitchLabel: 'Apariencia',
+    lightModeSwitchTitle: 'Cambiar a modo claro',
+    darkModeSwitchTitle: 'Cambiar a modo oscuro',
+    sidebarMenuLabel: 'Menú',
+    returnToTopLabel: 'Volver arriba',
   },
 
   vite: {

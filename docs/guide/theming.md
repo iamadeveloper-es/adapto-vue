@@ -1,20 +1,20 @@
-# Styling & Theming
+# Estilos y theming
 
-Adapto UI has no static CSS build: every style — global tokens, base styles, and each
-component's own stylesheet — is injected into `<head>` at runtime when [`AdaptoPlugin`](../../src/lib/plugin.ts)
-is installed and as components render. This page covers how that pipeline works and how to
-control light/dark mode.
+Adapto UI no tiene un build de CSS estático: todos los estilos —tokens globales, estilos base y la
+hoja de estilos propia de cada componente— se inyectan en el `<head>` en tiempo de ejecución al
+instalar [`AdaptoPlugin`](../../src/lib/plugin.ts) y conforme los componentes se renderizan. Esta
+página explica cómo funciona esa tubería y cómo controlar el modo claro y oscuro.
 
-## How styles reach the page
+## Cómo llegan los estilos a la página
 
-- **`src/core/`** is the engine: it normalizes theme tokens into CSS custom properties and
-  inserts `<style>` tags into the document. It has no Vue dependency.
-- **`AdaptoPlugin.install()`** calls `initFramework()` once, which injects two global blocks:
-  the `tokens` stylesheet (all `--adapto-*` custom properties) and the `main` stylesheet (resets,
-  utility classes). It also registers the `v-ripple`/`v-click-outside` directives and exposes the
-  framework helpers via `provide('fw', fw)`.
-- **Per-component styles are not part of that global bundle.** Each `adpt-*` component imports
-  its own `style.scss` and injects it the first time it renders, via `useStyle()`:
+- **`src/core/`** es el motor: normaliza los tokens del tema a custom properties CSS e inserta
+  etiquetas `<style>` en el documento. No depende de Vue.
+- **`AdaptoPlugin.install()`** llama una vez a `initFramework()`, que inyecta dos bloques globales:
+  la hoja `tokens` (todas las custom properties `--adapto-*`) y la hoja `main` (resets y clases
+  utilitarias). También registra las directivas `v-ripple`/`v-click-outside` y expone los helpers
+  del framework mediante `provide('fw', fw)`.
+- **Los estilos por componente no forman parte de ese bundle global.** Cada componente `adpt-*`
+  importa su propio `style.scss` y lo inyecta la primera vez que se renderiza, vía `useStyle()`:
 
   ```ts
   import { useStyle } from '@/lib/composables/useStyle'
@@ -23,39 +23,39 @@ control light/dark mode.
   useStyle('button', css)
   ```
 
-  `useStyle()` calls the same `injectCSS()` used internally for the global blocks, keyed by
-  `${prefix}:${moduleId}` to avoid inserting the same block twice. The practical effect: a
-  component you never render never injects its CSS, and the bundler can drop the module entirely
-  because the library declares `"sideEffects": false`.
+  `useStyle()` llama al mismo `injectCSS()` que se usa internamente para los bloques globales,
+  indexado por `${prefix}:${moduleId}` para no insertar dos veces el mismo bloque. El efecto
+  práctico: un componente que nunca renderizas nunca inyecta su CSS, y el bundler puede descartar el
+  módulo por completo porque la librería declara `"sideEffects": false`.
 
-## Tokens and the helpers
+## Tokens y helpers
 
-Theme tokens come in three layers, defined in [`Atlas`](../../src/core/themes/Atlas.ts) and
-normalized by `initFramework()` into flat custom properties:
+Los tokens del tema vienen en tres capas, definidas en [`Atlas`](../../src/core/themes/Atlas.ts) y
+normalizadas por `initFramework()` a custom properties planas:
 
-| Layer       | Example source                          | Resulting CSS variable      |
+| Capa        | Ejemplo de origen                        | Variable CSS resultante      |
 | ----------- | ---------------------------------------- | ---------------------------- |
-| Primitive   | `green.500`                              | `--adapto-green-500`         |
-| Semantic    | `primary.500` (→ `green.500`)            | `--adapto-primary-500`       |
-| Component   | `btn.bg` (→ `sm.primary.100`)            | `--adapto-btn-bg`             |
+| Primitiva   | `green.500`                              | `--adapto-green-500`         |
+| Semántica   | `primary.500` (→ `green.500`)            | `--adapto-primary-500`       |
+| Componente  | `btn.bg` (→ `sm.primary.100`)            | `--adapto-btn-bg`             |
 
-Semantic and component tokens are emitted as `var(...)` references to the layer below them
-rather than resolved values, so changing a primitive or semantic variable at runtime cascades
-through everything that depends on it — this is exactly what makes dark mode possible without
-re-injecting any component stylesheet.
+Los tokens semánticos y de componente se emiten como referencias `var(...)` a la capa inferior, en
+lugar de como valores resueltos, de modo que cambiar una variable primitiva o semántica en tiempo de
+ejecución se propaga en cascada a todo lo que dependa de ella. Esto es justo lo que hace posible el
+modo oscuro sin reinyectar ninguna hoja de estilos de componente.
 
-Inside a component, [`useFramework()`](../../src/lib/composables/useFramework.ts) exposes three
-helpers built on top of the configured `prefix`:
+Dentro de un componente, [`useFramework()`](../../src/lib/composables/useFramework.ts) expone tres
+helpers construidos sobre el `prefix` configurado:
 
-| Helper           | Example                          | Result                              |
+| Helper           | Ejemplo                           | Resultado                            |
 | ----------------- | --------------------------------- | ------------------------------------ |
 | `fw.cx(...names)` | `fw.cx('btn', 'primary')`         | `'adapto-btn adapto-primary'`        |
 | `fw.cv(name)`      | `fw.cv('color-primary')`          | `'var(--adapto-color-primary)'`      |
-| `fw.getVar(name)`  | `fw.getVar('color-primary')`      | the computed value read from `:root` |
+| `fw.getVar(name)`  | `fw.getVar('color-primary')`      | el valor calculado leído de `:root`  |
 
-## Dark mode
+## Modo oscuro
 
-`Atlas` defines a `dark` mode alongside its base (light) tokens:
+`Atlas` define un modo `dark` junto a sus tokens base (claros):
 
 ```ts
 // src/core/themes/Atlas.ts
@@ -74,9 +74,8 @@ export const Atlas: ThemeOptions = {
 }
 ```
 
-`initFramework()` normalizes `modes.dark.semantic` the same way it normalizes the base tokens,
-and injects it as a second block scoped under the configured selector, right after the `:root`
-block:
+`initFramework()` normaliza `modes.dark.semantic` igual que los tokens base, y lo inyecta como un
+segundo bloque acotado bajo el selector configurado, justo después del bloque `:root`:
 
 ```css
 :root {
@@ -91,39 +90,40 @@ block:
 }
 ```
 
-Because component tokens like `--adapto-btn-bg` reference `--adapto-primary-100` rather than a
-resolved color, adding the `dark-mode` class to `<html>` re-points every dependent variable
-through normal CSS cascade — no component needs to know dark mode exists.
+Como los tokens de componente como `--adapto-btn-bg` referencian `--adapto-primary-100` en lugar de
+un color resuelto, añadir la clase `dark-mode` al `<html>` reapunta todas las variables dependientes
+por la cascada CSS normal: ningún componente necesita saber que existe el modo oscuro.
 
-### Toggling the mode
+### Alternar el modo
 
-Once `AdaptoPlugin` is installed, dark mode can be controlled from anywhere in the consuming
-app, without needing a Vue component:
+Una vez instalado `AdaptoPlugin`, el modo oscuro puede controlarse desde cualquier punto de la
+aplicación consumidora, sin necesidad de un componente Vue:
 
 ```ts
 import { applyThemeMode, getSystemThemeMode, getStoredThemeMode, storeThemeMode } from 'adapto-ui'
 
-// Apply a mode immediately (defaults to Atlas's darkModeSelector, 'dark-mode')
+// Aplica un modo de inmediato (por defecto usa el darkModeSelector de Atlas, 'dark-mode')
 applyThemeMode('dark')
 
-// Persist the choice for future page loads (defaults to Atlas's prefix, 'adapto')
+// Persiste la elección para futuras cargas de página (por defecto usa el prefix de Atlas, 'adapto')
 storeThemeMode('dark')
 
-// Read back what was stored, or fall back to the OS preference
+// Lee lo que se guardó, o cae en la preferencia del sistema operativo
 const mode = getStoredThemeMode() ?? getSystemThemeMode()
 ```
 
-These are plain functions from `src/core/theme-mode.ts` — no Vue, no reactivity, safe to call
-during app bootstrap (e.g. in `main.ts`, before mounting) as well as from event handlers.
+Son funciones planas de `src/core/theme-mode.ts`: sin Vue, sin reactividad, seguras de llamar
+durante el arranque de la app (p. ej. en `main.ts`, antes del montaje) tanto como desde manejadores
+de eventos.
 
-`initFramework()` already calls this logic once on install, applying whichever mode was
-previously stored or, if none was, the OS's `prefers-color-scheme`. So a returning visitor sees
-the correct mode before any component renders.
+`initFramework()` ya ejecuta esta lógica una vez al instalarse, aplicando el modo previamente
+guardado o, si no había ninguno, el `prefers-color-scheme` del sistema. Así, quien vuelve a visitar
+la página ve el modo correcto antes de que se renderice ningún componente.
 
-### Inside a component
+### Dentro de un componente
 
-[`useFramework()`](../../src/lib/composables/useFramework.ts) exposes the same behavior bound to
-the app's configured `prefix`/`darkModeSelector`, handy for building a toggle:
+[`useFramework()`](../../src/lib/composables/useFramework.ts) expone el mismo comportamiento ligado
+al `prefix`/`darkModeSelector` configurados en la app, práctico para construir un interruptor:
 
 ```vue
 <script setup lang="ts">
@@ -133,26 +133,27 @@ const fw = useFramework()
 </script>
 
 <template>
-  <button @click="fw.toggleMode()">Toggle theme</button>
+  <button @click="fw.toggleMode()">Cambiar tema</button>
 </template>
 ```
 
-| Method                | Description                                                                 |
+| Método                | Descripción                                                                 |
 | ---------------------- | ----------------------------------------------------------------------------- |
-| `fw.setMode(mode)`      | Applies `'light'` or `'dark'` and persists it.                               |
-| `fw.toggleMode()`       | Flips between light and dark based on the class currently on `<html>`.       |
-| `fw.getInitialMode()`   | Stored mode, or the OS preference if nothing was stored yet.                 |
+| `fw.setMode(mode)`      | Aplica `'light'` o `'dark'` y lo persiste.                                   |
+| `fw.toggleMode()`       | Alterna entre claro y oscuro según la clase que tenga `<html>` en ese momento. |
+| `fw.getInitialMode()`   | El modo guardado, o la preferencia del sistema si aún no hay nada guardado.  |
 
-### Custom `prefix` or `darkModeSelector`
+### `prefix` o `darkModeSelector` personalizados
 
-If the app installs the plugin with a non-default `prefix` or `darkModeSelector`:
+Si la aplicación instala el plugin con un `prefix` o un `darkModeSelector` distintos de los de
+serie:
 
 ```ts
 app.use(AdaptoPlugin, { prefix: 'myapp', darkModeSelector: 'theme-dark' })
 ```
 
-the standalone functions need those same values passed explicitly, since they can't read the
-plugin's install options on their own:
+las funciones independientes necesitan que se les pasen esos mismos valores explícitamente, ya que
+no pueden leer por sí solas las opciones de instalación del plugin:
 
 ```ts
 applyThemeMode('dark', 'theme-dark')
@@ -160,11 +161,11 @@ storeThemeMode('dark', 'myapp')
 getStoredThemeMode('myapp')
 ```
 
-`fw.setMode()`/`fw.toggleMode()` via `useFramework()` don't need this — they already close over
-the app's actual configuration.
+`fw.setMode()`/`fw.toggleMode()` a través de `useFramework()` no lo necesitan: ya llevan cerrada la
+configuración real de la app.
 
-::: warning No SSR guard needed on your side
-Every function in `theme-mode.ts` already no-ops when `document`/`window`/`localStorage` are
-unavailable, so they're safe to import in an SSR entry point. They simply do nothing until they
-run in a browser.
+::: warning No hace falta que protejas el SSR por tu cuenta
+Todas las funciones de `theme-mode.ts` ya no hacen nada cuando `document`/`window`/`localStorage`
+no están disponibles, así que es seguro importarlas en un punto de entrada SSR. Simplemente no
+actúan hasta que se ejecutan en un navegador.
 :::

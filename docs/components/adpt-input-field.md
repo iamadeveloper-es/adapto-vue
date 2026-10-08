@@ -1,17 +1,17 @@
 # Input Field
 
-`adpt-input-field` is a labeled text input with four visual variants, a floating/outlined label
-mode, an optional clear button, and a built-in password-visibility toggle for `type="password"`
-fields.
+`adpt-input-field` es un campo de texto etiquetado con cuatro variantes visuales, un modo de
+etiqueta flotante/perfilada, un botón opcional para limpiar el contenido y un alternador de
+visibilidad integrado para campos `type="password"`.
 
-- **Component name:** `AdaptoInputField`
-- **Source:** `src/lib/components/form/adpt-input-field/index.vue`
-- **Styles:** `src/lib/components/form/adpt-input-field/style.scss` (registered in `AdaptoPlugin`)
+- **Nombre del componente:** `AdaptoInputField`
+- **Fuente:** `src/lib/components/form/adpt-input-field/index.vue`
+- **Estilos:** `src/lib/components/form/adpt-input-field/style.scss` (se inyectan en el primer render del componente)
 
-## Usage
+## Uso
 
-Once [`AdaptoPlugin`](../../src/lib/plugin.ts) is installed on the app, `AdaptoInputField` is
-available globally. `name`, `label` and `modelValue` are required props.
+Una vez instalado [`AdaptoPlugin`](../../src/lib/plugin.ts) en la aplicación, `AdaptoInputField`
+está disponible de forma global. `name`, `label` y `modelValue` son props obligatorias.
 
 ```ts
 // main.ts
@@ -25,9 +25,9 @@ createApp(App).use(AdaptoPlugin).mount('#app')
 <div class="demo">
   <AdaptoInputField
     name="email"
-    label="Email"
+    label="Correo electrónico"
     model-value=""
-    placeholder="you@example.com"
+    placeholder="tu@ejemplo.com"
     color="primary-600"
   />
 </div>
@@ -36,15 +36,15 @@ createApp(App).use(AdaptoPlugin).mount('#app')
 <AdaptoInputField
   v-model="email"
   name="email"
-  label="Email"
-  placeholder="you@example.com"
+  label="Correo electrónico"
+  placeholder="tu@ejemplo.com"
   color="primary-600"
 />
 ```
 
-## Variants
+## Variantes
 
-The `variant` prop controls the input's background/border style. Default is `underlined`.
+La prop `variant` controla el estilo de fondo y borde del campo. Por defecto es `underlined`.
 
 <div class="demo">
   <AdaptoInputField name="v1" label="Outlined" model-value="" variant="outlined" color="primary-600" />
@@ -60,103 +60,106 @@ The `variant` prop controls the input's background/border style. Default is `und
 <AdaptoInputField name="v4" label="Underlined" variant="underlined" color="primary-600" />
 ```
 
-| Variant      | Description                                                        |
+| Variante     | Descripción                                                        |
 | ------------ | ----------------------------------------------------------------------- |
-| `outlined`   | Transparent background with a `currentColor` border.               |
-| `fussy`      | `currentColor` border **and** a tinted (`color-mix`) background.   |
-| `soft`       | Tinted (`color-mix`) background, no border.                        |
-| `underlined` | Bottom border only, faintly tinted background. **Default.**        |
+| `outlined`   | Fondo transparente con un borde en `currentColor`.                 |
+| `fussy`      | Borde en `currentColor` **y** fondo tintado (`color-mix`).         |
+| `soft`       | Fondo tintado (`color-mix`), sin borde.                            |
+| `underlined` | Solo borde inferior, con fondo ligeramente tintado. **Por defecto.** |
 
-Any value outside these four falls back internally to `outlined` styling (note: this fallback is
-not enforced by the prop's `validator`, which still only allows the four listed values).
+Cualquier valor fuera de estos cuatro cae internamente en el estilo `outlined` (ojo: ese respaldo
+no lo impone el `validator` de la prop, que sigue admitiendo solo los cuatro valores listados).
 
-## Label variants
+## Variantes de etiqueta
 
-`labelVariant` controls how the label behaves relative to the input: `'float'` floats the label
-over the input and animates it up on focus/when filled; `'outlined'` behaves similarly but with a
-background "notch" cut into the border. Default is `''` (a static label above the input, no
-floating/notch behavior).
+`labelVariant` controla cómo se comporta la etiqueta respecto al campo: `'float'` la flota sobre el
+campo y la anima hacia arriba al enfocarlo o cuando tiene contenido; `'outlined'` se comporta de
+forma similar pero con una «muesca» de fondo recortada en el borde. Por defecto es `''` (una
+etiqueta estática sobre el campo, sin flotación ni muesca).
 
 <div class="demo">
-  <AdaptoInputField name="lv1" label="Static (default)" model-value="" variant="outlined" color="primary-600" />
-  <AdaptoInputField name="lv2" label="Float" model-value="" variant="outlined" label-variant="float" color="primary-600" />
-  <AdaptoInputField name="lv3" label="Outlined notch" model-value="" variant="outlined" label-variant="outlined" color="primary-600" />
+  <AdaptoInputField name="lv1" label="Estática (por defecto)" model-value="" variant="outlined" color="primary-600" />
+  <AdaptoInputField name="lv2" label="Flotante" model-value="" variant="outlined" label-variant="float" color="primary-600" />
+  <AdaptoInputField name="lv3" label="Muesca perfilada" model-value="" variant="outlined" label-variant="outlined" color="primary-600" />
 </div>
 
 ```vue-html
-<AdaptoInputField name="lv1" label="Static (default)" variant="outlined" color="primary-600" />
-<AdaptoInputField name="lv2" label="Float" variant="outlined" label-variant="float" color="primary-600" />
-<AdaptoInputField name="lv3" label="Outlined notch" variant="outlined" label-variant="outlined" color="primary-600" />
+<AdaptoInputField name="lv1" label="Estática (por defecto)" variant="outlined" color="primary-600" />
+<AdaptoInputField name="lv2" label="Flotante" variant="outlined" label-variant="float" color="primary-600" />
+<AdaptoInputField name="lv3" label="Muesca perfilada" variant="outlined" label-variant="outlined" color="primary-600" />
 ```
 
-::: warning Default differs from `adpt-textarea`
-`AdaptoInputField`'s `labelVariant` defaults to `''` (static label). The equivalent prop on
-[`AdaptoTextarea`](./adpt-textarea) defaults to `'float'`. Same prop name, same type, different
-default — don't assume they match across the two components.
+::: warning El valor por defecto difiere de `adpt-textarea`
+El `labelVariant` de `AdaptoInputField` es `''` por defecto (etiqueta estática). La prop
+equivalente en [`AdaptoTextarea`](./adpt-textarea) tiene `'float'` por defecto. Mismo nombre de
+prop, mismo tipo, distinto valor por defecto: no des por hecho que coinciden entre ambos
+componentes.
 :::
 
-`hideLabel` visually hides the label (via a screen-reader-only utility class) while keeping it in
-the accessibility tree.
+`hideLabel` oculta visualmente la etiqueta (mediante una clase utilitaria solo para lectores de
+pantalla) manteniéndola en el árbol de accesibilidad.
 
-## Colors
+## Colores
 
-`color` accepts a theme token name (e.g. `primary-600`, `danger-700`) resolved to
-`var(--fw-<color>)`. It's applied to both the label and input text color.
+`color` acepta el nombre de un token del tema (p. ej. `primary-600`, `danger-700`) resuelto a
+`var(--fw-<color>)`. Se aplica al color de la etiqueta y al del texto del campo.
 
 <div class="demo">
-  <AdaptoInputField name="c1" label="Danger (default)" model-value="" variant="outlined" />
+  <AdaptoInputField name="c1" label="Danger (por defecto)" model-value="" variant="outlined" />
   <AdaptoInputField name="c2" label="Primary" model-value="" variant="outlined" color="primary-600" />
   <AdaptoInputField name="c3" label="Success" model-value="" variant="outlined" color="success-600" />
 </div>
 
 ```vue-html
-<AdaptoInputField name="c1" label="Danger (default)" variant="outlined" />
+<AdaptoInputField name="c1" label="Danger (por defecto)" variant="outlined" />
 <AdaptoInputField name="c2" label="Primary" variant="outlined" color="primary-600" />
 <AdaptoInputField name="c3" label="Success" variant="outlined" color="success-600" />
 ```
 
-::: warning Default color is `danger-500`
-Unlike [`AdaptoTextarea`](./adpt-textarea) (whose analogous default is `primary-600`),
-`AdaptoInputField`'s `color` prop defaults to `'danger-500'` — a semantic "error" color used as
-the default styling for an ordinary, non-error input. Passing an explicit `color` is recommended
-for anything other than an intentionally error-styled field.
+::: warning El color por defecto es `danger-500`
+A diferencia de [`AdaptoTextarea`](./adpt-textarea) (cuyo valor análogo por defecto es
+`primary-600`), la prop `color` de `AdaptoInputField` es `'danger-500'` por defecto: un color
+semántico de «error» usado como estilo por defecto de un campo corriente sin error. Se recomienda
+pasar un `color` explícito para cualquier cosa que no sea un campo con estilo de error
+intencionado.
 :::
 
-## Clear button & password toggle
+## Botón de limpiar y alternador de contraseña
 
-When the field has content (`modelValue.length > 0`), is `clearable` (default `true`), and is not
-`disabled`, a trailing icon button (`AdaptoButton`, `variant="link"`) renders inside the field:
+Cuando el campo tiene contenido (`modelValue.length > 0`), es `clearable` (por defecto `true`) y no
+está `disabled`, se renderiza dentro del campo un botón de icono al final (`AdaptoButton`,
+`variant="link"`):
 
-- For any `type` other than `password`, clicking it clears the field (emits
-  `update:modelValue` with `''`).
-- For `type="password"`, clicking it **toggles password visibility** instead of clearing —
-  it flips the underlying native `<input type>` between `password` and `text`. The same
-  `clearable` prop gates whether this toggle button is shown at all, so setting
-  `clearable="false"` on a password field removes the only way to reveal the password; there's no
-  separate prop to keep the reveal toggle while disabling clearing.
+- Para cualquier `type` distinto de `password`, al pulsarlo se limpia el campo (emite
+  `update:modelValue` con `''`).
+- Para `type="password"`, al pulsarlo **alterna la visibilidad de la contraseña** en lugar de
+  limpiar: cambia el `type` del `<input>` nativo entre `password` y `text`. La misma prop
+  `clearable` decide si ese botón se muestra siquiera, así que poner `clearable="false"` en un
+  campo de contraseña elimina la única forma de revelarla; no hay una prop aparte para mantener el
+  alternador de revelado desactivando el limpiado.
 
 <div class="demo">
-  <AdaptoInputField name="clear-demo" label="Clearable text" model-value="Some text" variant="outlined" color="primary-600" />
-  <AdaptoInputField name="pw-demo" type="password" label="Password" model-value="secret123" variant="outlined" color="primary-600" />
+  <AdaptoInputField name="clear-demo" label="Texto limpiable" model-value="Algo de texto" variant="outlined" color="primary-600" />
+  <AdaptoInputField name="pw-demo" type="password" label="Contraseña" model-value="secret123" variant="outlined" color="primary-600" />
 </div>
 
 ```vue-html
-<AdaptoInputField name="clear-demo" label="Clearable text" model-value="Some text" variant="outlined" color="primary-600" />
-<AdaptoInputField name="pw-demo" type="password" label="Password" model-value="secret123" variant="outlined" color="primary-600" />
+<AdaptoInputField name="clear-demo" label="Texto limpiable" model-value="Algo de texto" variant="outlined" color="primary-600" />
+<AdaptoInputField name="pw-demo" type="password" label="Contraseña" model-value="secret123" variant="outlined" color="primary-600" />
 ```
 
-The trailing icon itself defaults to `{ name: 'x' }` (`trailingIcon` prop). An `onTrailingIcon`
-prop exists to swap in an alternate icon once the password toggle is engaged, but its default is
-an empty object (`{}`); with no `onTrailingIcon` passed, the button keeps showing the `x` icon
-even after toggling password visibility to "revealed" — it still functions (clicking it toggles
-visibility), it just doesn't visually swap icons out of the box.
+El icono final es `{ name: 'x' }` por defecto (prop `trailingIcon`). Existe una prop
+`onTrailingIcon` para sustituirlo por otro icono una vez activado el alternador de contraseña, pero
+su valor por defecto es un objeto vacío (`{}`); si no se pasa `onTrailingIcon`, el botón sigue
+mostrando el icono `x` incluso tras alternar la contraseña a «visible»: sigue funcionando (pulsarlo
+alterna la visibilidad), simplemente no cambia de icono de serie.
 
-::: tip Set `onTrailingIcon` for a visually-accurate password toggle
+::: tip Define `onTrailingIcon` para un alternador de contraseña visualmente correcto
 ```vue-html
 <AdaptoInputField
   name="pw"
   type="password"
-  label="Password"
+  label="Contraseña"
   v-model="password"
   trailing-icon="{ name: 'eye-off' }"
   :on-trailing-icon="{ name: 'eye' }"
@@ -164,78 +167,79 @@ visibility), it just doesn't visually swap icons out of the box.
 ```
 :::
 
-## States
+## Estados
 
 <div class="demo">
-  <AdaptoInputField name="s1" label="Disabled" model-value="Can't touch this" disabled variant="outlined" color="primary-600" />
-  <AdaptoInputField name="s2" label="Readonly" model-value="Read only value" readonly variant="outlined" color="primary-600" />
-  <AdaptoInputField name="s3" label="Required" model-value="" required variant="outlined" color="primary-600" />
+  <AdaptoInputField name="s1" label="Deshabilitado" model-value="No se puede tocar" disabled variant="outlined" color="primary-600" />
+  <AdaptoInputField name="s2" label="Solo lectura" model-value="Valor de solo lectura" readonly variant="outlined" color="primary-600" />
+  <AdaptoInputField name="s3" label="Obligatorio" model-value="" required variant="outlined" color="primary-600" />
 </div>
 
 ```vue-html
-<AdaptoInputField name="s1" label="Disabled" disabled variant="outlined" color="primary-600" />
-<AdaptoInputField name="s2" label="Readonly" readonly variant="outlined" color="primary-600" />
-<AdaptoInputField name="s3" label="Required" required variant="outlined" color="primary-600" />
+<AdaptoInputField name="s1" label="Deshabilitado" disabled variant="outlined" color="primary-600" />
+<AdaptoInputField name="s2" label="Solo lectura" readonly variant="outlined" color="primary-600" />
+<AdaptoInputField name="s3" label="Obligatorio" required variant="outlined" color="primary-600" />
 ```
 
-- **`disabled`** — sets the native `disabled` attribute and hides the trailing icon button.
-- **`readonly`** — sets the native `readonly` attribute; the trailing icon button remains visible.
-- **`required`** — sets the native `required` attribute; no accessible error messaging is wired up
-  (see [Accessibility](#accessibility)).
-- `min` / `max` / `maxlength` are forwarded as-is to the native `<input>` (`min`/`max` only have a
-  browser effect on numeric/date-like `type`s).
+- **`disabled`** — establece el atributo nativo `disabled` y oculta el botón de icono final.
+- **`readonly`** — establece el atributo nativo `readonly`; el botón de icono final sigue visible.
+- **`required`** — establece el atributo nativo `required`; no hay ningún mensaje de error
+  accesible cableado (consulta [Accesibilidad](#accesibilidad)).
+- `min` / `max` / `maxlength` se reenvían tal cual al `<input>` nativo (`min`/`max` solo tienen
+  efecto en el navegador para `type`s numéricos o de fecha).
 
 ## Props
 
-| Prop             | Type                                                        | Default        | Description                                                                                     |
+| Prop             | Tipo                                                        | Por defecto    | Descripción                                                                                     |
 | ---------------- | ------------------------------------------------------------- | -------------- | ----------------------------------------------------------------------------------------------- |
-| `modelValue`     | `string` (required)                                            | —              | Bound value (`v-model`).                                                                         |
-| `type`           | `string`                                                       | `'text'`       | Native `<input type>`. Reactive changes to `type` at runtime are followed.                       |
-| `name`           | `string` (required)                                            | —              | Native `name` attribute.                                                                        |
-| `label`          | `string` (required)                                            | —              | Label text, associated to the input via `<label for>`. Always present in the accessibility tree, even when `hideLabel` visually hides it. |
-| `placeholder`    | `string`                                                        | `undefined`    | Native `placeholder`.                                                                            |
-| `disabled`       | `boolean`                                                       | `false`        | Disables the input and hides the trailing icon button.                                          |
-| `required`       | `boolean`                                                       | `false`        | Sets the native `required` attribute.                                                            |
-| `readonly`       | `boolean`                                                       | `false`        | Sets the native `readonly` attribute.                                                            |
-| `min`            | `number`                                                        | `undefined`    | Forwarded to the native `min` attribute.                                                         |
-| `max`            | `number`                                                        | `undefined`    | Forwarded to the native `max` attribute.                                                         |
-| `maxlength`      | `number`                                                        | `undefined`    | Forwarded to the native `maxlength` attribute.                                                   |
-| `color`          | `string`                                                        | `'danger-500'` | Theme token name resolved to `var(--fw-<color>)`, applied to label and input text color.        |
-| `variant`        | `'outlined' \| 'fussy' \| 'soft' \| 'underlined'`               | `'underlined'` | Visual style of the field.                                                                       |
-| `hideLabel`      | `boolean`                                                       | `false`        | Visually hides the label (screen-reader-only), keeping it in the accessibility tree.            |
-| `labelVariant`   | `'float' \| 'outlined' \| ''`                                   | `''`           | Label positioning behavior. Empty string renders a static label with no floating/notch effect.  |
-| `clearable`      | `boolean`                                                       | `true`         | Shows the trailing clear/toggle button when the field has content. For password fields, also gates the reveal toggle (see above). |
-| `trailingIcon`   | `Icon` (`{ name, size?, color?, strokeWidth?, defaultClass? }`) | `{ name: 'x' }` | Icon for the trailing button in its default state.                                              |
-| `onTrailingIcon` | `Icon`                                                          | `{}`           | Alternate icon shown after the password-reveal toggle is engaged. Empty by default — see the tip above. |
+| `modelValue`     | `string` (obligatoria)                                         | —              | Valor enlazado (`v-model`).                                                                      |
+| `type`           | `string`                                                       | `'text'`       | `type` nativo del `<input>`. Los cambios reactivos de `type` en tiempo de ejecución se respetan. |
+| `name`           | `string` (obligatoria)                                         | —              | Atributo nativo `name`.                                                                          |
+| `label`          | `string` (obligatoria)                                         | —              | Texto de la etiqueta, asociada al campo vía `<label for>`. Siempre presente en el árbol de accesibilidad, incluso cuando `hideLabel` la oculta visualmente. |
+| `placeholder`    | `string`                                                        | `undefined`    | `placeholder` nativo.                                                                            |
+| `disabled`       | `boolean`                                                       | `false`        | Deshabilita el campo y oculta el botón de icono final.                                          |
+| `required`       | `boolean`                                                       | `false`        | Establece el atributo nativo `required`.                                                         |
+| `readonly`       | `boolean`                                                       | `false`        | Establece el atributo nativo `readonly`.                                                         |
+| `min`            | `number`                                                        | `undefined`    | Reenviado al atributo nativo `min`.                                                              |
+| `max`            | `number`                                                        | `undefined`    | Reenviado al atributo nativo `max`.                                                              |
+| `maxlength`      | `number`                                                        | `undefined`    | Reenviado al atributo nativo `maxlength`.                                                        |
+| `color`          | `string`                                                        | `'danger-500'` | Nombre de token del tema resuelto a `var(--fw-<color>)`, aplicado al color de la etiqueta y del texto. |
+| `variant`        | `'outlined' \| 'fussy' \| 'soft' \| 'underlined'`               | `'underlined'` | Estilo visual del campo.                                                                         |
+| `hideLabel`      | `boolean`                                                       | `false`        | Oculta visualmente la etiqueta (solo para lectores de pantalla), manteniéndola en el árbol de accesibilidad. |
+| `labelVariant`   | `'float' \| 'outlined' \| ''`                                   | `''`           | Comportamiento de posicionamiento de la etiqueta. La cadena vacía renderiza una etiqueta estática, sin flotación ni muesca. |
+| `clearable`      | `boolean`                                                       | `true`         | Muestra el botón final de limpiar/alternar cuando el campo tiene contenido. En campos de contraseña, decide además si aparece el alternador de revelado (ver arriba). |
+| `trailingIcon`   | `Icon` (`{ name, size?, color?, strokeWidth?, defaultClass? }`) | `{ name: 'x' }` | Icono del botón final en su estado por defecto.                                                 |
+| `onTrailingIcon` | `Icon`                                                          | `{}`           | Icono alternativo mostrado tras activar el revelado de contraseña. Vacío por defecto: consulta el consejo anterior. |
 
 ## Emits
 
-| Event              | Payload      | Description                                                                 |
+| Evento             | Payload      | Descripción                                                                 |
 | ------------------ | ------------ | ---------------------------------------------------------------------------- |
-| `update:modelValue`| `string`     | Emitted on every native `input` event, and when the field is cleared via the trailing button. |
-| `onFocus`          | `FocusEvent` | Emitted on native `focus`. Listen for it with `@on-focus`, not `@focus` — see the note below. |
-| `onBlur`           | `FocusEvent` | Emitted on native `blur`. Listen for it with `@on-blur`, not `@blur`.        |
+| `update:modelValue`| `string`     | Se emite en cada evento nativo `input`, y cuando el campo se limpia con el botón final. |
+| `onFocus`          | `FocusEvent` | Se emite en el `focus` nativo. Escúchalo con `@on-focus`, no con `@focus`: consulta la nota siguiente. |
+| `onBlur`           | `FocusEvent` | Se emite en el `blur` nativo. Escúchalo con `@on-blur`, no con `@blur`.      |
 
-::: warning Non-standard emit names
-`onFocus`/`onBlur` don't follow the "plain, kebab-case, thing-that-happened" convention used
-elsewhere in the library (compare `AdaptoButton`'s `clicked`). Because Vue treats `onXxx`-shaped
-prop/emit names specially, consumers must listen with `@on-focus` / `@on-blur` rather than the
-more idiomatic `@focus` / `@blur`.
+::: warning Nombres de emits no estándar
+`onFocus`/`onBlur` no siguen la convención de «kebab-case simple, cosa que ha ocurrido» usada en el
+resto de la librería (compara con el `clicked` de `AdaptoButton`). Como Vue trata de forma especial
+los nombres de prop/emit con forma `onXxx`, quien consume el componente debe escuchar con
+`@on-focus` / `@on-blur` en lugar de los más idiomáticos `@focus` / `@blur`.
 :::
 
 ## Slots
 
-`AdaptoInputField` declares no slots; all content is prop-driven.
+`AdaptoInputField` no declara slots; todo el contenido se controla mediante props.
 
-## Accessibility
+## Accesibilidad
 
-- The accessible name comes from the native `<label for>` association — no `aria-label` /
-  `aria-labelledby` override is applied to the `<input>`, so it can't drift out of sync with the
-  visible label text.
-- The trailing clear/toggle button is an `AdaptoButton` with `hide-label`, and receives a
-  descriptive `label` that reflects its current action and state ("Limpiar campo" when clearing,
-  "Mostrar contraseña" / "Ocultar contraseña" for the password toggle depending on its current
-  visibility state) — screen reader users hear what the button actually does, not a generic name.
-- No accessible error-messaging mechanism (e.g. `aria-invalid` + `aria-describedby` pointing at an
-  error message) is wired up, despite the component supporting `required`/`min`/`max`/`maxlength`.
-  If you need validation messaging, you'll need to build it around this component yourself.
+- El nombre accesible procede de la asociación nativa `<label for>`: no se aplica ningún
+  `aria-label` ni `aria-labelledby` sobre el `<input>`, así que no puede desincronizarse del texto
+  visible de la etiqueta.
+- El botón final de limpiar/alternar es un `AdaptoButton` con `hide-label`, y recibe un `label`
+  descriptivo que refleja su acción y estado actuales («Limpiar campo» al limpiar, «Mostrar
+  contraseña» / «Ocultar contraseña» en el alternador según el estado de visibilidad): quien usa un
+  lector de pantalla oye lo que el botón hace realmente, no un nombre genérico.
+- No hay ningún mecanismo accesible de mensajes de error cableado (p. ej. `aria-invalid` +
+  `aria-describedby` apuntando a un mensaje), pese a que el componente admite
+  `required`/`min`/`max`/`maxlength`. Si necesitas mensajes de validación, tendrás que construirlos
+  tú alrededor de este componente.

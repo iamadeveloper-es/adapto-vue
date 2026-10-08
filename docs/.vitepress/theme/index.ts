@@ -9,7 +9,7 @@ import AdaptoImage from '../../../src/lib/components/element/adpt-image/index.vu
 import AdaptoCard from '../../../src/lib/components/element/adpt-card/index.vue'
 import AdaptoAccordion from '../../../src/lib/components/element/adpt-accordion/index.vue'
 import AdaptoAccordionList from '../../../src/lib/components/element/adpt-accordion-list/index.vue'
-import AdaptoTabs from '../../../src/lib/components/element/adpt-tabs/index.vue'
+import AdaptoTabs from '../../../src/lib/components/navigation/adpt-tabs/index.vue'
 import AdaptoInputField from '../../../src/lib/components/form/adpt-input-field/index.vue'
 import AdaptoTextarea from '../../../src/lib/components/form/adpt-textarea/index.vue'
 import AdaptoCheckbox from '../../../src/lib/components/form/adpt-checkbox/index.vue'
@@ -27,6 +27,7 @@ export default {
     app.component('AdaptoChip', AdaptoChip)
     app.component('AdaptoAvatar', AdaptoAvatar)
     app.component('AdaptoIcon', AdaptoIcon)
+    app.component('AdaptoImage', AdaptoImage)
     app.component('AdaptoCard', AdaptoCard)
     app.component('AdaptoAccordion', AdaptoAccordion)
     app.component('AdaptoAccordionList', AdaptoAccordionList)

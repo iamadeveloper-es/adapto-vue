@@ -1,22 +1,24 @@
 # Tabs
 
-`adpt-tabs` is a tabbed navigation/content-switcher built from a `tabs` array of `{ label, value,
-icon?, disabled? }` items. It supports four visual variants (including an animated underline
-indicator), five sizes, per-tab corner radius, full-width stretching, alignment, a divider under
-the tab list, per-tab icons and disabled states, and full arrow-key navigation. Panel content is
-provided per tab through dynamically-named slots, and switching tabs animates the panel in the
-direction of travel.
+`adpt-tabs` es una navegación por pestañas y conmutador de contenido construido a partir de un
+array `tabs` de elementos `{ label, value, icon?, disabled? }`. Admite cuatro variantes visuales
+(incluido un indicador subrayado animado), cinco tamaños, radio de esquina por pestaña, estirado a
+ancho completo, alineación, un divisor bajo la lista de pestañas, iconos por pestaña y estados
+deshabilitados, además de navegación completa con las teclas de flecha. El contenido de cada panel
+se aporta mediante slots de nombre dinámico, y cambiar de pestaña anima el panel en la dirección
+del movimiento.
 
-- **Component name:** `AdaptoTabs`
-- **Source:** `src/lib/components/element/adpt-tabs/index.vue`
-- **Styles:** `src/lib/components/element/adpt-tabs/style.scss` (registered in `AdaptoPlugin`)
+- **Nombre del componente:** `AdaptoTabs`
+- **Fuente:** `src/lib/components/navigation/adpt-tabs/index.vue`
+- **Estilos:** `src/lib/components/navigation/adpt-tabs/style.scss` (se inyectan en el primer render del componente)
 
-## Usage
+## Uso
 
-Once [`AdaptoPlugin`](../../src/lib/plugin.ts) is installed on the app, `AdaptoTabs` is available
-globally. `modelValue` (`v-model`) holds the active tab's `value`; if it's omitted or doesn't
-match any tab, the component falls back to the first non-disabled tab. Panel content for each tab
-goes in a dynamically-named slot matching that tab's `value`:
+Una vez instalado [`AdaptoPlugin`](../../src/lib/plugin.ts) en la aplicación, `AdaptoTabs` está
+disponible de forma global. `modelValue` (`v-model`) guarda el `value` de la pestaña activa; si se
+omite o no coincide con ninguna pestaña, el componente cae en la primera pestaña no deshabilitada.
+El contenido de cada panel va en un slot de nombre dinámico que coincide con el `value` de esa
+pestaña:
 
 ```ts
 // main.ts
@@ -32,33 +34,33 @@ import { ref } from 'vue'
 
 const activeTab = ref('overview')
 const demoTabs = [
-  { label: 'Overview', value: 'overview' },
-  { label: 'Activity', value: 'activity' },
-  { label: 'Settings', value: 'settings' },
+  { label: 'Resumen', value: 'overview' },
+  { label: 'Actividad', value: 'activity' },
+  { label: 'Ajustes', value: 'settings' },
 ]
 
 const variantTabs = [
-  { label: 'One', value: 'one' },
-  { label: 'Two', value: 'two' },
+  { label: 'Uno', value: 'one' },
+  { label: 'Dos', value: 'two' },
 ]
 
 const iconTabs = [
-  { label: 'Home', value: 'home', icon: { name: 'house' } },
-  { label: 'Profile', value: 'profile', icon: { name: 'user' } },
-  { label: 'Locked', value: 'locked', icon: { name: 'lock' }, disabled: true },
+  { label: 'Inicio', value: 'home', icon: { name: 'house' } },
+  { label: 'Perfil', value: 'profile', icon: { name: 'user' } },
+  { label: 'Bloqueado', value: 'locked', icon: { name: 'lock' }, disabled: true },
 ]
 </script>
 
 <div class="demo" style="display: block;">
   <AdaptoTabs v-model="activeTab" color="primary-500" :tabs="demoTabs">
     <template #overview>
-      <p>Overview panel content.</p>
+      <p>Contenido del panel de resumen.</p>
     </template>
     <template #activity>
-      <p>Activity panel content.</p>
+      <p>Contenido del panel de actividad.</p>
     </template>
     <template #settings>
-      <p>Settings panel content.</p>
+      <p>Contenido del panel de ajustes.</p>
     </template>
   </AdaptoTabs>
 </div>
@@ -66,13 +68,13 @@ const iconTabs = [
 ```vue-html
 <AdaptoTabs v-model="activeTab" color="primary-500" :tabs="tabs">
   <template #overview>
-    <p>Overview panel content.</p>
+    <p>Contenido del panel de resumen.</p>
   </template>
   <template #activity>
-    <p>Activity panel content.</p>
+    <p>Contenido del panel de actividad.</p>
   </template>
   <template #settings>
-    <p>Settings panel content.</p>
+    <p>Contenido del panel de ajustes.</p>
   </template>
 </AdaptoTabs>
 ```
@@ -82,18 +84,18 @@ import { ref } from 'vue'
 
 const activeTab = ref('overview')
 const tabs = [
-  { label: 'Overview', value: 'overview' },
-  { label: 'Activity', value: 'activity' },
-  { label: 'Settings', value: 'settings' },
+  { label: 'Resumen', value: 'overview' },
+  { label: 'Actividad', value: 'activity' },
+  { label: 'Ajustes', value: 'settings' },
 ]
 ```
 
-If a tab's slot is left empty, the panel falls back to rendering the active tab's `label` as
-plain text — useful for quick prototyping before wiring up real panel content.
+Si el slot de una pestaña se deja vacío, el panel muestra como texto plano el `label` de la pestaña
+activa, algo útil para prototipar rápido antes de conectar el contenido real.
 
-## Variants
+## Variantes
 
-The `variant` prop controls the tab list's visual style. Default is `underlined`.
+La prop `variant` controla el estilo visual de la lista de pestañas. Por defecto es `underlined`.
 
 <div class="demo" style="flex-direction: column; align-items: stretch;">
   <AdaptoTabs variant="outlined" color="primary-500" :tabs="variantTabs" />
@@ -109,22 +111,22 @@ The `variant` prop controls the tab list's visual style. Default is `underlined`
 <AdaptoTabs variant="underlined" color="primary-500" :tabs="tabs" />
 ```
 
-| Variant      | Description                                                                                   |
+| Variante     | Descripción                                                                                   |
 | ------------ | ----------------------------------------------------------------------------------------------- |
-| `outlined`   | Active tab gets a `thin solid currentColor` border; inactive tabs stay borderless.              |
-| `fussy`      | Active tab gets a border **and** a tinted (`color-mix`) background.                             |
-| `soft`       | Active tab gets a tinted background, no border.                                                 |
-| `underlined` | No per-tab border/background. A single animated `<span>` indicator slides and resizes to sit under the active tab. **Default.** |
+| `outlined`   | La pestaña activa recibe un borde `thin solid currentColor`; las inactivas quedan sin borde.    |
+| `fussy`      | La pestaña activa recibe borde **y** fondo tintado (`color-mix`).                              |
+| `soft`       | La pestaña activa recibe fondo tintado, sin borde.                                              |
+| `underlined` | Sin borde ni fondo por pestaña. Un único `<span>` indicador animado se desliza y redimensiona para situarse bajo la pestaña activa. **Por defecto.** |
 
-Any value outside these four falls back to `underlined`, since the internal class lookup defaults
-to it when the prop isn't recognized.
+Cualquier valor fuera de estos cuatro cae en `underlined`, ya que la búsqueda interna de clases usa
+esa variante cuando la prop no se reconoce.
 
-## Colors
+## Colores
 
-The `color` prop accepts a theme token name (primitive, e.g. `green-500`, or semantic, e.g.
-`primary-500`) resolved via `fw.cv()` and applied as the tab list's inline `color` style, which
-the variants above then reuse via `currentColor` for borders, tinted backgrounds and the
-underline indicator.
+La prop `color` acepta el nombre de un token del tema (primitivo, p. ej. `green-500`, o semántico,
+p. ej. `primary-500`), resuelto vía `fw.cv()` y aplicado como estilo inline `color` de la lista de
+pestañas, que las variantes anteriores reutilizan mediante `currentColor` para bordes, fondos
+tintados y el indicador subrayado.
 
 <div class="demo" style="flex-direction: column; align-items: stretch;">
   <AdaptoTabs variant="fussy" color="primary-500" :tabs="variantTabs" />
@@ -138,12 +140,12 @@ underline indicator.
 <AdaptoTabs variant="fussy" color="danger-600" :tabs="tabs" />
 ```
 
-If `color` is left empty (the default), it resolves to the `primary-700` theme token instead —
-`getColor` is `props.color ? fw.cv(props.color) : fw.cv('primary-700')`.
+Si `color` se deja vacío (el valor por defecto), se resuelve al token del tema `primary-700`:
+`getColor` es `props.color ? fw.cv(props.color) : fw.cv('primary-700')`.
 
-## Sizes
+## Tamaños
 
-The `size` prop controls each tab's padding and font size. Default is `xs`.
+La prop `size` controla el padding y el tamaño de fuente de cada pestaña. Por defecto es `xs`.
 
 <div class="demo" style="flex-direction: column; align-items: stretch;">
   <AdaptoTabs size="xs" color="primary-500" :tabs="variantTabs" />
@@ -161,11 +163,12 @@ The `size` prop controls each tab's padding and font size. Default is `xs`.
 <AdaptoTabs size="xl" color="primary-500" :tabs="tabs" />
 ```
 
-## Radius
+## Radio
 
-The `radius` prop maps to the shared `.rounded--*` utility classes and is applied to each
-individual tab button. Default is `sm`. It's most visible on the `outlined`/`fussy`/`soft`
-variants, since `underlined` tabs have no border or background of their own to round.
+La prop `radius` mapea a las clases utilitarias compartidas `.rounded--*` y se aplica a cada
+pestaña individual. Por defecto es `sm`. Se aprecia sobre todo en las variantes
+`outlined`/`fussy`/`soft`, ya que las pestañas `underlined` no tienen borde ni fondo propios que
+redondear.
 
 <div class="demo" style="flex-direction: column; align-items: stretch;">
   <AdaptoTabs variant="fussy" radius="xs" color="primary-500" :tabs="variantTabs" />
@@ -179,10 +182,10 @@ variants, since `underlined` tabs have no border or background of their own to r
 <AdaptoTabs variant="fussy" radius="full" color="primary-500" :tabs="tabs" />
 ```
 
-## Alignment
+## Alineación
 
-`tabsAlign` positions the tab list within its container (`justify-content` on the list). There is
-no default — omitting it leaves the browser's default `flex` start alignment in place.
+`tabsAlign` posiciona la lista de pestañas dentro de su contenedor (`justify-content` en la lista).
+No tiene valor por defecto: omitirla deja la alineación `flex` de inicio que aplica el navegador.
 
 <div class="demo" style="flex-direction: column; align-items: stretch;">
   <AdaptoTabs tabs-align="start" color="primary-500" :tabs="variantTabs" />
@@ -196,10 +199,11 @@ no default — omitting it leaves the browser's default `flex` start alignment i
 <AdaptoTabs tabs-align="end" color="primary-500" :tabs="tabs" />
 ```
 
-## Full width & divider
+## Ancho completo y divisor
 
-`fullWidth` stretches the tab list to the container's width, distributing space evenly across
-tabs. `divider` draws a thin border line under the tab list, independent of variant.
+`fullWidth` estira la lista de pestañas al ancho del contenedor, repartiendo el espacio por igual
+entre las pestañas. `divider` dibuja una línea fina bajo la lista de pestañas, con independencia de
+la variante.
 
 <div class="demo" style="display: block;">
   <AdaptoTabs full-width divider color="primary-500" :tabs="variantTabs" />
@@ -209,12 +213,12 @@ tabs. `divider` draws a thin border line under the tab list, independent of vari
 <AdaptoTabs full-width divider color="primary-500" :tabs="tabs" />
 ```
 
-## Icons and disabled tabs
+## Iconos y pestañas deshabilitadas
 
-Each item in `tabs` can carry its own `icon` (forwarded to `AdaptoIcon`, marked
-`aria-hidden="true"`) and `disabled` flag. Disabled tabs render at `opacity: .5`, get
-`cursor: not-allowed`, cannot be clicked or focused via the pointer, and are skipped by keyboard
-navigation.
+Cada elemento de `tabs` puede llevar su propio `icon` (reenviado a `AdaptoIcon` y marcado como
+`aria-hidden="true"`) y su bandera `disabled`. Las pestañas deshabilitadas se renderizan con
+`opacity: .5`, reciben `cursor: not-allowed`, no pueden pulsarse ni enfocarse con el puntero y la
+navegación por teclado las salta.
 
 <div class="demo" style="display: block;">
   <AdaptoTabs color="primary-500" :tabs="iconTabs" />
@@ -224,75 +228,78 @@ navigation.
 <AdaptoTabs
   color="primary-500"
   :tabs="[
-    { label: 'Home', value: 'home', icon: { name: 'house' } },
-    { label: 'Profile', value: 'profile', icon: { name: 'user' } },
-    { label: 'Locked', value: 'locked', icon: { name: 'lock' }, disabled: true },
+    { label: 'Inicio', value: 'home', icon: { name: 'house' } },
+    { label: 'Perfil', value: 'profile', icon: { name: 'user' } },
+    { label: 'Bloqueado', value: 'locked', icon: { name: 'lock' }, disabled: true },
   ]"
 />
 ```
 
-## Keyboard navigation
+## Navegación por teclado
 
-Once a tab is focused, arrow keys move both focus and selection together (this follows the
-[WAI-ARIA "automatic activation" tab pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/) —
-only the active tab has `tabindex="0"`, every other tab has `tabindex="-1"`):
+Una vez enfocada una pestaña, las teclas de flecha mueven a la vez el foco y la selección (esto
+sigue el patrón de pestañas de «activación automática» de
+[WAI-ARIA](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/): solo la pestaña activa tiene
+`tabindex="0"`, y todas las demás `tabindex="-1"`):
 
-- **`ArrowRight`** — moves to the next non-disabled tab, wrapping around to the first.
-- **`ArrowLeft`** — moves to the previous non-disabled tab, wrapping around to the last.
-- **`Home`** — jumps to the first non-disabled tab.
-- **`End`** — jumps to the last non-disabled tab.
+- **`Flecha derecha`** — pasa a la siguiente pestaña no deshabilitada, volviendo a la primera al
+  llegar al final.
+- **`Flecha izquierda`** — pasa a la anterior pestaña no deshabilitada, volviendo a la última al
+  llegar al principio.
+- **`Inicio`** — salta a la primera pestaña no deshabilitada.
+- **`Fin`** — salta a la última pestaña no deshabilitada.
 
-## Panel transitions
+## Transiciones de panel
 
-Switching the active tab animates the outgoing and incoming panel content in the direction of
-travel, rather than crossfading: the panel slides as if the new content were pushing the old
-content out of the way. If the newly active tab sits to the **left** of the previously active one
-(a lower index in `tabs`), the incoming panel slides in from the left, pushing the outgoing one to
-the right. If it sits to the **right**, the incoming panel slides in from the right, pushing the
-outgoing one to the left. This gives the tab switch a sense of spatial direction that matches
-where the user clicked or navigated to.
+Cambiar de pestaña activa anima el contenido saliente y el entrante en la dirección del movimiento,
+en lugar de hacer un fundido cruzado: el panel se desliza como si el contenido nuevo empujara al
+antiguo fuera de la vista. Si la pestaña recién activada está a la **izquierda** de la anterior (un
+índice menor en `tabs`), el panel entrante se desliza desde la izquierda empujando al saliente hacia
+la derecha. Si está a la **derecha**, el panel entrante se desliza desde la derecha empujando al
+saliente hacia la izquierda. Esto da al cambio de pestaña una sensación de dirección espacial acorde
+con dónde se ha hecho clic o navegado.
 
 ## Props
 
-| Prop             | Type                                                       | Default        | Description                                                                 |
+| Prop             | Tipo                                                       | Por defecto    | Descripción                                                                 |
 | ----------------- | ------------------------------------------------------------ | --------------- | ----------------------------------------------------------------------------- |
-| `tabs`            | `TabItem[]` (`{ label, value, icon?, disabled? }`)            | **required**    | The tab items to render, in order.                                           |
-| `modelValue`      | `string \| number`                                            | `undefined`     | Active tab's `value` (`v-model`). Falls back to the first non-disabled tab if missing or invalid. |
-| `variant`         | `'outlined' \| 'fussy' \| 'soft' \| 'underlined'`             | `'underlined'`  | Visual style of the tab list. Unrecognized values fall back to `underlined`. |
-| `color`           | `string`                                                      | `''`            | Theme token name resolved via `fw.cv()`, applied as `currentColor` (falls back to `primary-700` if empty). |
-| `size`            | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                        | `'xs'`          | Controls per-tab padding and font size.                                      |
-| `radius`          | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'`              | `'sm'`          | Corner radius applied to each individual tab, via `.rounded--*`.             |
-| `fullWidth`       | `boolean`                                                     | `false`         | Stretches the tab list to the container's full width, distributing space evenly across tabs. |
-| `label`           | `string`                                                      | `'Tabs'`        | `aria-label` on the `role="tablist"` container.                              |
-| `disableRipple`   | `boolean`                                                     | `false`         | Disables the `v-ripple` click feedback on tab buttons.                       |
-| `tabsAlign`       | `'start' \| 'center' \| 'end'`                                | `undefined`     | Horizontal alignment (`justify-content`) of the tab list within its container. |
-| `divider`         | `boolean`                                                     | `false`         | Renders a thin border line below the tab list.                               |
+| `tabs`            | `TabItem[]` (`{ label, value, icon?, disabled? }`)            | **obligatoria** | Los elementos de pestaña a renderizar, en orden.                             |
+| `modelValue`      | `string \| number`                                            | `undefined`     | `value` de la pestaña activa (`v-model`). Cae en la primera pestaña no deshabilitada si falta o no es válido. |
+| `variant`         | `'outlined' \| 'fussy' \| 'soft' \| 'underlined'`             | `'underlined'`  | Estilo visual de la lista de pestañas. Los valores no reconocidos caen en `underlined`. |
+| `color`           | `string`                                                      | `''`            | Nombre de token del tema resuelto vía `fw.cv()`, aplicado como `currentColor` (cae en `primary-700` si está vacío). |
+| `size`            | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                        | `'xs'`          | Controla el padding y el tamaño de fuente de cada pestaña.                   |
+| `radius`          | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'`              | `'sm'`          | Radio de esquina aplicado a cada pestaña individual, vía `.rounded--*`.      |
+| `fullWidth`       | `boolean`                                                     | `false`         | Estira la lista de pestañas a todo el ancho del contenedor, repartiendo el espacio por igual. |
+| `label`           | `string`                                                      | `'Tabs'`        | `aria-label` del contenedor con `role="tablist"`.                            |
+| `disableRipple`   | `boolean`                                                     | `false`         | Desactiva el feedback de clic de `v-ripple` en los botones de pestaña.       |
+| `tabsAlign`       | `'start' \| 'center' \| 'end'`                                | `undefined`     | Alineación horizontal (`justify-content`) de la lista dentro de su contenedor. |
+| `divider`         | `boolean`                                                     | `false`         | Renderiza una línea fina bajo la lista de pestañas.                          |
 
 ## Emits
 
-| Event               | Payload            | Description                                                              |
+| Evento              | Payload            | Descripción                                                              |
 | -------------------- | -------------------- | ----------------------------------------------------------------------------- |
-| `update:modelValue`  | `tab.value`         | Emitted when a non-disabled tab is activated, by click or by arrow-key/Home/End navigation. |
+| `update:modelValue`  | `tab.value`         | Se emite al activar una pestaña no deshabilitada, por clic o mediante navegación con flechas/Inicio/Fin. |
 
 ## Slots
 
-| Slot                    | Description                                                                                   |
+| Slot                    | Descripción                                                                                   |
 | ------------------------ | ------------------------------------------------------------------------------------------------- |
-| `[tab.value]` (dynamic) | One slot per tab, named after that tab's `value`. Receives the scoped prop `{ tab: activeTab }`. Renders the panel content for that tab. |
-| *(none provided)*        | If the matching slot is empty or absent, the panel falls back to rendering `activeTab?.label` as plain text. |
+| `[tab.value]` (dinámico) | Un slot por pestaña, nombrado según el `value` de esa pestaña. Recibe la prop de scope `{ tab: activeTab }`. Renderiza el contenido del panel correspondiente. |
+| *(ninguno pasado)*       | Si el slot correspondiente está vacío o ausente, el panel muestra `activeTab?.label` como texto plano. |
 
-## Accessibility
+## Accesibilidad
 
-- The tab list has a static `role="tablist"` with `aria-label` bound to the `label` prop; each
-  button has `role="tab"`.
-- `aria-selected` reflects whether each tab is the active one, and `aria-controls` points at the
-  corresponding panel's `id`.
-- Only the active tab has `tabindex="0"`; every other tab has `tabindex="-1"` — this is the
-  standard roving-tabindex pattern for tab lists, so `Tab` moves focus into and out of the
-  tablist as a single stop, while arrow keys move between tabs.
-- The panel has `role="tabpanel"`, `tabindex="0"`, and `aria-labelledby` pointing back at the
-  active tab's `id`.
-- Per-tab icons and the underline indicator are marked `aria-hidden="true"` so assistive
-  technology relies on the tab's visible/accessible label text instead.
-- Disabled tabs use the native `disabled` attribute on the `<button>`, so they're automatically
-  excluded from the tab order and announced as unavailable.
+- La lista de pestañas tiene un `role="tablist"` estático con `aria-label` enlazado a la prop
+  `label`; cada botón lleva `role="tab"`.
+- `aria-selected` refleja si cada pestaña es la activa, y `aria-controls` apunta al `id` del panel
+  correspondiente.
+- Solo la pestaña activa tiene `tabindex="0"`; el resto tiene `tabindex="-1"`. Es el patrón estándar
+  de roving tabindex para listas de pestañas: `Tab` entra y sale del tablist como una única parada,
+  mientras que las flechas se mueven entre pestañas.
+- El panel tiene `role="tabpanel"`, `tabindex="0"` y un `aria-labelledby` que apunta de vuelta al
+  `id` de la pestaña activa.
+- Los iconos por pestaña y el indicador subrayado se marcan como `aria-hidden="true"` para que las
+  tecnologías de asistencia se apoyen en el texto visible y accesible de la pestaña.
+- Las pestañas deshabilitadas usan el atributo nativo `disabled` en el `<button>`, así que quedan
+  excluidas automáticamente del orden de tabulación y se anuncian como no disponibles.

@@ -1,19 +1,19 @@
 # Tooltip
 
-`adpt-tooltip` wraps a trigger element and shows a small text box on hover. It supports four
-initial placements and repositions itself automatically when there isn't enough viewport space
-for the requested placement.
+`adpt-tooltip` envuelve un elemento disparador y muestra una pequeña caja de texto al pasar el
+ratón. Admite cuatro posiciones iniciales y se recoloca automáticamente cuando no hay suficiente
+espacio de viewport para la posición solicitada.
 
-- **Component name:** `AdaptoTooltip`
-- **Source:** `src/lib/components/overlay/adpt-tooltip/index.vue`
-- **Styles:** `src/lib/components/overlay/adpt-tooltip/style.scss` (registered in `AdaptoPlugin`)
+- **Nombre del componente:** `AdaptoTooltip`
+- **Fuente:** `src/lib/components/overlay/adpt-tooltip/index.vue`
+- **Estilos:** `src/lib/components/overlay/adpt-tooltip/style.scss` (se inyectan en el primer render del componente)
 
-## Usage
+## Uso
 
-Once [`AdaptoPlugin`](../../src/lib/plugin.ts) is installed on the app, `AdaptoTooltip` is
-available globally. The `content` prop holds the tooltip's text, and the `content` **slot** holds
-the trigger element that the tooltip is attached to — despite sharing a name, they are unrelated
-(see [Slots](#slots) below).
+Una vez instalado [`AdaptoPlugin`](../../src/lib/plugin.ts) en la aplicación, `AdaptoTooltip` está
+disponible de forma global. La prop `content` contiene el texto del tooltip, y el **slot** `content`
+contiene el elemento disparador al que se ancla: pese a compartir nombre, no tienen relación
+(consulta [Slots](#slots) más abajo).
 
 ```ts
 // main.ts
@@ -25,112 +25,114 @@ createApp(App).use(AdaptoPlugin).mount('#app')
 ```
 
 <div class="demo">
-  <AdaptoTooltip content="Saves your changes">
+  <AdaptoTooltip content="Guarda tus cambios">
     <template #content>
-      <AdaptoButton label="Save" color="primary-500" />
+      <AdaptoButton label="Guardar" color="primary-500" />
     </template>
   </AdaptoTooltip>
 </div>
 
 ```vue-html
-<AdaptoTooltip content="Saves your changes">
+<AdaptoTooltip content="Guarda tus cambios">
   <template #content>
-    <AdaptoButton label="Save" color="primary-500" />
+    <AdaptoButton label="Guardar" color="primary-500" />
   </template>
 </AdaptoTooltip>
 ```
 
-The tooltip box is shown on `mouseenter` of the trigger and hidden again on `mouseleave` — there
-is no keyboard/focus trigger and no click trigger.
+La caja del tooltip se muestra en el `mouseenter` del disparador y se oculta en el `mouseleave`: no
+hay disparador por teclado/foco ni por clic.
 
-## Position
+## Posición
 
-The `position` prop sets the tooltip's initial placement relative to the trigger. Default is
+La prop `position` define la posición inicial del tooltip respecto al disparador. Por defecto es
 `'top'`.
 
 <div class="demo" style="padding: 56px 24px; justify-content: space-around;">
-  <AdaptoTooltip content="Top tooltip" position="top">
-    <template #content><AdaptoButton label="Top" color="primary-500" variant="outlined" /></template>
+  <AdaptoTooltip content="Tooltip arriba" position="top">
+    <template #content><AdaptoButton label="Arriba" color="primary-500" variant="outlined" /></template>
   </AdaptoTooltip>
-  <AdaptoTooltip content="Bottom tooltip" position="bottom">
-    <template #content><AdaptoButton label="Bottom" color="primary-500" variant="outlined" /></template>
+  <AdaptoTooltip content="Tooltip abajo" position="bottom">
+    <template #content><AdaptoButton label="Abajo" color="primary-500" variant="outlined" /></template>
   </AdaptoTooltip>
-  <AdaptoTooltip content="Left tooltip" position="left">
-    <template #content><AdaptoButton label="Left" color="primary-500" variant="outlined" /></template>
+  <AdaptoTooltip content="Tooltip a la izquierda" position="left">
+    <template #content><AdaptoButton label="Izquierda" color="primary-500" variant="outlined" /></template>
   </AdaptoTooltip>
-  <AdaptoTooltip content="Right tooltip" position="right">
-    <template #content><AdaptoButton label="Right" color="primary-500" variant="outlined" /></template>
+  <AdaptoTooltip content="Tooltip a la derecha" position="right">
+    <template #content><AdaptoButton label="Derecha" color="primary-500" variant="outlined" /></template>
   </AdaptoTooltip>
 </div>
 
 ```vue-html
-<AdaptoTooltip content="Top tooltip" position="top">
-  <template #content><AdaptoButton label="Top" color="primary-500" /></template>
+<AdaptoTooltip content="Tooltip arriba" position="top">
+  <template #content><AdaptoButton label="Arriba" color="primary-500" /></template>
 </AdaptoTooltip>
-<AdaptoTooltip content="Bottom tooltip" position="bottom">
-  <template #content><AdaptoButton label="Bottom" color="primary-500" /></template>
+<AdaptoTooltip content="Tooltip abajo" position="bottom">
+  <template #content><AdaptoButton label="Abajo" color="primary-500" /></template>
 </AdaptoTooltip>
-<AdaptoTooltip content="Left tooltip" position="left">
-  <template #content><AdaptoButton label="Left" color="primary-500" /></template>
+<AdaptoTooltip content="Tooltip a la izquierda" position="left">
+  <template #content><AdaptoButton label="Izquierda" color="primary-500" /></template>
 </AdaptoTooltip>
-<AdaptoTooltip content="Right tooltip" position="right">
-  <template #content><AdaptoButton label="Right" color="primary-500" /></template>
+<AdaptoTooltip content="Tooltip a la derecha" position="right">
+  <template #content><AdaptoButton label="Derecha" color="primary-500" /></template>
 </AdaptoTooltip>
 ```
 
-If `position` is set to anything other than `'top' | 'bottom' | 'left' | 'right'`, the component
-silently falls back to `'top'`.
+Si `position` recibe cualquier valor distinto de `'top' | 'bottom' | 'left' | 'right'`, el
+componente cae silenciosamente en `'top'`.
 
-## Auto-repositioning
+## Reposicionamiento automático
 
-An `IntersectionObserver` watches the trigger element from the moment the component mounts. Each
-time the tooltip becomes visible, it measures the tooltip box against the remaining viewport space
-on the side it would render:
+Un `IntersectionObserver` observa el elemento disparador desde que el componente se monta. Cada vez
+que el tooltip pasa a ser visible, mide su caja frente al espacio de viewport restante en el lado
+donde se renderizaría:
 
-- `position="top"` flips to `bottom` if the tooltip's height is greater than the space above the
-  trigger.
-- `position="bottom"` flips to `top` if the tooltip's height is greater than the space below.
-- `position="left"` flips to `right` if the tooltip's width is greater than the space to the left.
-- `position="right"` flips to `left` if the tooltip's width is greater than the space to the
-  right.
+- `position="top"` cambia a `bottom` si la altura del tooltip es mayor que el espacio disponible
+  encima del disparador.
+- `position="bottom"` cambia a `top` si la altura del tooltip es mayor que el espacio de debajo.
+- `position="left"` cambia a `right` si el ancho del tooltip es mayor que el espacio de la
+  izquierda.
+- `position="right"` cambia a `left` si el ancho del tooltip es mayor que el espacio de la derecha.
 
-This only flips between the two opposite sides of the requested axis (top↔bottom or left↔right) —
-it never reroutes, say, a `left` tooltip to `top`. A realistic demo of this requires an actual
-viewport edge, which this docs page can't reliably reproduce across window sizes; try shrinking
-the browser window around one of the examples above, or placing a tooltip near the top of a
-scrolled page, to see it flip.
+Solo alterna entre los dos lados opuestos del eje solicitado (arriba↔abajo o izquierda↔derecha):
+nunca redirige, por ejemplo, un tooltip `left` hacia `top`. Una demo realista de esto necesita un
+borde real del viewport, algo que esta página no puede reproducir de forma fiable en todos los
+tamaños de ventana; prueba a reducir la ventana del navegador alrededor de uno de los ejemplos
+anteriores, o a colocar un tooltip cerca de la parte superior de una página con scroll, para verlo
+cambiar de lado.
 
-::: tip Implementation detail
-`observeTrigger()` runs both in `onMounted` and again in a `watch` on the internal `showTooltip`
-state (i.e. every time the tooltip is shown), without checking whether an observer already exists.
-In practice this can create more than one `IntersectionObserver` instance over the component's
-lifetime. This is a known implementation detail, not something this page attempts to work around.
+::: tip Detalle de implementación
+`observeTrigger()` se ejecuta tanto en `onMounted` como de nuevo en un `watch` sobre el estado
+interno `showTooltip` (es decir, cada vez que el tooltip se muestra), sin comprobar si ya existe un
+observador. En la práctica esto puede crear más de una instancia de `IntersectionObserver` a lo
+largo de la vida del componente. Es un detalle de implementación conocido, no algo que esta página
+pretenda sortear.
 :::
 
 ## Props
 
-| Prop       | Type                                          | Default | Description                                                                 |
+| Prop       | Tipo                                          | Por defecto | Descripción                                                                 |
 | ---------- | ---------------------------------------------- | ------- | ----------------------------------------------------------------------------- |
-| `content`  | `string`                                        | —       | **Required.** Text displayed inside the tooltip box.                        |
-| `position` | `'top' \| 'bottom' \| 'left' \| 'right'`        | `'top'` | Initial placement. Auto-flips to the opposite side of the same axis if there isn't enough viewport space (see [Auto-repositioning](#auto-repositioning)). |
+| `content`  | `string`                                        | —       | **Obligatoria.** Texto mostrado dentro de la caja del tooltip.              |
+| `position` | `'top' \| 'bottom' \| 'left' \| 'right'`        | `'top'` | Posición inicial. Cambia automáticamente al lado opuesto del mismo eje si no hay suficiente espacio de viewport (consulta [Reposicionamiento automático](#reposicionamiento-automatico)). |
 
 ## Emits
 
-None.
+Ninguno.
 
 ## Slots
 
-| Slot      | Description                                                                 |
+| Slot      | Descripción                                                                 |
 | --------- | ------------------------------------------------------------------------------ |
-| `content` | The trigger element that shows the tooltip on hover. **Not** the tooltip's text — that's the `content` prop. The prop and the slot share a name but hold unrelated content; don't confuse one for the other. |
+| `content` | El elemento disparador que muestra el tooltip al pasar el ratón. **No** es el texto del tooltip: ese es la prop `content`. La prop y el slot comparten nombre pero contienen cosas distintas; no los confundas. |
 
-## Accessibility
+## Accesibilidad
 
-- No explicit ARIA wiring is present: the tooltip box has no `role="tooltip"`, and the trigger
-  has no `aria-describedby` pointing at it. Screen reader users get no equivalent of the visual
-  hover tooltip.
-- The tooltip only opens on `mouseenter`/`mouseleave` of the trigger — there is no keyboard
-  (focus/blur) trigger, so the tooltip content is unreachable via keyboard navigation alone.
-- If the tooltip conveys information that isn't available elsewhere, consumers should currently
-  provide their own accessible alternative (e.g. a visually hidden description, or `aria-label` on
-  the trigger) rather than relying on this component for that purpose.
+- No hay ningún cableado ARIA explícito: la caja del tooltip no tiene `role="tooltip"`, y el
+  disparador no tiene un `aria-describedby` que apunte a ella. Quien usa un lector de pantalla no
+  recibe ningún equivalente del tooltip visual de hover.
+- El tooltip solo se abre con `mouseenter`/`mouseleave` del disparador: no hay disparador por
+  teclado (focus/blur), así que su contenido resulta inalcanzable solo con navegación por teclado.
+- Si el tooltip transmite información que no está disponible en otro sitio, quien lo consume debe
+  aportar hoy por hoy su propia alternativa accesible (p. ej. una descripción oculta visualmente, o
+  un `aria-label` en el disparador) en lugar de confiar en este componente para ese fin.
