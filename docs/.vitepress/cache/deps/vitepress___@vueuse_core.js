@@ -3513,7 +3513,7 @@ function useColorMode(options = {}) {
     auto: "",
     light: "light",
     dark: "dark",
-    ...options.modes || {}
+    ...options.modes
   };
   const preferredDark = usePreferredDark({ window: window2 });
   const system = computed(() => preferredDark.value ? "dark" : "light");
@@ -4938,8 +4938,8 @@ function createFetch(config = {}) {
           ...fetchOptions,
           ...args[0],
           headers: {
-            ...headersToObject(fetchOptions.headers) || {},
-            ...headersToObject(args[0].headers) || {}
+            ...headersToObject(fetchOptions.headers),
+            ...headersToObject(args[0].headers)
           }
         };
       }

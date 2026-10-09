@@ -9,6 +9,7 @@ import AdaptoImage from '../../../src/lib/components/element/adpt-image/index.vu
 import AdaptoCard from '../../../src/lib/components/element/adpt-card/index.vue'
 import AdaptoAccordion from '../../../src/lib/components/element/adpt-accordion/index.vue'
 import AdaptoAccordionList from '../../../src/lib/components/element/adpt-accordion-list/index.vue'
+import AdaptoSkeleton from '../../../src/lib/components/element/adpt-skeleton/index.vue'
 import AdaptoTabs from '../../../src/lib/components/navigation/adpt-tabs/index.vue'
 import AdaptoInputField from '../../../src/lib/components/form/adpt-input-field/index.vue'
 import AdaptoTextarea from '../../../src/lib/components/form/adpt-textarea/index.vue'
@@ -31,6 +32,7 @@ export default {
     app.component('AdaptoCard', AdaptoCard)
     app.component('AdaptoAccordion', AdaptoAccordion)
     app.component('AdaptoAccordionList', AdaptoAccordionList)
+    app.component('AdaptoSkeleton', AdaptoSkeleton)
     app.component('AdaptoTabs', AdaptoTabs)
     app.component('AdaptoInputField', AdaptoInputField)
     app.component('AdaptoTextarea', AdaptoTextarea)
