@@ -329,6 +329,10 @@ export const Atlas: ThemeOptions = {
         'font-size': 'pr.text.sm',
         gap: 'cs.0.2rem',
       },
+      skeleton: {
+        bg: 'sm.surface.300',
+        'animation-duration': 'cs.1.5s',
+      },
       //- Form
       input: {
         bg: 'pr.white.500',
