@@ -66,16 +66,16 @@ discovered differently, which changes how each can be organized:
 - **Agents** resolve identity from the `name:` frontmatter field, so they can be namespaced into
   subfolders freely. All ten adapto agents live under `.claude/agents/adapto/`, split by scope —
   `adapto/` for anything that depends on the adpt-* component convention, the Atlas token
-  pipeline, or this repo's build/tooling setup (today, everything). A future agent with no such
-  dependency (e.g. a generic Vue 3 pattern reviewer) goes in `agents/generic/` instead; create
-  that folder only when the first one lands, not before.
+  pipeline, or this repo's build/tooling setup. Agents with no such dependency live in
+  `agents/generic/` — today only `spec-writer`, which turns a user story into a spec by preloading
+  the `spec-from-story` skill and runs turn by turn (the caller relays each returned message to the
+  user and continues the agent via SendMessage).
 - **Skills** resolve identity from the skill directory itself, and at least in the VSCode
   extension environment, nesting a `SKILL.md` more than one level under `.claude/skills/` makes it
   undiscoverable — `/component-docs` and the `Skill` tool both fail to find it. Because of this,
-  all skills live flat at `.claude/skills/<name>/`, with no `adapto/` subfolder, even though every
-  one of them is currently adapto-specific. If a generic skill is ever needed, it lands at the
-  same flat level — there is no scoping mechanism available for skills the way there is for
-  agents.
+  all skills live flat at `.claude/skills/<name>/`, with no `adapto/` subfolder. Generic skills
+  (today, `spec-from-story`) sit at the same flat level — there is no scoping mechanism available
+  for skills the way there is for agents.
 
 - **Review** (`component-review`): `component-review-types`, `component-review-props` and
   `component-review-a11y` in parallel → `component-review-report` consolidates and scores 0-10 per area.
