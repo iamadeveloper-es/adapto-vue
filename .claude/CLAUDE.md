@@ -39,6 +39,7 @@ adapto-ui is a Vue 3 + TypeScript component library installed as a plugin (`Adap
 - Type props and emits explicitly with `PropType`/concrete types; avoid `any`.
 - If the component needs the framework helpers, use `useFramework()` imported through the `@/lib/composables/useFramework` alias.
 - Semantic, accessible markup by default: roles, `aria-*`, focus and keyboard handling.
+- Every custom property a component's `style.scss` reads (`var(--fw-<name>-<prop>)`) must have a matching entry in `src/core/themes/Atlas.ts` under `tokens.component.<name>`, with `<prop>` as the key (e.g. `--fw-skeleton-bg` ↔ `component.skeleton.bg`). `style.scss` is compiled standalone (`vite-plugin-prefix-scss.ts` turns `.fw-`/`--fw-` into `__FW__`, then `inject-css.ts` swaps `__FW__` for the real prefix at runtime) — it never sees `Atlas.ts`, so a property with no matching `component.<name>` entry silently resolves to nothing instead of erroring. This still applies to a property that a size/variant class always overrides locally (e.g. `padding-block` set per `&--xs`/`&--md`/…): add the base entry anyway, consistent with how every other component (`btn`, `select`, `accordion`, …) registers one even though their size classes also override it immediately. When adding or editing a component, cross-check every `--fw-<name>-*` used in its `style.scss` against `Atlas.ts`'s `component.<name>` block before considering the component done.
 
 ## Packaging and build
 
