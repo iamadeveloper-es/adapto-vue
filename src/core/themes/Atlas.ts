@@ -333,6 +333,22 @@ export const Atlas: ThemeOptions = {
         bg: 'sm.surface.300',
         'animation-duration': 'cs.1.5s',
       },
+      'progress-bar': {
+        bg: 'sm.surface.300',
+        radius: 'pr.radius.sm',
+        value: '0',
+        'value-bg': 'sm.danger.500',
+        color: 'sm.on-danger.500',
+      },
+      'progress-circular': {
+        size: 'pr.spacing.xl',
+        bg: 'sm.surface.300',
+        'value-bg': 'sm.primary.500',
+        color: 'sm.on-surface.500',
+        'font-size': 'pr.text.sm',
+        'transition-duration': 'cs.300ms',
+        'spin-duration': 'cs.1.4s',
+      },
       //- Form
       input: {
         bg: 'pr.white.500',
@@ -364,7 +380,12 @@ export const Atlas: ThemeOptions = {
       //- Navigation
       breadcrumbs: {
         gap: 'pr.spacing.base'
-      }
+      },
+      tabs: {
+        'padding-block': 'pr.spacing.md',
+        'padding-inline': 'pr.spacing.lg',
+        'font-size': 'pr.text.sm',
+      },
     },
   },
   modes: {

@@ -1,0 +1,79 @@
+.fw-progress-circular {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--fw-progress-circular-size);
+  height: var(--fw-progress-circular-size);
+
+  &__svg {
+    transform: rotate(-90deg);
+  }
+
+  &__track {
+    stroke: var(--fw-progress-circular-bg);
+  }
+
+  &__value {
+    stroke: var(--fw-progress-circular-value-bg);
+    stroke-linecap: round;
+    transition: stroke-dashoffset var(--fw-progress-circular-transition-duration) ease-in-out;
+  }
+
+  &__label {
+    position: absolute;
+    color: var(--fw-progress-circular-color);
+    font-size: var(--fw-progress-circular-font-size);
+    line-height: 1;
+  }
+
+  &--indeterminate {
+    .fw-progress-circular__svg {
+      animation: fw-progress-circular-spin var(--fw-progress-circular-spin-duration) linear infinite;
+    }
+
+    .fw-progress-circular__value {
+      transition: none;
+    }
+  }
+
+  &--xs {
+    --fw-progress-circular-font-size: var(--fw-text-xs);
+  }
+
+  &--sm {
+    --fw-progress-circular-font-size: var(--fw-text-xs);
+  }
+
+  &--md {
+    --fw-progress-circular-font-size: var(--fw-text-sm);
+  }
+
+  &--lg {
+    --fw-progress-circular-font-size: var(--fw-text-base);
+  }
+
+  &--xl {
+    --fw-progress-circular-font-size: var(--fw-text-lg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fw-progress-circular__svg {
+      animation: none;
+    }
+
+    .fw-progress-circular__value {
+      transition: none;
+    }
+  }
+}
+
+@keyframes fw-progress-circular-spin {
+  from {
+    transform: rotate(-90deg);
+  }
+
+  to {
+    transform: rotate(270deg);
+  }
+}

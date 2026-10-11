@@ -23,6 +23,8 @@ export { default as AdaptoCalendar } from './components/element/adpt-calendar/in
 export { default as AdaptoCard } from './components/element/adpt-card/index.vue';
 export { default as AdaptoIcon } from './components/element/adpt-icon/index.vue';
 export { default as AdaptoSkeleton } from './components/element/adpt-skeleton/index.vue';
+export { default as AdaptoProgressBar } from './components/element/adpt-progress/index.vue';
+export { default as AdaptoProgressCircular } from './components/element/adpt-progress-circular/index.vue';
 
 //- Navigation
 export { default as AdaptoTabs } from './components/navigation/adpt-tabs/index.vue';
