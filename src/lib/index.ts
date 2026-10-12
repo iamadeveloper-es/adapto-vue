@@ -28,6 +28,7 @@ export { default as AdaptoProgressCircular } from './components/element/adpt-pro
 
 //- Navigation
 export { default as AdaptoTabs } from './components/navigation/adpt-tabs/index.vue';
+export { default as AdaptoPagination } from './components/navigation/adpt-pagination/index.vue';
 
 //- Overlay
 export { default as AdaptoDialog } from './components/overlay/adpt-dialog/index.vue';
@@ -37,5 +38,6 @@ export { default as AdaptoTooltip } from './components/overlay/adpt-tooltip/inde
 export { default as AdaptoCheckbox } from './components/form/adpt-checkbox/index.vue';
 export { default as AdaptoInputField } from './components/form/adpt-input-field/index.vue';
 export { default as AdaptoRadio } from './components/form/adpt-radio/index.vue';
+export { default as AdaptoRange } from './components/form/adpt-range/index.vue';
 export { default as AdaptoSelect } from './components/form/adpt-select/index.vue';
 export { default as AdaptoTextarea } from './components/form/adpt-textarea/index.vue';

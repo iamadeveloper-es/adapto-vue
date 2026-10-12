@@ -16,6 +16,7 @@ import AdaptoTextarea from '../../../src/lib/components/form/adpt-textarea/index
 import AdaptoCheckbox from '../../../src/lib/components/form/adpt-checkbox/index.vue'
 import AdaptoRadio from '../../../src/lib/components/form/adpt-radio/index.vue'
 import AdaptoSelect from '../../../src/lib/components/form/adpt-select/index.vue'
+import AdaptoRange from '../../../src/lib/components/form/adpt-range/index.vue'
 import AdaptoDialog from '../../../src/lib/components/overlay/adpt-dialog/index.vue'
 import AdaptoTooltip from '../../../src/lib/components/overlay/adpt-tooltip/index.vue'
 import './demo.css'
@@ -39,6 +40,7 @@ export default {
     app.component('AdaptoCheckbox', AdaptoCheckbox)
     app.component('AdaptoRadio', AdaptoRadio)
     app.component('AdaptoSelect', AdaptoSelect)
+    app.component('AdaptoRange', AdaptoRange)
     app.component('AdaptoDialog', AdaptoDialog)
     app.component('AdaptoTooltip', AdaptoTooltip)
   },

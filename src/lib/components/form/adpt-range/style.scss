@@ -1,0 +1,91 @@
+.fw-range {
+  display: inline-block;
+  width: 100%;
+
+  &--disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  &__wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: var(--fw-range-thumb-size);
+    cursor: pointer;
+  }
+
+  &__track {
+    position: relative;
+    width: 100%;
+    height: var(--fw-range-track-height);
+    border-radius: var(--fw-range-track-radius);
+    background-color: var(--fw-range-track-bg);
+    overflow: hidden;
+  }
+
+  &__fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: var(--fw-range-track-fill-bg);
+  }
+
+  &__thumb {
+    position: absolute;
+    top: 50%;
+    width: var(--fw-range-thumb-size);
+    height: var(--fw-range-thumb-size);
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background-color: currentColor;
+    color: var(--fw-range-thumb-bg);
+    cursor: pointer;
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    &::after {
+      content: '';
+      background-color: currentColor;
+      border-radius: 50%;
+      display: inline-block;
+      height: 100%;
+      left: 0;
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      transform: scale(1.8);
+      width: 100%;
+      transition: opacity 0.2s cubic-bezier(0.4, 0, 0.6, 1);
+    }
+
+    &:hover::after,
+    &.is-focused::after {
+      opacity: 0.3;
+    }
+
+    &.is-focused {
+      outline: 2px solid currentColor;
+      outline-offset: 2px;
+    }
+  }
+
+  &__value {
+    position: absolute;
+    bottom: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%);
+    // background-color: var(--fw-range-value-bg);
+    color: currentColor;
+    font-size: var(--fw-range-value-font-size);
+    padding-block: var(--fw-range-value-padding-block);
+    padding-inline: var(--fw-range-value-padding-inline);
+    border-radius: var(--fw-range-value-radius);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+}

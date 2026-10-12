@@ -360,6 +360,18 @@ export const Atlas: ThemeOptions = {
       checkbox: {
         disabled: 'sm.surface.800',
       },
+      range: {
+        'track-bg': 'sm.surface.300',
+        'track-fill-bg': 'sm.secondary.500',
+        'track-height': 'cs.4px',
+        'track-radius': 'pr.radius.full',
+        'thumb-bg': 'sm.secondary.500',
+        'thumb-size': 'cs.20px',
+        'value-font-size': 'pr.text.xs',
+        'value-padding-block': 'cs.0.125rem',
+        'value-padding-inline': 'pr.spacing.base',
+        'value-radius': 'pr.radius.sm',
+      },
       select: {
         'padding-block': 'pr.spacing.md',
         'padding-inline': 'pr.spacing.lg',
@@ -378,6 +390,10 @@ export const Atlas: ThemeOptions = {
         color: 'sm.on-primary.800',
       },
       //- Navigation
+      pagination: {
+        gap: 'cs.5px',
+        color: 'sm.surface.500'
+      },
       breadcrumbs: {
         gap: 'pr.spacing.base'
       },

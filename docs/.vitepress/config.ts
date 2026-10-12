@@ -43,6 +43,7 @@ export default defineConfig({
               { text: 'Checkbox', link: '/components/adpt-checkbox' },
               { text: 'Radio', link: '/components/adpt-radio' },
               { text: 'Select', link: '/components/adpt-select' },
+              { text: 'Range', link: '/components/adpt-range' },
             ]
           },
           { text: 'Navigation',
