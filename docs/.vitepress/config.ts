@@ -49,6 +49,7 @@ export default defineConfig({
           { text: 'Navigation',
             items: [
               { text: 'Tabs', link: '/components/adpt-tabs' },
+              { text: 'Pagination', link: '/components/adpt-pagination' },
             ]
           },
           { text: 'Overlay',

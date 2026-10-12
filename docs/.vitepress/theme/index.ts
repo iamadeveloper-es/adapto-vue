@@ -11,6 +11,7 @@ import AdaptoAccordion from '../../../src/lib/components/element/adpt-accordion/
 import AdaptoAccordionList from '../../../src/lib/components/element/adpt-accordion-list/index.vue'
 import AdaptoSkeleton from '../../../src/lib/components/element/adpt-skeleton/index.vue'
 import AdaptoTabs from '../../../src/lib/components/navigation/adpt-tabs/index.vue'
+import AdaptoPagination from '../../../src/lib/components/navigation/adpt-pagination/index.vue'
 import AdaptoInputField from '../../../src/lib/components/form/adpt-input-field/index.vue'
 import AdaptoTextarea from '../../../src/lib/components/form/adpt-textarea/index.vue'
 import AdaptoCheckbox from '../../../src/lib/components/form/adpt-checkbox/index.vue'
@@ -35,6 +36,7 @@ export default {
     app.component('AdaptoAccordionList', AdaptoAccordionList)
     app.component('AdaptoSkeleton', AdaptoSkeleton)
     app.component('AdaptoTabs', AdaptoTabs)
+    app.component('AdaptoPagination', AdaptoPagination)
     app.component('AdaptoInputField', AdaptoInputField)
     app.component('AdaptoTextarea', AdaptoTextarea)
     app.component('AdaptoCheckbox', AdaptoCheckbox)

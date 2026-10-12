@@ -35,4 +35,8 @@ export type TabItem = {
 export const BUTTON_VARIANTS: Variant[] = ['outlined', 'fussy', 'soft', 'soul', 'link']
 export type ButtonVariant = (typeof BUTTON_VARIANTS)[number]
 
+export const ACCORDION_VARIANTS = ['outlined', 'fussy', 'soft', 'default']
+export type AccordionVariant = (typeof ACCORDION_VARIANTS)[number]
+
+
 // aquí irán SIZES, COLORS, etc. cuando los necesites
