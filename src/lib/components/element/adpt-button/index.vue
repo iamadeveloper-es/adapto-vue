@@ -3,6 +3,8 @@ import { computed, onMounted, ref, type PropType } from 'vue'
 import { useFramework } from '../../../composables/useFramework'
 import { useStyle } from '@/lib/composables/useStyle'
 import type { Icon, Radius, Size, Variant } from '../../../types/globals.ts'
+import { BUTTON_VARIANTS, type ButtonVariant } from '@/lib/constants/variants.ts'
+import { oneOf } from '@/lib/utils/propValidator'
 import AdaptoIcon from '../adpt-icon/index.vue'
 import { remToPx } from '@/lib/utils/units.ts'
 import css from './style.scss?raw'
@@ -20,9 +22,9 @@ defineOptions({
 type ButtonSize = Size | '2xs' | '3xs'
 const props = defineProps({
   variant: {
-    type: String as PropType<Variant>,
+    type: String as PropType<ButtonVariant>,
     default: 'soft',
-    validator: (value: string) => ['outlined', 'fussy', 'soft', 'soul', 'link'].includes(value),
+    validator: oneOf(BUTTON_VARIANTS)
   },
   // El color debe ser o un token primitivo o un token semántico
   color: {
@@ -103,7 +105,7 @@ const handleIcon = computed(() => {
 
   // fontSize se resuelve en onMounted, así que en el primer render aún está vacío:
   // sin la guarda, remToPx('') daría NaN y el <svg> recibiría width/height inválidos.
-  const iconSize = size ? size : fontSize.value ? remToPx(fontSize.value) + 4 : undefined
+  const iconSize = size ? size : fontSize.value ? remToPx(fontSize.value) + 2.25 : undefined
 
   const icon = {
     name: name,
