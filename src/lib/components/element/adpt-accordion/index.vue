@@ -6,11 +6,9 @@ import css from './style.scss?raw'
 import AdaptoIcon from '../adpt-icon/index.vue'
 import { AccordionKey } from '../adpt-accordion-list/index.vue';
 import { remToPx } from '@/lib/utils/units.ts';
-import { oneOf } from '@/lib/utils/propValidator'
 import type { Icon, Radius, Size, Variant } from '@/lib/types/globals.ts';
-import { ACCORDION_VARIANTS, type AccordionVariant } from '@/lib/constants/variants.ts';
 
-debugger
+
 const fw = useFramework()
 
 useStyle('accordion', css)
@@ -21,14 +19,14 @@ defineOptions({
   name: 'AdaptoAccordion',
 })
 
-// type AccordionVariant = Extract<Variant, 'outlined' | 'fussy' | 'soft'> | 'default'
+type AccordionVariant = Extract<Variant, 'outlined' | 'fussy' | 'soft'> | 'default'
 const availableVariants = ['outlined', 'fussy', 'soft', 'default']
 
 const props = defineProps({
   variant: {
     type: String as PropType<AccordionVariant>,
     default: 'fussy',
-    validator: oneOf(ACCORDION_VARIANTS),
+    validator: (value: string) => ['outlined', 'fussy', 'soft', 'default'].includes(value),
   },
   // El color debe ser o un token primitivo o un token semántico
   color: {
@@ -76,7 +74,7 @@ const accordionList = inject(AccordionKey, null)
 const fontSize = ref()
 
 const normalizedVariant = computed((): string => {
-  return ACCORDION_VARIANTS.includes(String(props.variant)) ?
+  return availableVariants.includes(String(props.variant)) ?
     `${cmpClass}--${props.variant}` : `${cmpClass}--default`
 })
 
